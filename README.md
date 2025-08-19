@@ -46,8 +46,8 @@ Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks
 #### Option A: Using the Install Script (Recommended)
 ```bash
 # Clone this repository
-git clone https://github.com/your-repo/agent-workflows.git
-cd agent-workflows/dev
+git clone https://github.com/dylan-gluck/cc-dev-team.git
+cd cc-dev-team
 
 # Run the installer with your project path
 uv run scripts/install.py /path/to/your-project
@@ -62,7 +62,7 @@ uv run scripts/install.py --force /path/to/your-project
 #### Option B: Manual Installation
 ```bash
 # Clone or copy this directory to your new project
-cp -r /path/to/agent-workflows/dev /path/to/your-project/.claude-scaffolding
+cp -r /path/to/cc-dev-team /path/to/your-project/.claude-scaffolding
 cd /path/to/your-project
 
 # Copy the .claude configuration
@@ -71,39 +71,6 @@ cp -r .claude-scaffolding/.claude .
 # Copy project files
 cp .claude-scaffolding/CLAUDE.md .
 cp .claude-scaffolding/README.md ./README-scaffolding.md
-```
-
-### 2. Install Claude Code
-```bash
-# Install Claude Code CLI
-curl -fsSL https://claude.ai/install.sh | sh
-
-# Initialize in your project
-claude-code init
-```
-
-### 3. Test the System
-```bash
-# Start Claude Code to activate hooks
-claude-code
-
-# Try a simple command to see hooks in action
-"What files are in this directory?"
-
-# Check that hooks are working
-ls logs/  # Should show JSON log files
-```
-
-### 4. Explore Agent Capabilities
-```bash
-# Research latest AI developments
-"Research the latest developments in LLMs and AI agents"
-
-# Create a new specialized agent
-"Create a new agent that specializes in API testing"
-
-# Get an audio summary
-"tts"
 ```
 
 ## Prerequisites
@@ -139,7 +106,7 @@ project-root/
 ├── apps/                       # Your project applications
 ├── ai_docs/                    # AI-curated documentation
 │   ├── cc/                     # Claude Code references
-│   ├── bun/                    # Bun runtime documentation  
+│   ├── bun/                    # Bun runtime documentation
 │   └── uv/                     # UV Python documentation
 ├── logs/                       # Structured event logs
 └── CLAUDE.md                   # Project-specific instructions
@@ -285,96 +252,6 @@ The scaffolding implements all 8 Claude Code hook types with enhanced functional
 - Smart notification system
 - Work completion summaries
 
-
-## Custom Commands & Features
-
-### Slash Commands
-
-The scaffolding includes custom slash commands for rapid development:
-
-**Team Management**
-- `/team-build` - Spawn multiple agents for parallel development
-- `/generate-agent` - Create new specialized agents
-- `/quick-research` - Rapid AI research with structured output
-
-**Project Workflow**
-- `/init-project` - Initialize new project structure
-- `/auto-context` - Load project context automatically
-- `/parallel-build` - Coordinate multiple agents for feature development
-
-**Git Integration**
-- `/git-commit` - Generate semantic commit messages
-- `/git-status` - Enhanced git status with agent insights
-
-**Architecture & Testing**
-- `/design` - Architectural design sessions
-- `/review` - Code review with specialized agents
-- `/fix` - Automated debugging and error resolution
-
-### Output Styles
-
-Customize how Claude responds with specialized output formats:
-
-**Visual & Interactive**
-- `genui` - Beautiful HTML with embedded styling for rich visualizations
-- `html-structured` - Semantic HTML5 with data attributes
-
-**Structured Data**
-- `table-based` - Organized markdown tables for comparisons
-- `yaml-structured` - YAML configuration format
-- `bullet-points` - Clean nested lists for action items
-
-**Development Focused**
-- `ultra-concise` - Minimal words, maximum speed for experienced developers
-- `markdown-focused` - Rich markdown with all features
-- `tts-summary` - Audio feedback via TTS for accessibility
-
-### Dynamic Status Lines
-
-Real-time terminal information with multiple versions:
-
-- **v1**: Basic git branch, directory, model info
-- **v2**: Smart prompts with color-coded task types
-- **v3**: Agent sessions with conversation history
-- **v4**: Extended metadata with custom key-value pairs
-
-**Features**:
-- Agent naming with unique identifiers
-- Session persistence across interactions  
-- Color-coded task type indicators
-- Custom metadata management via `/update_status_line`
-
-## Environment Configuration
-
-### Required Environment Variables
-```bash
-# Set your engineer name for personalized features
-export ENGINEER_NAME="Your Name"
-```
-
-### Optional API Keys
-```bash
-# Premium TTS (highest quality)
-export ELEVENLABS_API_KEY="your_elevenlabs_key"
-
-# OpenAI for TTS fallback and LLM features
-export OPENAI_API_KEY="your_openai_key"
-
-# Anthropic for LLM features
-export ANTHROPIC_API_KEY="your_anthropic_key"
-```
-
-### Ollama Setup (Optional Local LLM)
-```bash
-# Install Ollama from https://ollama.com/download
-# Pull a model for agent naming and completion messages
-ollama pull llama3.2:3b  # Lightweight option
-ollama pull gpt-oss:20b  # More capable option (13GB)
-
-# Start Ollama server
-ollama serve
-```
-
 ## Architecture & Design
 
 ### UV Single-File Scripts
@@ -408,52 +285,6 @@ The scaffolding supports sophisticated team coordination:
 - Graceful error handling
 - Development context integration
 
-## Usage Examples
-
-### Basic Development Workflow
-```bash
-# Start Claude Code (activates hooks and loads context)
-claude-code
-
-# Get latest AI research
-"Research the latest developments in AI agents and LLMs"
-
-# Create a specialized agent
-"Create a new agent that specializes in React testing"
-
-# Use multiple agents for parallel development
-"Coordinate fullstack-eng and ux-eng agents to build a user dashboard"
-
-# Get audio summary of work
-"tts"
-```
-
-### Advanced Team Coordination
-```bash
-# Initialize a new project with full team setup
-/init-project
-
-# Parallel development with multiple agents
-/team-build "Build a REST API with authentication and frontend"
-
-# Architectural review session
-/design "Design a microservices architecture for e-commerce"
-
-# Automated testing and fixes
-/review && /fix
-```
-
-### Research and Documentation
-```bash
-# Comprehensive AI research
-/quick-research "Latest developments in multimodal AI"
-
-# Generate project documentation
-"Create comprehensive README files for all project directories"
-
-# Code review with specialized agents
-"Have tech-lead review the recent changes and suggest improvements"
-```
 
 ## Monitoring & Observability
 
@@ -681,7 +512,7 @@ if not all_tests_passed():
 - Audit logging for compliance
 - Agent naming and session management
 
-**Tool-Level Security** 
+**Tool-Level Security**
 - Dangerous command detection (`rm -rf`, `.env` access)
 - Real-time blocking of suspicious operations
 - Comprehensive tool usage logging
@@ -699,7 +530,7 @@ if not all_tests_passed():
 // Enable security validation
 "UserPromptSubmit": [{
   "hooks": [{
-    "type": "command", 
+    "type": "command",
     "command": "uv run .claude/hooks/user_prompt_submit.py --validate --name-agent"
   }]
 }]
@@ -713,47 +544,11 @@ if not all_tests_passed():
 }]
 ```
 
-## Migration from Existing Projects
-
-### Adding to Existing Claude Code Projects
-```bash
-# Copy scaffolding files
-cp -r /path/to/scaffolding/.claude ./
-cp /path/to/scaffolding/CLAUDE.md ./
-
-# Merge settings if you have existing configuration
-# Review and merge .claude/settings.json
-
-# Install dependencies
-uv --version  # Ensure UV is installed
-
-# Test the system
-claude-code
-"Test the enhanced hooks system"
-```
-
-### Customization
-```bash
-# Add your own agents
-cp .claude/agents/meta-agent.md .claude/agents/my-specialist.md
-# Edit the agent configuration
-
-# Create custom commands
-cp .claude/commands/project/question.md .claude/commands/my-command.md
-
-# Add custom output styles
-echo "Custom style..." > .claude/output-styles/my-style.md
-```
-
 ## Advanced Features
 
 ### Agent Orchestration
 
-> Watch [this YouTube video](https://youtu.be/7B2HJr0Y68g) to see how to create and use Claude Code sub-agents effectively.
->
 > See the [Claude Code Sub-Agents documentation](https://docs.anthropic.com/en/docs/claude-code/sub-agents) for more details.
-
-<img src="images/subagents.png" alt="Claude Code Sub-Agents" style="max-width: 800px; width: 100%;" />
 
 Claude Code supports specialized sub-agents that handle specific tasks with custom system prompts, tools, and separate context windows. Sub-agents are AI assistants that your primary Claude Code agent can delegate tasks to.
 
@@ -785,7 +580,7 @@ Use the meta-agent to create new specialized agents:
 # Create a testing specialist
 "Create a new agent that specializes in automated testing with pytest and Jest"
 
-# Create a deployment expert  
+# Create a deployment expert
 "Build an agent focused on Docker and Kubernetes deployment"
 
 # Create a security auditor
@@ -807,7 +602,7 @@ You are a testing specialist focused on automated testing and quality assurance.
 
 ## Workflow
 1. **Analyze Test Requirements**
-2. **Create Test Plans** 
+2. **Create Test Plans**
 3. **Implement Tests**
 4. **Generate Reports**
 ```
@@ -978,11 +773,6 @@ uv run .claude/hooks/session_start.py --debug
 - **[UV Documentation](https://docs.astral.sh/uv/)**: Python package management
 - **[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks)**: Hook system reference
 - **[Sub-Agents Guide](https://docs.anthropic.com/en/docs/claude-code/sub-agents)**: Agent delegation patterns
-
-### Community
-- **[IndyDevDan YouTube](https://www.youtube.com/@indydevdan)**: AI coding tutorials and techniques
-- **[Agentic Engineer](https://agenticengineer.com/principled-ai-coding)**: Principles of AI-powered development
-
 
 
 ---
