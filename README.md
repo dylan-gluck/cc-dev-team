@@ -41,7 +41,25 @@ Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks
 
 ## Quick Start
 
-### 1. Copy Scaffolding to Your Project
+### 1. Install Scaffolding to Your Project
+
+#### Option A: Using the Install Script (Recommended)
+```bash
+# Clone this repository
+git clone https://github.com/your-repo/agent-workflows.git
+cd agent-workflows/dev
+
+# Run the installer with your project path
+uv run scripts/install.py /path/to/your-project
+
+# Preview changes without installing (dry run)
+uv run scripts/install.py --dry-run /path/to/your-project
+
+# Force overwrite existing files if needed
+uv run scripts/install.py --force /path/to/your-project
+```
+
+#### Option B: Manual Installation
 ```bash
 # Clone or copy this directory to your new project
 cp -r /path/to/agent-workflows/dev /path/to/your-project/.claude-scaffolding

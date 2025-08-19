@@ -31,24 +31,68 @@ The `.claude/` directory serves as the control center for Claude Code's advanced
 
 ### Agent System (`agents/`)
 
-Specialized AI agents for different development roles and expertise areas:
+A comprehensive team of 44 specialized AI agents covering all aspects of modern software development, from technical implementation to creative design and business analysis. These agents are organized into functional teams that mirror real-world development organizations:
 
 **Meta and Framework Agents:**
 - `meta-agent.md` - Creates new specialized agents with orchestration awareness
 - `command-creator.md` - Generates custom commands and workflows
 
-**Development Team Agents:**
+**Leadership & Management Agents:**
+- `engineering-director.md` - Engineering leadership and technical strategy
+- `product-director.md` - Product strategy and roadmap management  
+- `qa-director.md` - Quality assurance leadership and testing strategy
+- `marketing-director.md` - Marketing strategy and growth initiatives
+- `creative-director.md` - Creative strategy and brand management
+- `devops-manager.md` - DevOps processes and infrastructure management
+- `engineering-manager.md` - Engineering team management and process optimization
 - `tech-lead.md` - Technical leadership and architecture decisions
-- `fullstack-eng.md` - Full-stack development implementation
-- `ux-eng.md` - User experience and interface development
+- `ux-lead.md` - UX strategy and design leadership
+
+**Core Development Agents:**
+- `fullstack-eng.md` - Full-stack development implementation spanning frontend to backend
+- `ux-eng.md` - UI component libraries, responsive design, and design systems
+- `api-engineer.md` - API design, development, and integration
+- `infrastructure-engineer.md` - Infrastructure design and implementation
+- `ci-cd-engineer.md` - CI/CD pipeline development and automation
+
+**Product & Analysis Agents:**
+- `product-manager.md` - Product requirements and feature management
 - `business-analyst.md` - Requirements analysis and business logic
+- `data-scientist.md` - Data analysis and machine learning insights
+- `team-analytics.md` - Team performance and development analytics
+
+**Quality Assurance Agents:**
+- `qa-analyst.md` - Quality analysis and testing strategy
+- `qa-engineer-e2e.md` - End-to-end testing implementation
+- `qa-engineer-scripts.md` - Test automation and scripting
+- `test-engineer.md` - Comprehensive testing and validation
+
+**Content & Creative Agents:**
+- `content-strategist.md` - Content strategy and information architecture
+- `copywriter.md` - Marketing and technical copywriting
+- `doc-writer.md` - Documentation creation and technical writing
+- `wireframe-designer.md` - Wireframing and design prototyping
+- `photographer.md` - Photography and visual content creation
+- `illustrator.md` - Illustration and graphic design
+- `logo-designer.md` - Logo and brand identity design
+
+**SEO & Marketing Agents:**
+- `seo-researcher.md` - SEO research and competitive analysis
+- `seo-engineer.md` - Technical SEO implementation
+- `seo-analyst.md` - SEO performance analysis and optimization
+
+**Operations & Release Agents:**
+- `release-manager.md` - Release planning and deployment coordination
+- `cleanup-engineer.md` - Code cleanup and technical debt management
 
 **Specialized Task Agents:**
 - `ai-research.md` - Research specialist for AI/ML innovations and best practices
+- `deep-research.md` - Deep research and comprehensive analysis specialist
 - `doc-expert.md` - Documentation creation and maintenance specialist
 - `readme-maintainer.md` - README file creation and updates
 - `git-commit.md` - Git workflow and commit message optimization
-- `python-script-composer.md` - Python script development and automation
+- `uv-script.md` - Python UV script development and dependency management
+- `bun-script.md` - Bun JavaScript/TypeScript script development
 - `work-completion-summary.md` - Audio summaries and next steps
 
 Each agent includes:
@@ -57,15 +101,33 @@ Each agent includes:
 - Domain-specific workflows and best practices
 - Structured output formats and quality standards
 
+**Agent Delegation Patterns:**
+- **Automatic Invocation**: Agents are triggered by specific keywords and phrases in user requests
+- **Cross-functional Teams**: Agents collaborate across disciplines (e.g., fullstack-eng works with ux-eng for complete features)
+- **Hierarchical Structure**: Directors manage their respective teams, with clear escalation paths
+- **Specialized Expertise**: Each agent has deep domain knowledge while maintaining awareness of the broader system
+- **Parallel Execution**: Multiple agents can work simultaneously on complex, multi-faceted tasks
+
 ### Command System (`commands/`)
 
 Custom commands organized by functional category:
 
 **Meta Operations (`meta/`):**
 - `generate-agent.md` - Create new specialized agents
-- `generate-command.md` - Create new custom commands
+- `generate-command.md` - Create new custom commands  
+- `gen-agent-command.md` - Generate agent-specific commands
 - `all-tools.md` - List available tools and capabilities
 - `update-status-line.md` - Update dynamic status display
+
+**Task Management (`task/`):**
+- `ai-research.md` - Trigger AI research and analysis tasks
+
+**Agent Operations (`agent/`):**
+- `quick-research.md` - Quick research tasks via agents
+- `doc-fetch.md` - Document fetching and analysis
+
+**Specification (`spec/`):**
+- `create.md` - Create technical specifications
 
 **Development Workflow (`workflow/`):**
 - `init-project.md` - Initialize new project structures
@@ -234,15 +296,72 @@ Full integration with Model Context Protocol servers for extended capabilities:
 - Modern CLI tool preferences (rg, fd, bat, eza)
 - Security-conscious permission system
 
+## Development Team Organization
+
+The agent system mirrors a complete software development organization with clear hierarchies and collaboration patterns:
+
+### Executive Leadership
+- **Engineering Director**: Oversees all technical decisions and architecture
+- **Product Director**: Defines product strategy and roadmap
+- **QA Director**: Ensures quality standards and testing strategy
+- **Marketing Director**: Drives growth and market positioning
+- **Creative Director**: Manages brand and creative output
+
+### Middle Management
+- **Engineering Manager**: Manages development processes and team coordination
+- **DevOps Manager**: Handles infrastructure and deployment processes  
+- **UX Lead**: Leads design strategy and user experience
+- **Tech Lead**: Provides technical leadership and mentoring
+
+### Development Teams
+- **Core Engineering**: fullstack-eng, ux-eng, api-engineer, infrastructure-engineer, ci-cd-engineer
+- **Quality Assurance**: qa-analyst, qa-engineer-e2e, qa-engineer-scripts, test-engineer
+- **Product & Analysis**: product-manager, business-analyst, data-scientist, team-analytics
+- **Content & Creative**: content-strategist, copywriter, doc-writer, wireframe-designer, photographer, illustrator, logo-designer
+- **SEO & Marketing**: seo-researcher, seo-engineer, seo-analyst
+- **Operations**: release-manager, cleanup-engineer
+
+### Specialized Support
+- **Research & Analysis**: ai-research, deep-research, doc-expert
+- **Automation & Tools**: uv-script, bun-script, git-commit, meta-agent, command-creator
+- **Communication**: work-completion-summary, readme-maintainer
+
 ## Usage Patterns
 
 ### Agent Delegation
 ```markdown
 # Automatic agent invocation based on trigger phrases:
 "Use ai-research to find current best practices"
-"MUST BE USED when creating documentation"
-"Specialist for code review and quality assurance"
+"MUST BE USED when creating documentation" (doc-writer, readme-maintainer)
+"Specialist for code review and quality assurance" (qa-director, qa-engineer-*)
+"Use fullstack-eng for complete feature implementation"
+"Creative design needed" (creative-director, illustrator, logo-designer)
+"SEO optimization required" (seo-engineer, seo-analyst)
 ```
+
+### Development Workflow Examples
+
+**Feature Development:**
+1. `product-manager` - Define requirements and user stories
+2. `business-analyst` - Analyze business logic and processes  
+3. `ux-eng` - Create UI components and responsive design
+4. `fullstack-eng` - Implement end-to-end functionality
+5. `qa-engineer-e2e` - Create comprehensive test coverage
+6. `doc-writer` - Document the feature for users
+
+**Research Project:**
+1. `ai-research` - Gather latest AI/ML developments
+2. `deep-research` - Comprehensive competitive analysis
+3. `data-scientist` - Analyze findings and metrics
+4. `content-strategist` - Plan content and communication strategy
+
+**Marketing Campaign:**
+1. `marketing-director` - Define strategy and goals
+2. `copywriter` - Create compelling copy and messaging
+3. `creative-director` - Oversee visual brand consistency
+4. `seo-researcher` - Research keywords and competition  
+5. `photographer` - Create visual assets
+6. `seo-engineer` - Implement technical SEO
 
 ### Command Execution
 ```bash
