@@ -1,29 +1,32 @@
 ---
 allowed-tools: Bash(git:*), Read, LS
-description: Understand the current state of the git repository
+description: Create a git commit with staged changes
 ---
 
-# Git Status
+# Git Commit
 
-Check git status, diff and logs to get a clear understanding of the current state of the git repository. Craft a clear commit message that summarizes the changes.
+Analyze the current repository state and create a meaningful commit.
+
+## Context
+
+- Current Status: !`git status`
+- Staged changes: !`git diff --cached`
+- Current branch: !`git branch --show-current`
+- Recent commits: !`git log --oneline -5`
+
+## Task
+
+Based on the staged changes above:
+1. Analyze what has been changed
+2. Create an appropriate semantic commit message (`feat:`, `fix:`, `docs:`, etc.)
+3. Commit the staged changes
 
 Scope: $ARGUMENTS
 
-## Universal Rules
+## Commit Guidelines
 
-- Semantic commits: `feat:`, `fix:`, `docs:`
-- Format code before every commit
+- Use semantic commit prefixes: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`
+- Keep commit messages concise and descriptive
+- Focus on what changed and why, not how
 - Do not use emojis
-- Do not credit claude
-
-## Command Examples
-
-- Current Status: !`git status`
-- Add all: !`git add .`
-- Current diff: !`git diff HEAD origin/main`
-- Current branch: !`git branch --show-current`
-- Log: !`git log`
-- Git commit: !`git commit -m "$MESSAGE"`
-
-## Files
-@README.md
+- Do not credit Claude

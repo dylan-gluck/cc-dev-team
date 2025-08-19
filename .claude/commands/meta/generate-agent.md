@@ -1,93 +1,74 @@
 ---
-allowed-tools: Write, Read, Edit, LS, WebFetch, WebSearch
-description: Generate a new specialized sub-agent configuration file from a description
+allowed-tools: Task
+description: Generate a new specialized sub-agent using the meta-agent
 argument-hint: <agent-name> [purpose & capabilities]
 ---
 
 # Generate Agent
-Create a new specialized sub-agent by delegating to the meta-agent with a clear description of the agent's purpose and capabilities.
+Use the meta-agent to create new specialized sub-agents with proper naming and configuration.
 
-## User Prompt:
+## User Input:
 $ARGUMENTS
 
-## Instructions
+## Task for meta-agent
 
-### 1. Parse Agent Requirements
-Extract from the user's description:
-- Agent's core purpose and specialization
-- Primary tasks and responsibilities
-- Domain expertise required
-- Specific tools needed for the agent's tasks
-- When the agent should be proactively invoked
-- Expected output format or deliverables
+You are tasked with creating a new specialized sub-agent. Parse the user's input to extract the agent name and specification.
 
-### 2. Prepare Meta-Agent Delegation
-Use the Task tool to invoke the meta-agent specialist with:
-- `subagent_type`: "meta-agent"
-- `description`: Brief summary of the agent being created
-- `prompt`: Comprehensive agent specification including all details below
+### Agent Naming Convention (STRICT):
+- If agent name is provided in kebab-case: USE IT EXACTLY AS PROVIDED
+- If agent name is in any other format or not directly provided:
+  - Convert to kebab-case
+  - Generally use two-word names when possible (e.g., tech-lead, ux-eng, doc-expert)
+  - Examples:
+    - "TechLead" → "tech-lead"
+    - "UXEngineer" → "ux-eng"
+    - "documentation expert" → "doc-expert"
+    - "aiResearch" → "ai-research"
 
-### 3. Provide Complete Agent Specification
-Include these essential details in your prompt to meta-agent:
+### Required Specification:
 
-#### Core Configuration:
-- **Name**: Suggest a kebab-case name (e.g., code-reviewer, test-runner)
-- **Description**: Action-oriented description for automatic delegation
-  - Use phrases like "Use proactively when...", "Specialist for..."
-  - Clearly state trigger conditions
-- **Model**: Specify if needed (haiku for speed, sonnet for balance, opus for complexity)
-- **Color**: Visual identifier (red, blue, green, yellow, purple, orange, pink, cyan)
+Create a new sub-agent with the following details:
 
-#### Tool Requirements:
-- Specify exact tools needed based on the agent's tasks
-- Reference available tool categories:
-  - File Operations: Read, Write, Edit, MultiEdit, NotebookEdit
-  - Search: Grep, Glob, LS
-  - Execution: Bash(command:*) with specific permissions
-  - Web: WebSearch, WebFetch
-  - Task Management: TodoWrite, Task
-  - MCP Tools: mcp__* prefixed tools if needed
-  - Browser: mcp__playwright__* for automation
-  - Audio: mcp__ElevenLabs__* for TTS/STT
+1. **Parse the user's input** to identify:
+   - Agent name (apply naming convention above)
+   - Core purpose and specialization
+   - Primary tasks and responsibilities
+   - Domain expertise required
+   - Tools needed for the agent's tasks
+   - When to invoke proactively
+   - Expected output format
 
-#### System Prompt Elements:
-- Clear role definition and expertise area
-- Step-by-step workflow when invoked
-- Best practices for the domain
-- Output format and structure
-- Quality checks and validation steps
-- Error handling approach
+2. **Generate Complete Agent Configuration**:
+   - Place file at: `.claude/agents/{agent-name}.md`
+   - Include comprehensive system prompt
+   - Specify minimal but sufficient tool set
+   - Define clear delegation triggers
+   - Set appropriate model (haiku for speed, sonnet for balance, opus for complexity)
+   - Choose identifying color
 
-### 4. Example Delegation Format
-```
-Create a new sub-agent with the following specification:
+3. **Agent Structure Requirements**:
+   - Single responsibility principle
+   - Clear proactive invocation conditions
+   - Domain-specific best practices
+   - Structured workflow steps
+   - Well-defined output format
+   - Error handling approach
 
-Purpose: [Detailed purpose]
-Trigger: [When to use proactively]
-Tasks: [List of primary responsibilities]
-Tools Needed: [Specific tools required]
-Output: [Expected deliverables]
-Domain: [Area of expertise]
-Special Requirements: [Any unique needs]
-```
+### Example Input Processing:
+- Input: "Create a TechLead agent for code review"
+  → Agent name: "tech-lead"
+- Input: "documentation_expert for API docs"
+  → Agent name: "doc-expert"
+- Input: "ai-research agent for staying current"
+  → Agent name: "ai-research" (already kebab-case, keep as-is)
 
-### 5. Quality Validation
-Ensure the specification includes:
-- [ ] Clear, single-responsibility purpose
-- [ ] Proactive trigger conditions
-- [ ] Minimal but sufficient tool set
-- [ ] Structured workflow steps
-- [ ] Domain-specific best practices
-- [ ] Well-defined output format
+### Tool Selection Guidelines:
+- File operations: Read, Write, Edit, MultiEdit
+- Search: Grep, Glob, LS
+- Execution: Bash with specific command permissions
+- Web: WebSearch, WebFetch, mcp__firecrawl__*
+- Task management: TodoWrite, Task
+- Browser automation: mcp__playwright__*
+- Audio: mcp__ElevenLabs__*
 
-## Workflow
-1. Parse the user's agent description thoroughly
-2. Identify all required capabilities and tools
-3. Delegate to meta-agent with subagent_type "meta-agent"
-4. Provide comprehensive specification with all details
-5. Meta-agent will create the complete `.claude/agents/{agent-name}.md` file
-6. Confirm successful agent creation
-
-## Files:
-@.claude/agents/meta-agent.md
-@ai_docs/cc/anthropic_docs_subagents.md
+Create the agent configuration file with all necessary details, ensuring the agent name follows the strict naming convention above.

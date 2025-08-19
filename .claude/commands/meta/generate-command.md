@@ -1,157 +1,57 @@
 ---
-allowed-tools: Bash, Write, Read, Glob, Grep, Edit, LS, WebFetch, WebSearch
-description: Generate a new Claude Code command file from a description
-argument-hint: <command-name> [specific requirements]
+allowed-tools: Task
+description: Generate new slash commands using the command-creator agent
+argument-hint: /command:name <params> [description]
 ---
 
 # Generate Command
-Create a new command file following the standard command template format.
+Use the command-creator agent to create new slash commands with proper structure and filepath.
 
-## User Prompt:
+## User Input:
 $ARGUMENTS
 
-## Instructions
+## Task for command-creator Agent
 
-### 1. Parse Command Requirements
-Extract from the user's description:
-- Command name (will become the filename without .md extension)
-- Primary purpose and intended use cases
-- Required tools and capabilities
-- Whether it needs file access, bash execution, or other special features
-- Expected arguments (if any)
+You are tasked with creating a new slash command based on the user's specifications. Parse the input to extract:
 
-### 2. Configure Frontmatter
-Every command MUST include frontmatter with these fields:
+1. **Command syntax** (e.g., "/agent:doc-fetch <package-name>")
+2. **Command description** and purpose
+3. **Any specified parameters or arguments**
 
-#### Required Fields:
-- `allowed-tools`: Specify exact tools needed. Available tools include:
-  - **File Operations**: `Read`, `Write`, `Edit`, `MultiEdit`, `NotebookEdit`
-  - **Search Tools**: `Glob`, `Grep`, `LS`
-  - **Execution**: `Bash(command:*)` - specify exact commands or patterns
-  - **Web Tools**: `WebFetch`, `WebSearch`
-  - **Specialized**: `Task`, `TodoWrite`, `ExitPlanMode`
-  - **MCP Tools**: Any `mcp__*` prefixed tools if MCP servers are connected
-  - **Browser Tools**: `mcp__playwright__*` for browser automation
-  - **Audio Tools**: `mcp__ElevenLabs__*` for text-to-speech
-- `description`: Brief one-line description (shows in /help)
+### Critical Requirements:
 
-#### Optional Fields:
-- `argument-hint`: Format hint for arguments (e.g., `[file-path] [options]`)
-- `model`: Specific model to use (e.g., `claude-3-5-haiku-20241022` for fast tasks)
+#### Filepath Determination:
+- Extract the command path from the syntax (e.g., "/agent:doc-fetch" → ".claude/commands/agent/doc-fetch.md")
+- For commands with colons, split into directory and filename:
+  - `/category:action` → `.claude/commands/category/action.md`
+  - `/simple-command` → `.claude/commands/simple-command.md`
+- Always create the necessary directory structure
 
-### 3. Tool Selection Guidelines
+#### Command Structure:
+- Include proper frontmatter with:
+  - `allowed-tools`: Minimal set of required tools
+  - `argument-hint`: Clear parameter format
+  - `description`: Concise one-line description
+  - `model`: (optional) Specific model if needed
 
-Choose tools based on the command's purpose:
+#### Implementation:
+- If the description mentions using a specific agent, configure the command to use the Task tool and delegate to that agent
+- Include all specified parameters as `$ARGUMENTS` placeholders
+- Provide clear instructions for parsing and handling arguments
 
-**For Code Analysis Commands:**
-```yaml
-allowed-tools: Read, Grep, Glob, LS
+### Example Input Format:
+```
+"/agent:doc-fetch <package-name> [url | feature to scrape | --depth=0-3]" "Use the doc-expert agent to Fetch technical documentation for a package or library. Optionally specify a URL to scrape and depth of crawl. Agent writes condensed document(s) in ai_docs/<package-name>/ with key information extracted."
 ```
 
-**For Code Modification Commands:**
-```yaml
-allowed-tools: Read, Edit, MultiEdit, Write, Bash(npm test:*), Bash(npm run:*)
-```
+### Expected Output:
+- Create the command file at the correct path
+- Ensure the command properly delegates to the specified agent if mentioned
+- Include comprehensive argument parsing instructions
+- Follow all command template best practices
 
-**For Git Operations:**
-```yaml
-allowed-tools: Bash(git:*), Read, Write
-```
-
-**For Research Commands:**
-```yaml
-allowed-tools: WebSearch, WebFetch, Task, Write
-```
-
-**For Build/Deploy Commands:**
-```yaml
-allowed-tools: Bash(npm:*), Bash(docker:*), Bash(kubectl:*), Read
-```
-
-### 4. Command Body Structure
-
-The command body should follow this template:
-
-```markdown
----
-allowed-tools: [specific tools needed]
-argument-hint: [optional argument format]
-description: [brief description]
-model: [optional model preference]
----
-
-# [Command Title]
-
-[Brief introduction of what this command does]
-
-## Context
-[Include any necessary context gathering, such as:]
-- Current status: \!`bash command` (requires Bash tool)
-- File contents: @path/to/file (automatic file inclusion)
-- User input: $ARGUMENTS (if arguments are expected)
-
-## Task
-[Clear, specific instructions for Claude Code]
-
-## Expected Output
-[Describe what the command should produce]
-
-## Constraints
-[Any limitations or requirements]
-```
-
-### 5. Special Features
-
-#### Bash Command Execution
-To include command output in context, use "!" prefix:
-**IMPORTANT**: Must include specific Bash permissions in allowed-tools
-
-#### File References
-Include file contents with "@" prefix:
-
-#### Arguments
-Use `$ARGUMENTS` placeholder for dynamic values:
-
-#### Extended Thinking
-Trigger deep analysis by including keywords:
-- "think step by step"
-- "reason through this"
-- "analyze carefully"
-
-### 6. Directory Structure
-
-Place commands in appropriate subdirectories:
-- `.claude/commands/` - Base directory for all project commands
-- `.claude/commands/dev/` - Development tasks (build, test, debug)
-- `.claude/commands/git/` - Git operations
-- `.claude/commands/docs/` - Documentation generation
-- `.claude/commands/analysis/` - Code analysis and review
-- `.claude/commands/meta/` - Command/agent generation
-- `.claude/commands/refactor/` - Refactoring operations
-- `.claude/commands/deploy/` - Deployment and infrastructure
-
-### 7. Validation Checklist
-
-Before creating the command file, ensure:
-- [ ] Command name is clear and follows naming conventions (lowercase, hyphens)
-- [ ] Frontmatter includes all required fields
-- [ ] allowed-tools list is minimal but sufficient
-- [ ] Bash commands have specific permissions (not just `Bash`)
-- [ ] Description is concise and informative
-- [ ] Body includes clear instructions
-- [ ] Arguments are properly documented if used
-- [ ] File is placed in the correct subdirectory
-
-## Workflow
-1. Parse the user's command description
-2. Determine required tools and capabilities
-3. Select appropriate subdirectory under `.claude/commands/`
-4. Generate frontmatter with precise tool permissions
-5. Create command body with clear instructions
-6. Include any necessary context gathering (bash commands, file references)
-7. Write the command file to the correct location
-8. Validate the command follows all guidelines
-
-## Files:
+## Context Files:
 @.claude/templates/command.md
 @ai_docs/cc/anthropic_custom_slash_commands.md
+
+Begin by parsing the user's input to identify the command syntax, description, and any specified implementation details.

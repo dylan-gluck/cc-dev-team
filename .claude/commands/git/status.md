@@ -1,17 +1,23 @@
 ---
 allowed-tools: Bash(git:*)
-description: Understand the current state of the git repository
+description: Show comprehensive git repository status
 ---
 
 # Git Status
 
-Read the `Files` and run the `Commands` and summarize the current state of the git repository.
+Display the current state of the git repository.
 
-## Commands
+## Repository Information
 
-- Current Status: !`git status`
-- Current diff: !`git diff HEAD origin/main`
+- Working directory status: !`git status`
 - Current branch: !`git branch --show-current`
+- Uncommitted changes: !`git diff HEAD`
+- Recent commits: !`git log --oneline -10`
 
-## Files
-@README.md
+## Task
+
+Provide a clear summary of:
+1. Current branch and its status
+2. Any uncommitted changes (staged and unstaged)
+3. Recent commit history
+4. Any files that need attention
