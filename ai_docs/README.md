@@ -105,7 +105,7 @@ Human developers use this documentation to:
 - Extend the system with new capabilities
 
 ### Knowledge Base Maintenance
-The doc-expert agent maintains this documentation by:
+The engineering-docs agent maintains this documentation by:
 - Fetching latest vendor documentation using web scraping tools
 - Condensing comprehensive documentation into actionable references
 - Validating examples against current implementations

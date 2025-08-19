@@ -18,9 +18,15 @@ $ARGUMENTS
 ## Task Implementation
 
 Parse the user's input to extract:
-1. **Agent name** (first parameter)
+1. **Agent name** (first parameter) - must follow `<team>-<agent>` convention
 2. **Command syntax(es)** (second parameter, can be comma-separated)
 3. **Description** (optional third parameter or inferred from commands)
+
+**Naming Convention Validation:**
+- Ensure agent name follows `<team>-<agent>` format (e.g., `engineering-reviewer`, `qa-tester`)
+- Valid teams: engineering, product, qa, devops, creative, research, marketing, data, meta
+- Use `meta-` prefix for Claude Code configuration agents
+- If name doesn't follow convention, suggest the correct format
 
 ### Step 1: Create the Specialized Agent
 
@@ -55,17 +61,17 @@ After both sub-agents complete:
 
 ## Example Processing
 
-**Input:** `doc-fetcher "/agent:doc-fetch <package> [url]" "Fetch and condense technical documentation"`
+**Input:** `research-docs "/agent:doc-fetch <package> [url]" "Fetch and condense technical documentation"`
 
 **Should Create:**
-1. **Agent**: `.claude/agents/doc-fetcher.md` 
+1. **Agent**: `.claude/agents/research-docs.md` 
    - Specializes in fetching and condensing technical documentation
    - Has WebSearch, WebFetch, Read, Write tools
    - Triggered by "documentation", "fetch docs", "technical specs"
 
 2. **Command**: `.claude/commands/agent/doc-fetch.md`
    - Syntax: `/agent:doc-fetch <package> [url]`
-   - Delegates to doc-fetcher agent via Task tool
+   - Delegates to research-docs agent via Task tool
    - Passes package and optional URL parameters
 
 ## Implementation Notes
@@ -79,7 +85,7 @@ After both sub-agents complete:
 ## Expected Output
 
 Provide a summary showing:
-- Agent created at: `.claude/agents/{agent-name}.md`
+- Agent created at: `.claude/agents/{team}-{agent-name}.md` (following naming convention)
 - Command(s) created at: appropriate paths based on syntax
 - Usage examples for the new command(s)
 - Delegation triggers for orchestration integration

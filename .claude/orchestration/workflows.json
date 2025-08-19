@@ -1,0 +1,269 @@
+{
+  "version": "1.0",
+  "description": "Workflow templates for sprints, epics, and development processes",
+  "workflows": {
+    "sprint": {
+      "description": "Two-week sprint workflow",
+      "phases": [
+        {
+          "name": "planning",
+          "duration_hours": 4,
+          "required_roles": ["product-manager", "tech-lead", "qa-lead"],
+          "activities": [
+            "Review backlog",
+            "Estimate tasks",
+            "Assign team members",
+            "Define sprint goals"
+          ]
+        },
+        {
+          "name": "execution",
+          "duration_days": 9,
+          "parallel_tracks": [
+            {
+              "track": "development",
+              "agents": ["fullstack-eng", "ux-eng"],
+              "activities": ["implementation", "unit_testing", "code_review"]
+            },
+            {
+              "track": "testing",
+              "agents": ["test-engineer", "qa-engineer"],
+              "activities": ["test_planning", "test_creation", "test_execution"]
+            },
+            {
+              "track": "documentation",
+              "agents": ["doc-writer"],
+              "activities": ["api_docs", "user_guides", "changelog"]
+            }
+          ]
+        },
+        {
+          "name": "review",
+          "duration_hours": 2,
+          "required_roles": ["all"],
+          "activities": [
+            "Demo features",
+            "Review metrics",
+            "Gather feedback"
+          ]
+        },
+        {
+          "name": "retrospective",
+          "duration_hours": 1,
+          "required_roles": ["all"],
+          "activities": [
+            "Discuss improvements",
+            "Identify blockers",
+            "Plan next sprint"
+          ]
+        }
+      ],
+      "ceremonies": {
+        "daily_standup": {
+          "frequency": "daily",
+          "duration_minutes": 15,
+          "async": true
+        },
+        "mid_sprint_check": {
+          "frequency": "once",
+          "day": 5,
+          "duration_minutes": 30
+        }
+      },
+      "metrics": {
+        "velocity": "story_points_completed",
+        "quality": "defect_rate",
+        "coverage": "test_coverage_percentage"
+      }
+    },
+    "epic": {
+      "description": "Large feature development workflow",
+      "phases": [
+        {
+          "name": "discovery",
+          "activities": [
+            "Market research",
+            "User interviews",
+            "Technical feasibility",
+            "Risk assessment"
+          ],
+          "deliverables": ["requirements_doc", "technical_spec"],
+          "approval_required": true,
+          "approvers": ["product-manager", "tech-lead"]
+        },
+        {
+          "name": "design",
+          "activities": [
+            "Architecture design",
+            "Data model design",
+            "API design",
+            "UI/UX design"
+          ],
+          "deliverables": ["design_docs", "mockups", "api_spec"],
+          "approval_required": true,
+          "approvers": ["tech-lead", "ux-lead"]
+        },
+        {
+          "name": "implementation",
+          "sprint_count": "2-4",
+          "activities": [
+            "Sprint planning",
+            "Feature development",
+            "Integration",
+            "Testing"
+          ],
+          "checkpoints": [
+            {
+              "name": "alpha",
+              "criteria": ["core_features_complete", "basic_testing_done"]
+            },
+            {
+              "name": "beta",
+              "criteria": ["all_features_complete", "integration_testing_done"]
+            }
+          ]
+        },
+        {
+          "name": "validation",
+          "activities": [
+            "End-to-end testing",
+            "Performance testing",
+            "Security review",
+            "User acceptance testing"
+          ],
+          "deliverables": ["test_report", "performance_metrics"],
+          "approval_required": true,
+          "approvers": ["qa-lead", "product-manager"]
+        },
+        {
+          "name": "release",
+          "activities": [
+            "Release preparation",
+            "Documentation finalization",
+            "Deployment",
+            "Monitoring"
+          ],
+          "deliverables": ["release_notes", "deployment_guide"],
+          "approval_required": true,
+          "approvers": ["product-manager", "devops-lead"]
+        }
+      ],
+      "gates": {
+        "design_review": {
+          "after_phase": "design",
+          "reviewers": ["tech-lead", "product-manager"],
+          "criteria": ["technical_feasibility", "business_value", "resource_availability"]
+        },
+        "go_no_go": {
+          "after_phase": "validation",
+          "reviewers": ["product-manager", "engineering-manager", "qa-lead"],
+          "criteria": ["quality_metrics_met", "acceptance_criteria_passed", "no_critical_bugs"]
+        }
+      }
+    },
+    "task": {
+      "description": "Individual task workflow",
+      "types": {
+        "feature": {
+          "flow": ["specification", "implementation", "testing", "review", "merge"],
+          "required_agents": ["fullstack-eng", "test-engineer"],
+          "review_required": true
+        },
+        "bug": {
+          "flow": ["reproduction", "diagnosis", "fix", "testing", "verification"],
+          "required_agents": ["fullstack-eng", "qa-engineer"],
+          "priority_escalation": true
+        },
+        "refactor": {
+          "flow": ["analysis", "planning", "implementation", "testing", "review"],
+          "required_agents": ["tech-lead", "fullstack-eng"],
+          "regression_testing": true
+        },
+        "documentation": {
+          "flow": ["research", "writing", "review", "publish"],
+          "required_agents": ["doc-writer"],
+          "technical_review": true
+        }
+      },
+      "delegation_rules": {
+        "ui_component": {
+          "primary": "ux-eng",
+          "secondary": "fullstack-eng",
+          "review": "tech-lead"
+        },
+        "api_endpoint": {
+          "primary": "api-engineer",
+          "secondary": "fullstack-eng",
+          "review": "tech-lead"
+        },
+        "database_change": {
+          "primary": "fullstack-eng",
+          "secondary": "api-engineer",
+          "review": "tech-lead",
+          "approval": "tech-lead"
+        },
+        "infrastructure": {
+          "primary": "infrastructure-engineer",
+          "secondary": "devops-manager",
+          "review": "tech-lead",
+          "approval": "devops-manager"
+        }
+      }
+    },
+    "review": {
+      "description": "Code and design review workflow",
+      "types": {
+        "code_review": {
+          "auto_assign": true,
+          "reviewers": ["tech-lead"],
+          "criteria": [
+            "code_quality",
+            "test_coverage",
+            "documentation",
+            "security",
+            "performance"
+          ],
+          "blocking": true
+        },
+        "design_review": {
+          "reviewers": ["tech-lead", "ux-lead"],
+          "criteria": [
+            "consistency",
+            "accessibility",
+            "responsiveness",
+            "user_experience"
+          ],
+          "blocking": false
+        },
+        "security_review": {
+          "trigger": ["auth_changes", "data_handling", "api_changes"],
+          "reviewers": ["tech-lead"],
+          "criteria": [
+            "authentication",
+            "authorization",
+            "data_validation",
+            "encryption"
+          ],
+          "blocking": true
+        }
+      }
+    }
+  },
+  "automation_rules": {
+    "auto_assign": {
+      "enabled": false,
+      "strategy": "load_balanced",
+      "respect_capacity": true
+    },
+    "auto_escalate": {
+      "enabled": false,
+      "blocked_duration_hours": 4,
+      "escalate_to": "orchestrator"
+    },
+    "auto_handoff": {
+      "enabled": false,
+      "on_completion": true,
+      "notify_next": true
+    }
+  }
+}

@@ -15,9 +15,22 @@ As the primary agent, you coordinate a specialized development team through sub-
 ### Available Development Team Members
 
 **Core Development Agents:**
-- **ai-research** - Research specialist for AI/ML innovations, engineering best practices, and emerging technologies. Use for staying current and finding solutions.
+- **research-ai** - Research specialist for AI/ML innovations, engineering best practices, and emerging technologies. Use for staying current and finding solutions.
 - **meta-agent** - Creates new specialized agents from descriptions. Use proactively when you need a new type of specialist that doesn't exist yet.
-- **work-completion-summary** - Provides audio summaries and next steps. Use when work is completed or user says "tts" or "audio summary".
+- **meta-summary** - Provides audio summaries and next steps. Use when work is completed or user says "tts" or "audio summary".
+
+### Agent Naming Convention
+
+All agents now follow the `<team>-<agent>` naming format:
+- **Engineering Team**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api, etc.
+- **Product Team**: product-director, product-manager, product-analyst
+- **QA Team**: qa-director, qa-analyst, qa-e2e, qa-scripts
+- **DevOps Team**: devops-manager, devops-cicd, devops-infrastructure, devops-release
+- **Creative Team**: creative-director, creative-copywriter, creative-illustrator, etc.
+- **Research Team**: research-ai, research-deep
+- **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst, etc.
+- **Data Team**: data-scientist, data-analytics
+- **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit, etc.
 
 ### Orchestration Patterns
 
@@ -26,10 +39,10 @@ As the primary agent, you coordinate a specialized development team through sub-
 2. Delegate appropriate tasks to relevant sub-agents
 3. Run multiple agents in parallel when possible
 4. Synthesize results and provide coherent response
-5. Use work-completion-summary for final audio briefings
+5. Use meta-summary for final audio briefings
 
 **For Research Tasks:**
-- Always use llm-ai-agents-and-eng-research for technical research
+- Always use research-ai for technical research
 - Use multiple parallel research queries for comprehensive coverage
 - Focus on actionable insights and current best practices
 
@@ -63,6 +76,12 @@ apps/
 2. **Prefer rg over grep**, fd over find, bat over cat
 3. **Use jq for all JSON processing**
 4. **Leverage UV for Python dependency management**
+
+### File Organization Rules
+1. **Configuration scripts** (repository management, agent updates, etc.) must be placed in `./scripts/`
+2. **Project-specific code** should go in `apps/`
+3. **Agent definitions** belong in `.claude/agents/`
+4. **Commands** belong in `.claude/commands/`
 
 ## Quality Standards
 

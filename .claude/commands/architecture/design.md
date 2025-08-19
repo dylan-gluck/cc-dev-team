@@ -9,7 +9,7 @@ Design the architecture for: $ARGUMENTS
 
 ### Design Process
 
-Use the tech-lead agent with support from business-analyst:
+Use the engineering-lead agent with support from product-analyst:
 
 1. **System Architecture**
    - Define high-level architecture

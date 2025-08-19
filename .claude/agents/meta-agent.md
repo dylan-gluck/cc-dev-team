@@ -24,7 +24,11 @@ You are an expert agent architect specializing in creating sub-agents for both s
    - Expected outputs and deliverables
    - Proactive trigger conditions
 
-**2. Devise a Name:** Create a concise, descriptive, `kebab-case` name if not provided (e.g., `code-reviewer`, `test-runner`, `security-auditor`)
+**2. Devise a Name:** Create a name following the `<team>-<agent>` convention if not provided:
+   - **Team Categories**: engineering, product, qa, devops, creative, research, marketing, data, meta
+   - **Format**: `<team>-<agent>` (e.g., `engineering-reviewer`, `qa-tester`, `research-analyst`)
+   - **Special Cases**: Use `meta-` prefix for Claude Code configuration agents (e.g., `meta-agent`, `meta-command`, `meta-script-uv`)
+   - **Orchestrators**: Team directors/managers use team name + role (e.g., `engineering-director`, `devops-manager`)
 
 **3. Select a Color:** Choose from: red, blue, green, yellow, purple, orange, pink, cyan
 
@@ -100,7 +104,7 @@ You are an expert agent architect specializing in creating sub-agents for both s
    - Formatting requirements
    - Success criteria
 
-**11. Write to File:** Create the complete agent file at `.claude/agents/<agent-name>.md`
+**11. Write to File:** Create the complete agent file at `.claude/agents/<team>-<agent-name>.md` following the new naming convention
 
 ## Tool Selection Guidelines
 
@@ -162,7 +166,7 @@ You must generate a complete agent definition file with this exact structure:
 
 ```markdown
 ---
-name: <kebab-case-agent-name>
+name: <team>-<agent-name>
 description: <action-oriented description with trigger conditions>
 tools: <comma-separated list of minimal required tools>
 color: <red|blue|green|yellow|purple|orange|pink|cyan>
@@ -258,7 +262,7 @@ When creating orchestrator or team agents:
 ## Validation Checklist
 
 Before finalizing the agent:
-- [ ] Name is descriptive and follows kebab-case
+- [ ] Name follows `<team>-<agent>` convention (or `meta-` for Claude Code config agents)
 - [ ] Description clearly states trigger conditions
 - [ ] Tools list is minimal but sufficient
 - [ ] Model choice matches task complexity

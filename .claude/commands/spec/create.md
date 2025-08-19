@@ -9,11 +9,11 @@ Create a comprehensive technical specification for: $ARGUMENTS
 
 ### Workflow
 
-Use the tech-lead agent to:
+Use the engineering-lead agent to:
 
 1. **Review Requirements**
-   - Analyze business requirements from business-analyst
-   - Review technical documentation from doc-expert
+   - Analyze business requirements from product-analyst
+   - Review technical documentation from engineering-docs
    - Understand existing system architecture
 
 2. **Design Architecture**

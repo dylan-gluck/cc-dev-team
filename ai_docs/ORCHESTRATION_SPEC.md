@@ -15,7 +15,20 @@ All orchestration components are implemented as **single-file Python scripts usi
 
 **Data Format**: All configuration and state data uses JSON format (not YAML) for consistency with `jq` operations.
 
-**Coordination**: Hooks deterministically orchestrate command execution at key lifecycle points (session_start, subagent_stop, etc.) to maintain system state consistency.
+**Orchestration Triggering**: User-initiated slash commands provide explicit control over orchestration features. No automatic agent spawning or task delegation occurs without user consent.
+
+### Configuration vs State Separation
+
+**Configuration** (User-editable, version-controlled):
+- `.claude/orchestration/teams.json` - Team definitions and hierarchy
+- `.claude/orchestration/workflows.json` - Sprint/epic workflow templates
+- `.claude/orchestration/agents.json` - Agent capability specifications
+- `.claude/orchestration/settings.json` - Orchestration preferences
+
+**State** (System-managed, gitignored):
+- `.claude/state/orchestration.json` - Runtime state and active sessions
+- `.claude/state/metrics.json` - Performance and utilization metrics
+- `.claude/state/events.jsonl` - Event stream log
 
 ---
 
@@ -54,9 +67,111 @@ All orchestration components are implemented as **single-file Python scripts usi
 
 ---
 
-## 2. State Management System
+## 2. Configuration Management
 
-### 2.1 State Store Architecture
+### 2.1 Team Configuration Structure
+
+Team configurations are stored in `.claude/orchestration/teams.json` and define the available teams, their members, and capabilities:
+
+```json
+{
+  "version": "1.0",
+  "teams": {
+    "engineering": {
+      "name": "Engineering Team",
+      "description": "Core development team for implementation",
+      "orchestrator": "engineering-director",
+      "model_preference": "opus",
+      "settings": {
+        "max_parallel_agents": 5,
+        "require_code_review": true,
+        "test_coverage_threshold": 0.8,
+        "auto_documentation": true
+      },
+      "members": [
+        {
+          "agent": "engineering-lead",
+          "role": "Technical Leadership",
+          "capacity": 1,
+          "skills": ["architecture", "code_review", "technical_spec"],
+          "model": "opus"
+        },
+        {
+          "agent": "engineering-fullstack",
+          "role": "Full Stack Development",
+          "capacity": 3,
+          "skills": ["frontend", "backend", "api", "database"],
+          "model": "sonnet"
+        },
+        {
+          "agent": "engineering-test",
+          "role": "Quality Assurance",
+          "capacity": 2,
+          "skills": ["unit_testing", "integration_testing", "e2e_testing"],
+          "model": "haiku"
+        }
+      ],
+      "workflows": {
+        "sprint_ceremony": "planning,review,retrospective",
+        "task_flow": "spec,implement,test,review,deploy",
+        "branch_strategy": "feature/{epic}/{task}"
+      }
+    },
+    "product": {
+      "name": "Product Team",
+      "orchestrator": "product-director",
+      "members": [
+        {
+          "agent": "product-manager",
+          "role": "Product Management",
+          "capacity": 1,
+          "skills": ["requirements", "user_stories", "acceptance_criteria"]
+        }
+      ]
+    }
+  },
+  "orchestration_settings": {
+    "require_user_confirmation": true,
+    "show_agent_spawning": true,
+    "max_total_agents": 10,
+    "default_timeout_minutes": 30
+  }
+}
+```
+
+### 2.2 Workflow Configuration
+
+Workflows are defined in `.claude/orchestration/workflows.json`:
+
+```json
+{
+  "version": "1.0",
+  "workflows": {
+    "sprint": {
+      "phases": ["planning", "execution", "review", "retrospective"],
+      "duration_days": 14,
+      "ceremonies": {
+        "planning": {"duration_hours": 4, "required_roles": ["product-manager", "engineering-lead"]},
+        "daily_standup": {"duration_minutes": 15, "frequency": "daily"},
+        "review": {"duration_hours": 2, "required_roles": ["all"]},
+        "retrospective": {"duration_hours": 1, "required_roles": ["all"]}
+      }
+    },
+    "epic": {
+      "phases": ["discovery", "design", "implementation", "validation", "release"],
+      "approval_gates": {
+        "design_review": {"approvers": ["engineering-lead", "product-manager"]},
+        "code_review": {"approvers": ["engineering-lead"]},
+        "release_approval": {"approvers": ["product-manager", "qa-lead"]}
+      }
+    }
+  }
+}
+```
+
+## 3. State Management System
+
+### 3.1 Runtime State Architecture
 
 ```json
 {
@@ -116,7 +231,7 @@ All orchestration components are implemented as **single-file Python scripts usi
       "id": "task-uuid",
       "type": "feature",
       "title": "Implement OAuth2 flow",
-      "assignee": "fullstack-eng",
+      "assignee": "engineering-fullstack",
       "status": "in_progress",
       "dependencies": ["task-1"],
       "artifacts": ["src/auth/oauth.ts"],
@@ -133,9 +248,9 @@ All orchestration components are implemented as **single-file Python scripts usi
       "engineering-orchestrator": {
         "session_id": "session-uuid",
         "current_task": "orchestrate-sprint-3",
-        "child_agents": ["fullstack-eng-1", "ux-eng-1"]
+        "child_agents": ["engineering-fullstack-1", "engineering-ux-1"]
       },
-      "fullstack-eng-1": {
+      "engineering-fullstack-1": {
         "session_id": "session-uuid",
         "current_task": "task-3",
         "status": "implementing"
@@ -146,8 +261,8 @@ All orchestration components are implemented as **single-file Python scripts usi
     "questions": [
       {
         "id": "q-uuid",
-        "from": "fullstack-eng-1",
-        "to": "tech-lead",
+        "from": "engineering-fullstack-1",
+        "to": "engineering-lead",
         "question": "Should OAuth tokens be stored in Redis or PostgreSQL?",
         "context": "task-3",
         "timestamp": "2025-01-19T10:15:00Z",
@@ -157,8 +272,8 @@ All orchestration components are implemented as **single-file Python scripts usi
     "handoffs": [
       {
         "id": "handoff-uuid",
-        "from": "ux-eng-1",
-        "to": "fullstack-eng-1",
+        "from": "engineering-ux-1",
+        "to": "engineering-fullstack-1",
         "artifact": "components/AuthForm.tsx",
         "task": "task-3",
         "status": "ready"
@@ -177,7 +292,7 @@ All orchestration components are implemented as **single-file Python scripts usi
       {
         "type": "task_completed",
         "task_id": "task-2",
-        "agent": "fullstack-eng-1",
+        "agent": "engineering-fullstack-1",
         "timestamp": "2025-01-19T09:45:00Z"
       }
     ]
@@ -375,7 +490,7 @@ $ .claude/scripts/state_manager.py get "tasks.task-3"
 $ .claude/scripts/state_manager.py update-task task-3 completed
 
 # Set value at path
-$ .claude/scripts/state_manager.py set "agents.active.fullstack-eng-1.status" '"busy"'
+$ .claude/scripts/state_manager.py set "agents.active.engineering-fullstack-1.status" '"busy"'
 
 # Merge data
 $ .claude/scripts/state_manager.py set "sprints.sprint-3.metrics" '{"velocity": 8}' --merge
@@ -394,7 +509,7 @@ $ .claude/scripts/state_manager.py set "sprints.sprint-3.metrics" '{"velocity": 
       "orchestrator": "product-director",
       "members": [
         "product-manager",
-        "business-analyst",
+        "product-analyst",
         "data-scientist",
         "market-researcher"
       ],
@@ -408,12 +523,12 @@ $ .claude/scripts/state_manager.py set "sprints.sprint-3.metrics" '{"velocity": 
     "engineering": {
       "orchestrator": "engineering-director",
       "members": [
-        "tech-lead",
-        "fullstack-eng",
-        "ux-eng",
-        "api-engineer",
-        "test-engineer",
-        "doc-writer"
+        "engineering-lead",
+        "engineering-fullstack",
+        "engineering-ux",
+        "engineering-api",
+        "engineering-test",
+        "engineering-writer"
       ],
       "capabilities": [
         "technical_design",
@@ -439,9 +554,9 @@ $ .claude/scripts/state_manager.py set "sprints.sprint-3.metrics" '{"velocity": 
     "devops": {
       "orchestrator": "devops-manager",
       "members": [
-        "ci-cd-engineer",
+        "devops-cicd",
         "infra-engineer",
-        "release-manager"
+        "devops-release"
       ],
       "capabilities": [
         "deployment",
@@ -500,16 +615,16 @@ You are the Engineering Director orchestrator, responsible for managing the engi
 4. Spawn specialized agents in parallel:
    ```
    Parallel Batch 1: Independent tasks
-   - tech-lead: Technical specification
-   - doc-expert: Documentation gathering
+   - engineering-lead: Technical specification
+   - engineering-docs: Documentation gathering
    
    Parallel Batch 2: Implementation
-   - ux-eng: UI components
-   - fullstack-eng: Backend APIs
+   - engineering-ux: UI components
+   - engineering-fullstack: Backend APIs
    
    Sequential: Integration
-   - fullstack-eng: Connect UI to backend
-   - test-engineer: E2E testing
+   - engineering-fullstack: Connect UI to backend
+   - engineering-test: E2E testing
    ```
 
 ### Task Delegation Protocol
@@ -517,11 +632,11 @@ You are the Engineering Director orchestrator, responsible for managing the engi
 def delegate_task(task):
     # Determine agent type
     if task.type == "ui_component":
-        agent = "ux-eng"
+        agent = "engineering-ux"
     elif task.type == "api":
-        agent = "api-engineer"
+        agent = "engineering-api"
     elif task.type == "feature":
-        agent = "fullstack-eng"
+        agent = "engineering-fullstack"
     
     # Prepare context
     context = {
@@ -814,47 +929,220 @@ if __name__ == '__main__':
     cli()
 ```
 
-### 4.3 Hook Coordination System
+### 4.3 Slash Command Orchestration System
 
-#### Hook Configuration
+#### Command Registration
+
+Orchestration is triggered exclusively through slash commands, providing explicit user control:
+
+```markdown
+# .claude/commands/orchestrate.md
+---
+description: Orchestration control commands
+---
+
+## Available Commands
+
+### /orchestrate
+Show orchestration menu and current status
+
+### /orchestrate sprint start [sprint-id]
+Start a sprint with team orchestration
+- Shows team allocation preview
+- Requires confirmation for agent spawning
+- Displays estimated resource usage
+
+### /orchestrate sprint status
+Show current sprint progress and active agents
+
+### /orchestrate task delegate [task-description]
+Delegate a task to the appropriate team
+- Analyzes task requirements
+- Suggests team assignment
+- Shows agent selection
+- Requires confirmation
+
+### /orchestrate team activate [team-name]
+Activate a team for manual coordination
+- Loads team configuration
+- Shows available capacity
+- Requires confirmation for orchestrator spawning
+
+### /orchestrate epic plan [epic-id]
+Plan an epic with team input
+- Breaks down into sprints
+- Estimates resource needs
+- Shows timeline
+- Requires confirmation
+
+### /orchestrate stop
+Gracefully stop all orchestration activities
+- Saves current state
+- Notifies active agents
+- Generates summary report
+```
+
+#### Command Implementation
+
+```python
+#!/usr/bin/env -S uv run --script
+# .claude/commands/orchestrate.py
+# /// script
+# dependencies = [
+#   "click",
+#   "rich",
+#   "inquirer",
+# ]
+# ///
+
+import json
+import subprocess
+from pathlib import Path
+import click
+from rich.console import Console
+from rich.prompt import Confirm
+from rich.table import Table
+import inquirer
+
+console = Console()
+
+class OrchestrationCommand:
+    def __init__(self):
+        self.config_dir = Path(".claude/orchestration")
+        self.state_dir = Path(".claude/state")
+        self.load_configurations()
+    
+    def load_configurations(self):
+        """Load team and workflow configurations"""
+        teams_file = self.config_dir / "teams.json"
+        if teams_file.exists():
+            self.teams = json.loads(teams_file.read_text())
+        else:
+            self.teams = {}
+    
+    def show_menu(self):
+        """Display orchestration menu"""
+        options = [
+            "Start Sprint",
+            "Delegate Task",
+            "Activate Team",
+            "Plan Epic",
+            "View Status",
+            "Stop Orchestration",
+            "Exit"
+        ]
+        
+        question = inquirer.List(
+            'action',
+            message="Select orchestration action",
+            choices=options
+        )
+        
+        answer = inquirer.prompt([question])
+        return answer['action']
+    
+    def start_sprint(self, sprint_id=None):
+        """Start sprint with confirmation"""
+        # Show what will happen
+        console.print("[bold]Sprint Orchestration Preview[/bold]")
+        
+        table = Table(title="Agents to be spawned")
+        table.add_column("Agent", style="cyan")
+        table.add_column("Role", style="green")
+        table.add_column("Model", style="yellow")
+        
+        team = self.teams.get('teams', {}).get('engineering', {})
+        for member in team.get('members', []):
+            table.add_row(
+                member['agent'],
+                member['role'],
+                member.get('model', 'default')
+            )
+        
+        console.print(table)
+        console.print(f"\nEstimated tokens: ~50,000")
+        console.print(f"Estimated time: ~30 minutes")
+        
+        # Get confirmation
+        if Confirm.ask("Proceed with sprint orchestration?"):
+            self.execute_sprint_start(sprint_id)
+        else:
+            console.print("[yellow]Sprint start cancelled[/yellow]")
+    
+    def execute_sprint_start(self, sprint_id):
+        """Actually start the sprint"""
+        # Update state to mark sprint as starting
+        subprocess.run([
+            ".claude/scripts/state_manager.py",
+            "set",
+            f"sprints.{sprint_id}.status",
+            '"starting"'
+        ])
+        
+        # Spawn orchestrator with explicit Task tool call
+        console.print("[green]Spawning engineering orchestrator...[/green]")
+        # This would trigger a Task tool call with the orchestrator
+        
+    def delegate_task(self, task_description=None):
+        """Delegate task with confirmation"""
+        if not task_description:
+            task_description = console.input("Enter task description: ")
+        
+        # Analyze task and suggest team
+        suggested_team = self.analyze_task(task_description)
+        
+        console.print(f"\n[bold]Task Delegation Preview[/bold]")
+        console.print(f"Task: {task_description}")
+        console.print(f"Suggested Team: {suggested_team}")
+        console.print(f"Estimated Agents: 2-3")
+        
+        if Confirm.ask("Proceed with delegation?"):
+            self.execute_delegation(task_description, suggested_team)
+        else:
+            console.print("[yellow]Delegation cancelled[/yellow]")
+    
+    def analyze_task(self, description):
+        """Simple task analysis for team suggestion"""
+        if any(word in description.lower() for word in ['ui', 'frontend', 'component']):
+            return "frontend"
+        elif any(word in description.lower() for word in ['api', 'backend', 'database']):
+            return "backend"
+        else:
+            return "engineering"
+
+if __name__ == "__main__":
+    cmd = OrchestrationCommand()
+    action = cmd.show_menu()
+    
+    if action == "Start Sprint":
+        cmd.start_sprint()
+    elif action == "Delegate Task":
+        cmd.delegate_task()
+    # ... handle other actions
+```
+
+#### Hook Support Configuration
+
+While orchestration is primarily slash-command driven, minimal hooks support state tracking:
+
 ```json
 {
   "hooks": {
-    "session_start": {
-      "description": "Initialize agent state and fetch assigned tasks",
-      "commands": [
-        ".claude/scripts/state_manager.py get agents.active.{AGENT_ID}",
-        ".claude/scripts/message_bus.py receive {AGENT_ID}"
+    "orchestration_support": {
+      "PostToolUse": [
+        {
+          "matcher": "Task",
+          "hooks": [
+            {
+              "type": "command",
+              "command": ".claude/scripts/track_orchestration.py",
+              "description": "Track agent spawning for orchestration metrics only"
+            }
+          ]
+        }
       ]
     },
-    "subagent_start": {
-      "description": "Mark task as in_progress when subagent starts",
-      "commands": [
-        ".claude/scripts/state_manager.py update-task {TASK_ID} in_progress",
-        ".claude/scripts/event_stream.py emit task_started '{\"task_id\": \"{TASK_ID}\", \"agent\": \"{AGENT_ID}\"}'"
-      ]
-    },
-    "subagent_stop": {
-      "description": "Mark task complete and trigger handoffs",
-      "commands": [
-        ".claude/scripts/state_manager.py update-task {TASK_ID} completed",
-        ".claude/scripts/message_bus.py send {AGENT_ID} orchestrator TASK_COMPLETED '{\"task_id\": \"{TASK_ID}\"}'",
-        ".claude/scripts/event_stream.py emit task_completed '{\"task_id\": \"{TASK_ID}\"}'"
-      ]
-    },
-    "tool_use": {
-      "description": "Track tool usage and coordinate actions",
-      "commands": [
-        ".claude/scripts/event_stream.py emit tool_used '{\"tool\": \"{TOOL_NAME}\", \"agent\": \"{AGENT_ID}\"}'"
-      ]
-    },
-    "error": {
-      "description": "Handle errors and update task status",
-      "commands": [
-        ".claude/scripts/state_manager.py update-task {TASK_ID} blocked",
-        ".claude/scripts/message_bus.py send {AGENT_ID} orchestrator TASK_BLOCKED '{\"task_id\": \"{TASK_ID}\", \"error\": \"{ERROR}\"}' --priority=high"
-      ]
-    }
+    "note": "Orchestration is NOT automatically triggered by hooks. These hooks only track metrics when orchestration is explicitly invoked via slash commands."
   }
 }
 ```
@@ -910,36 +1198,52 @@ if __name__ == "__main__":
     main()
 ```
 
-#### Example: Sprint Start Hook Flow
+#### Example: Sprint Start Flow (Slash Command)
 ```bash
-# 1. User triggers sprint start
-$ claude run sprint start sprint-3
+# 1. User explicitly triggers sprint start
+$ /orchestrate sprint start sprint-3
 
-# 2. Hook sequence:
-# - session_start: Initialize orchestrator
-.claude/scripts/state_manager.py get sprints.sprint-3
+# 2. System shows preview:
+┌─────────────────────────────────────────┐
+│ Sprint Orchestration Preview            │
+├─────────────────────────────────────────┤
+│ Sprint: sprint-3                        │
+│ Team: Engineering                       │
+│ Agents to spawn: 5                      │
+│ - engineering-orchestrator (opus)       │
+│ - engineering-lead (opus)                      │
+│ - engineering-fullstack x2 (sonnet)            │
+│ - engineering-test (haiku)                 │
+│                                         │
+│ Estimated tokens: ~75,000               │
+│ Estimated time: 45 minutes              │
+│                                         │
+│ Tasks to orchestrate: 8                 │
+│ - OAuth implementation                  │
+│ - UI components                         │
+│ - API endpoints                         │
+│ - Database schema                       │
+│ - Integration tests                     │
+│ - Documentation                         │
+│ - Security review                       │
+│ - Performance optimization              │
+└─────────────────────────────────────────┘
 
-# - spawn orchestrator agent
-.claude/scripts/state_manager.py update-agent engineering-orchestrator sprint-3 --status=busy
+Proceed with orchestration? [Y/n]: Y
 
-# - orchestrator analyzes tasks and spawns agents
-.claude/scripts/message_bus.py send orchestrator fullstack-eng-1 TASK_ASSIGNED '{"task_id": "task-oauth"}'
-.claude/scripts/message_bus.py send orchestrator ux-eng-1 TASK_ASSIGNED '{"task_id": "task-ui"}'
+# 3. Only after confirmation, orchestration begins:
+[INFO] Loading team configuration from .claude/orchestration/teams.json
+[INFO] Initializing state management...
+[INFO] Spawning engineering-orchestrator...
+[CONFIRM] engineering-orchestrator analyzing sprint requirements...
+[INFO] Spawning engineering-lead for technical specification...
+[INFO] Spawning engineering-fullstack-1 for OAuth implementation...
+[INFO] Spawning engineering-fullstack-2 for UI components...
 
-# 3. Subagents start (triggered by subagent_start hook)
-.claude/scripts/state_manager.py update-task task-oauth in_progress
-.claude/scripts/state_manager.py update-task task-ui in_progress
-
-# 4. Work progresses, agents communicate via message bus
-.claude/scripts/message_bus.py send ux-eng-1 fullstack-eng-1 ARTIFACT_READY '{"file": "components/AuthForm.tsx"}'
-
-# 5. Tasks complete (triggered by subagent_stop hook)
-.claude/scripts/state_manager.py update-task task-ui completed
-.claude/scripts/message_bus.py send ux-eng-1 orchestrator TASK_COMPLETED '{"task_id": "task-ui"}'
-
-# 6. Orchestrator coordinates handoffs
-.claude/scripts/message_bus.py receive orchestrator
-# Orchestrator sees task-ui is complete, checks dependencies, starts next tasks
+# 4. User maintains visibility and control:
+[STATUS] 3 agents active, 2 tasks in progress
+[STATUS] Use '/orchestrate status' for details
+[STATUS] Use '/orchestrate stop' to halt orchestration
 ```
 
 ---
@@ -1065,37 +1369,102 @@ stateDiagram-v2
     Blocked --> Active: Resolved
 ```
 
-### 5.2 Sprint Management Commands
+### 5.2 Opt-in Orchestration Patterns
 
-```markdown
-# .claude/commands/sprint/start.md
----
-description: Start a new sprint with team orchestration
-argument-hint: [sprint-id] [--team=engineering]
----
+#### Pattern 1: Explicit Confirmation
+Every orchestration action requires user confirmation:
 
-## Sprint Initialization Protocol
-
-1. **Load Sprint Definition**
-   - Read sprint tasks from state
-   - Identify dependencies
-   - Calculate critical path
-
-2. **Team Activation**
-   - Spawn team orchestrator
-   - Allocate agent resources
-   - Setup worktrees
-
-3. **Parallel Execution**
-   - Launch independent tasks
-   - Monitor progress
-   - Handle dependencies
-
-4. **Sprint Tracking**
-   - Update burndown chart
-   - Track velocity
-   - Report blockers
+```python
+def request_orchestration(action, resources):
+    """Show preview and get confirmation"""
+    console.print(f"[bold]Orchestration Request: {action}[/bold]")
+    console.print(f"Agents to spawn: {resources['agents']}")
+    console.print(f"Estimated time: {resources['time']}")
+    console.print(f"Estimated tokens: {resources['tokens']}")
+    
+    return Confirm.ask("Proceed with orchestration?")
 ```
+
+#### Pattern 2: Granular Control
+Users can approve/deny individual agent spawning:
+
+```python
+def selective_orchestration(tasks):
+    """Allow user to select which tasks to orchestrate"""
+    selected = inquirer.checkbox(
+        message="Select tasks to orchestrate",
+        choices=[
+            {"name": f"{t['name']} ({t['agent']})", "value": t}
+            for t in tasks
+        ]
+    )
+    return selected
+```
+
+#### Pattern 3: Budget-Based
+Set token/time budgets for orchestration:
+
+```json
+// .claude/orchestration/settings.json
+{
+  "budgets": {
+    "max_tokens_per_session": 100000,
+    "max_agents_per_operation": 5,
+    "max_time_minutes": 60,
+    "require_approval_above": {
+      "tokens": 50000,
+      "agents": 3
+    }
+  }
+}
+```
+
+### 5.3 User Configuration Management
+
+#### How Users Modify Team Configurations
+
+1. **Direct JSON Editing**:
+   ```bash
+   # Edit team configuration
+   editor .claude/orchestration/teams.json
+   
+   # Validate configuration
+   .claude/scripts/validate_config.py
+   
+   # Apply changes (no restart needed)
+   /orchestrate reload
+   ```
+
+2. **Configuration Commands**:
+   ```bash
+   # Add team member
+   /orchestrate config add-member engineering engineering-fullstack-2
+   
+   # Update team settings
+   /orchestrate config set engineering.max_parallel_agents 7
+   
+   # View current configuration
+   /orchestrate config show teams.engineering
+   ```
+
+3. **Configuration Validation**:
+   ```python
+   # .claude/scripts/validate_config.py
+   def validate_team_config(config):
+       errors = []
+       
+       # Check required fields
+       for team_id, team in config['teams'].items():
+           if 'orchestrator' not in team:
+               errors.append(f"Team {team_id} missing orchestrator")
+           
+           # Validate member definitions
+           for member in team.get('members', []):
+               if 'agent' not in member:
+                   errors.append(f"Member missing agent definition")
+       
+       return errors
+   ```
 
 ### 5.3 Epic Management
 
@@ -1592,17 +1961,19 @@ def get_status():
 
 ## 9. Implementation Roadmap
 
-### Phase 1: Foundation (Week 1-2)
+### Phase 1: Foundation & Configuration (Week 1-2)
 - [x] State management system
-- [ ] Basic orchestrator agents
-- [ ] Message bus implementation
-- [ ] Session data migration
+- [ ] Configuration/State separation
+- [ ] Team configuration schema
+- [ ] Slash command framework
+- [ ] User consent system
 
-### Phase 2: Team Structure (Week 3-4)
-- [ ] Team orchestrator agents
-- [ ] Sprint management commands
-- [ ] Task delegation system
-- [ ] Basic worktree management
+### Phase 2: Slash Command Orchestration (Week 3-4)
+- [ ] /orchestrate command implementation
+- [ ] Preview and confirmation UI
+- [ ] Team activation commands
+- [ ] Task delegation with consent
+- [ ] Budget tracking system
 
 ### Phase 3: Communication (Week 5-6)
 - [ ] Inter-agent messaging
@@ -1645,17 +2016,17 @@ def get_status():
       },
       "members": [
         {
-          "agent": "tech-lead",
+          "agent": "engineering-lead",
           "capacity": 1,
           "specialties": ["architecture", "review"]
         },
         {
-          "agent": "fullstack-eng",
+          "agent": "engineering-fullstack",
           "capacity": 3,
           "specialties": ["frontend", "backend"]
         },
         {
-          "agent": "ux-eng",
+          "agent": "engineering-ux",
           "capacity": 2,
           "specialties": ["ui", "responsive"]
         }
@@ -1771,17 +2142,25 @@ class AuditLogger:
 
 ## Conclusion
 
-This orchestration specification provides a comprehensive framework for enterprise-scale multi-agent software development. The architecture supports:
+This orchestration specification provides a comprehensive framework for enterprise-scale multi-agent software development with explicit user control. The architecture supports:
 
-1. **Hierarchical team management** with specialized orchestrators
-2. **Sophisticated state management** for complex project coordination
-3. **Inter-agent communication** protocols for seamless collaboration
-4. **Sprint and epic workflows** matching real-world development practices
-5. **Parallel development** through intelligent worktree management
-6. **Comprehensive observability** for monitoring and optimization
-7. **Security and compliance** features for enterprise requirements
+1. **User-controlled orchestration** through slash commands with clear consent models
+2. **Configuration-driven teams** that users can modify without code changes
+3. **Separated configuration and state** for clear separation of concerns
+4. **Opt-in automation** that never surprises users with unexpected agent spawning
+5. **Transparent resource usage** with upfront estimates and confirmation
+6. **Granular control** over which operations to orchestrate
+7. **Budget management** for token and time constraints
 
-The system is designed to be incrementally adoptable, allowing teams to start with basic orchestration and gradually enable more advanced features as needed.
+The system prioritizes user agency and transparency, ensuring that orchestration enhances rather than automates away user control. Teams can start with manual task delegation and gradually adopt more sophisticated orchestration patterns as they become comfortable with the system.
+
+### Key Principles
+
+1. **Explicit over Implicit**: All orchestration requires explicit user action
+2. **Transparent Resource Usage**: Show costs before incurring them
+3. **User-Editable Configuration**: Teams defined in JSON, not code
+4. **Incremental Adoption**: Start simple, add complexity as needed
+5. **Reversible Operations**: Always provide a way to stop/undo
 
 ### Next Steps
 

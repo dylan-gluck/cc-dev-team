@@ -283,13 +283,13 @@ Leverage the development team agents for app development:
 
 ```bash
 # Research best practices
-"Research the latest FastAPI patterns with ai-research"
+"Research the latest FastAPI patterns with research-ai"
 
 # Create specialized agents
 "Create a testing agent for this API service with meta-agent"
 
 # Get audio summaries
-"Summarize the current development status with work-completion-summary"
+"Summarize the current development status with meta-summary"
 ```
 
 ### Hook Integration

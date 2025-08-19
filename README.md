@@ -9,12 +9,16 @@ This scaffolding transforms Claude Code into a sophisticated development team co
 ### Key Features
 
 **🤖 Specialized Agent Team**
-- **AI Research Specialist**: Stays current with latest AI/ML developments
-- **Meta-Agent**: Creates new agents from natural language descriptions
-- **Fullstack Engineer**: Handles comprehensive application development
-- **Tech Lead**: Provides architectural guidance and code reviews
-- **Business Analyst**: Translates requirements into technical specifications
-- **UX Engineer**: Focuses on user experience and interface design
+The scaffolding includes 44+ specialized agents organized into teams using the `<team>-<agent>` naming convention:
+- **Engineering Team**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api
+- **Product Team**: product-director, product-manager, product-analyst
+- **QA Team**: qa-director, qa-analyst, qa-e2e, qa-scripts
+- **DevOps Team**: devops-manager, devops-cicd, devops-infrastructure, devops-release
+- **Creative Team**: creative-director, creative-copywriter, creative-illustrator
+- **Research Team**: research-ai, research-deep
+- **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst
+- **Data Team**: data-scientist, data-analytics
+- **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit
 
 **🔗 Intelligent Hook System**
 - Complete lifecycle automation with 8 hook types
@@ -129,11 +133,32 @@ project-root/
 
 ## Development Team Agents
 
-The scaffolding includes a comprehensive team of specialized agents, each designed for specific development tasks:
+The scaffolding includes a comprehensive team of specialized agents, each designed for specific development tasks and organized using the new `<team>-<agent>` naming convention:
+
+### Agent Naming Convention
+
+All agents now follow the structured `<team>-<agent>` naming format for better organization and clarity:
+
+**Team Categories:**
+- **Engineering**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api, engineering-test, engineering-writer, engineering-cleanup, engineering-director, engineering-manager
+- **Product**: product-director, product-manager, product-analyst  
+- **QA**: qa-director, qa-analyst, qa-e2e, qa-scripts
+- **DevOps**: devops-manager, devops-cicd, devops-infrastructure, devops-release
+- **Creative**: creative-director, creative-copywriter, creative-illustrator, creative-logo, creative-photographer, creative-wireframe, creative-ux-lead
+- **Research**: research-ai, research-deep
+- **Marketing**: marketing-director, marketing-content, marketing-seo-researcher, marketing-seo-engineer, marketing-seo-analyst
+- **Data**: data-scientist, data-analytics
+- **Meta**: meta-agent, meta-summary, meta-readme, meta-commit, meta-command, meta-config, meta-script-uv, meta-script-bun
+
+This naming convention provides:
+- **Clear team organization** - Easy identification of agent capabilities
+- **Consistent structure** - Predictable naming patterns across all agents  
+- **Hierarchical organization** - Natural grouping by functional domain
+- **Scalability** - Easy addition of new agents within existing teams
 
 ### Core Development Team
 
-**AI Research (`ai-research`)**
+**AI Research (`research-ai`)**
 - Proactively gathers latest developments in AI/ML and engineering
 - Searches across multiple sources for actionable insights
 - Provides structured reports with practical recommendations
@@ -145,25 +170,25 @@ The scaffolding includes a comprehensive team of specialized agents, each design
 - Automatically determines minimal required tools
 - Essential for scaling your agent capabilities
 
-**Fullstack Engineer (`fullstack-eng`)**
+**Fullstack Engineer (`engineering-fullstack`)**
 - Handles end-to-end application development
 - Frontend and backend integration expertise
 - Database design and API development
 - Testing and deployment workflows
 
-**Tech Lead (`tech-lead`)**
+**Tech Lead (`engineering-lead`)**
 - Provides architectural guidance and technical direction
 - Code review and quality assurance
 - Performance optimization and scaling decisions
 - Team coordination and technical mentoring
 
-**Business Analyst (`business-analyst`)**
+**Business Analyst (`product-analyst`)**
 - Translates business requirements into technical specifications
 - Creates user stories and acceptance criteria
 - Stakeholder communication and requirement gathering
 - Project planning and scope management
 
-**UX Engineer (`ux-eng`)**
+**UX Engineer (`engineering-ux`)**
 - User experience design and interface development
 - Accessibility and usability optimization
 - Design system implementation
@@ -171,17 +196,17 @@ The scaffolding includes a comprehensive team of specialized agents, each design
 
 ### Utility Agents
 
-**Work Completion Summary (`work-completion-summary`)**
+**Work Completion Summary (`meta-summary`)**
 - Generates audio summaries of completed work
 - Triggered by "tts" command or task completion
 - Provides next steps and status updates
 
-**README Maintainer (`readme-maintainer`)**
+**README Maintainer (`meta-readme`)**
 - Specialized in creating and updating documentation
 - Analyzes code to ensure documentation accuracy
 - Maintains consistent documentation standards
 
-**Git Commit (`git-commit`)**
+**Git Commit (`meta-commit`)**
 - Generates semantic commit messages
 - Analyzes git diff and suggests appropriate message structure
 - Ensures consistent commit history
@@ -626,19 +651,19 @@ You are a testing specialist focused on automated testing and quality assurance.
 **Multi-Agent Development:**
 ```bash
 # Research → Design → Implementation → Testing
-"Research modern React patterns with ai-research, then have ux-eng design a component architecture, fullstack-eng implement it, and testing-specialist create comprehensive tests"
+"Research modern React patterns with research-ai, then have engineering-ux design a component architecture, engineering-fullstack implement it, and engineering-test create comprehensive tests"
 ```
 
 **Code Review Pipeline:**
 ```bash
 # Development → Review → Fix → Deploy
-"Have fullstack-eng implement the API, tech-lead review for architecture, apply fixes, then deployment-agent handle the release"
+"Have engineering-fullstack implement the API, engineering-lead review for architecture, apply fixes, then devops-release handle the release"
 ```
 
 **Documentation Workflow:**
 ```bash
 # Analysis → Documentation → Validation
-"Analyze the codebase structure, have readme-maintainer create documentation, then tech-lead validate technical accuracy"
+"Analyze the codebase structure, have meta-readme create documentation, then engineering-lead validate technical accuracy"
 ```
 
 ### The Meta-Agent: Agent Factory

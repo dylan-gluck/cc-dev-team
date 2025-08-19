@@ -8,7 +8,7 @@ argument-hint: [feature/requirement description]
 You need to conduct comprehensive research and analysis for: $ARGUMENTS
 
 ### Phase 1: Business Research
-Use the business-analyst agent to:
+Use the product-analyst agent to:
 - Analyze market and competitor landscape
 - Research industry best practices
 - Identify user needs and pain points
@@ -16,14 +16,14 @@ Use the business-analyst agent to:
 - Create user stories and use cases
 
 ### Phase 2: Technical Research
-Use the ai-research agent to:
+Use the research-ai agent to:
 - Find latest technical approaches and solutions
 - Research relevant frameworks and libraries
 - Identify emerging patterns and best practices
 - Gather performance benchmarks
 
 ### Phase 3: Documentation Gathering
-Use the doc-expert agent to:
+Use the engineering-docs agent to:
 - Fetch latest vendor documentation for identified technologies
 - Create condensed reference guides
 - Store documentation in ai_docs/ for team reference

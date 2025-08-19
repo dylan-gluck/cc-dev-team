@@ -24,7 +24,19 @@ This document outlines the general plan and requirements for a claude-code confi
 - Most coding agents will need full read, write edit, search and bash tools.
 
 ## Agents
-Each agent is defined in a markdown file in `.claude/agents/` with a unique name in kebab-case as the file name. There is a custom slash command to generate new agent definitions in `.claude/commands/meta/generate-agent.md`.
+Each agent is defined in a markdown file in `.claude/agents/` with a unique name following the `<team>-<agent>` format as the file name. There is a custom slash command to generate new agent definitions in `.claude/commands/meta/generate-agent.md`.
+
+### Agent Naming Convention
+All agents follow the `<team>-<agent>` naming format:
+- **Engineering Team**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api, etc.
+- **Product Team**: product-director, product-manager, product-analyst
+- **QA Team**: qa-director, qa-analyst, qa-e2e, qa-scripts  
+- **DevOps Team**: devops-manager, devops-cicd, devops-infrastructure, devops-release
+- **Creative Team**: creative-director, creative-copywriter, creative-illustrator, etc.
+- **Research Team**: research-ai, research-deep
+- **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst, etc.
+- **Data Team**: data-scientist, data-analytics
+- **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit, etc.
 
 Agents should have specific responsibilities. A parent claude-code instance will fire one or more agents in parallel, providing each with specific context and instructions. The sub-agent will work until complete and provide a summary for the parent agent on stop.
 
@@ -60,7 +72,7 @@ Phases of Development:
 - New projects: Sveltekit latest version should be initialized with bun `cd apps && bunx sv create [app-name]`. Add the bun adapter `bun add -D svelte-adapter-bun` and update `svelte.config.js`.
 - Add tailwind with `bunx sv add tailwindcss` then initialize shadcn-svelte with `bunx shadcn-svelte@latest init`. Add components using `bunx shadcn-svelte@latest add [component]` or `shadcn-ui` mcp.
 - Code follows best-practices and uses Svelte v5 syntax including runes & new template syntax.
-- doc-expert agent is responsible for maintaining svelte 5 specific documentation in the repo
+- engineering-docs agent is responsible for maintaining svelte 5 specific documentation in the repo
 
 ## Back-end
 - Backend APIs and services should be written in Python with FastAPI
@@ -73,12 +85,12 @@ Phases of Development:
 
 Outline of project-specific agents that should be created.
 
-## business-analyst
+## product-analyst
 - Tools: Read, Write, Edit, Glob, Grep, LS, TodoWrite, WebSearch, WebFetch
-- Primary responsibility is to analyze business requirements, conduct deep-research and provide consolidated insights to the team.
+- Primary responsibility is to analyze business requirements, conduct research and provide consolidated insights to the team.
 - Secondary responsibility is to provide recommendations for business solutions based on insights, review business logic and provide feedback on potential risks and opportunities.
 
-## doc-expert
+## engineering-docs
 - Tools: Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
 - Primary responsibility is to fetch relevant and up-to-date technical documentation and condense into a single reference file that can be stored locally for other agents to consume.
 - Secondary responsibility is to maintain project documentation
@@ -87,7 +99,7 @@ Outline of project-specific agents that should be created.
 - Condensed usage guide should be stored in project `ai_docs/` folder
 - Once complete agent should return a summary of research & paths to any new docs
 
-## ux-eng
+## engineering-ux
 - Tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, TodoWrite, mcp__playwright__*, mcp__shadcn-ui__*, mcp__docker-mcp__*
 - Primary responsibility is building and maintaining library of beautiful ui components. Not responsible for integrating business logic.
 - Secondary responsibility is building and editing front-end page templates & using `playwright` mcp to confirm valid implementation. All views and components must be responsive across all devices.
@@ -96,24 +108,24 @@ Outline of project-specific agents that should be created.
 - Always writes documentation for new components & updates existing docs after making changes.
 - Returns a summary of completed work including paths to any new / updated components and any issues or errors encountered.
 
-## fullstack-eng
+## engineering-fullstack
 - Tools: Bash, Read, Write, Edit, MultiEdit, Glob, Grep, LS, TodoWrite, mcp__playwright__*, mcp__docker-mcp__*,
 - Primary responsibility is integrating business logic into the application. This includes writing and maintaining service architecture, building complex views and end-to-end features based on project SPEC and assigned task.
 - Secondary responsibility is building and maintaining back-end APIs. All APIs must follow a strict data model and expose a schema. All APIs and endpoints must be secure and scalable.
-- Always utilizes existing components or templates created by ux-eng.
+- Always utilizes existing components or templates created by engineering-ux.
 - Always follows specification when integrating business logic or 3rd party services
 - Always writes clear and accurate tests and runs them before marking work as complete. Always iterates on changes until tests are passing.
 - Always writes documentation for new endpoints and updates existing docs after making changes.
 - Returns a summary of completed work including paths to any new / updated files and any issues or errors encountered.
 
-## tech-lead
+## engineering-lead
 - Tools: Bash, Read, Write, Edit, Glob, Grep, LS, TodoWrite, mcp__playwright__*, mcp__docker-mcp__*,
-- Primary responsibility is writing technical implementation plans & specs. Depends on accurate vendor & project documentation from `doc-expert`.
+- Primary responsibility is writing technical implementation plans & specs. Depends on accurate vendor & project documentation from `engineering-docs`.
 - Secondary responsibility is code review after all agents have finished their tasks. Conducts a thorough analysis of code consistency, quality, and security.
 - Prefers well structured code that is not overly-abstracted. SOLID principles, atomic patterns.
-- Always checks for consistency across codebase and newly completed work. Each sub-agent may not have full-context or visibility across peer workstreams. tech-lead is responsible for checking collective changes after all agents have finished their work.
-- If the tech-lead does not approve changes at the end of a parallel task cycle he should provide a report to the orchestrator agent including detailed requirements.
-- Once approved tech-lead updates TODO and relevant planning documents with progress, returning a summary of completed work and passing requirements.
+- Always checks for consistency across codebase and newly completed work. Each sub-agent may not have full-context or visibility across peer workstreams. engineering-lead is responsible for checking collective changes after all agents have finished their work.
+- If the engineering-lead does not approve changes at the end of a parallel task cycle he should provide a report to the orchestrator agent including detailed requirements.
+- Once approved engineering-lead updates TODO and relevant planning documents with progress, returning a summary of completed work and passing requirements.
 
 ---
 

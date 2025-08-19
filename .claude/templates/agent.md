@@ -1,6 +1,6 @@
 ---
-name: [Agent name in kebab-case]
-description: [Agent description]
+name: [Agent name in team-agent format, e.g., engineering-fullstack]
+description: [Agent description with clear delegation triggers]
 tools: [Allowed tools]
 ---
 
@@ -29,5 +29,5 @@ Provide your findings in this structure:
 ---
 
 ## Examples:
-@.claude/agents/ai-research.md
-@.claude/agents/work-completion-summary.md
+@.claude/agents/research-ai.md
+@.claude/agents/meta-summary.md

@@ -35,7 +35,7 @@ A comprehensive team of 44 specialized AI agents covering all aspects of modern 
 
 **Meta and Framework Agents:**
 - `meta-agent.md` - Creates new specialized agents with orchestration awareness
-- `command-creator.md` - Generates custom commands and workflows
+- `meta-command.md` - Generates custom commands and workflows
 
 **Leadership & Management Agents:**
 - `engineering-director.md` - Engineering leadership and technical strategy
@@ -45,55 +45,55 @@ A comprehensive team of 44 specialized AI agents covering all aspects of modern 
 - `creative-director.md` - Creative strategy and brand management
 - `devops-manager.md` - DevOps processes and infrastructure management
 - `engineering-manager.md` - Engineering team management and process optimization
-- `tech-lead.md` - Technical leadership and architecture decisions
-- `ux-lead.md` - UX strategy and design leadership
+- `engineering-lead.md` - Technical leadership and architecture decisions
+- `creative-ux-lead.md` - UX strategy and design leadership
 
 **Core Development Agents:**
-- `fullstack-eng.md` - Full-stack development implementation spanning frontend to backend
-- `ux-eng.md` - UI component libraries, responsive design, and design systems
-- `api-engineer.md` - API design, development, and integration
-- `infrastructure-engineer.md` - Infrastructure design and implementation
-- `ci-cd-engineer.md` - CI/CD pipeline development and automation
+- `engineering-fullstack.md` - Full-stack development implementation spanning frontend to backend
+- `engineering-ux.md` - UI component libraries, responsive design, and design systems
+- `engineering-api.md` - API design, development, and integration
+- `devops-infrastructure.md` - Infrastructure design and implementation
+- `devops-cicd.md` - CI/CD pipeline development and automation
 
 **Product & Analysis Agents:**
 - `product-manager.md` - Product requirements and feature management
-- `business-analyst.md` - Requirements analysis and business logic
+- `product-analyst.md` - Requirements analysis and business logic
 - `data-scientist.md` - Data analysis and machine learning insights
-- `team-analytics.md` - Team performance and development analytics
+- `data-analytics.md` - Team performance and development analytics
 
 **Quality Assurance Agents:**
 - `qa-analyst.md` - Quality analysis and testing strategy
-- `qa-engineer-e2e.md` - End-to-end testing implementation
-- `qa-engineer-scripts.md` - Test automation and scripting
-- `test-engineer.md` - Comprehensive testing and validation
+- `qa-e2e.md` - End-to-end testing implementation
+- `qa-scripts.md` - Test automation and scripting
+- `engineering-test.md` - Comprehensive testing and validation
 
 **Content & Creative Agents:**
-- `content-strategist.md` - Content strategy and information architecture
-- `copywriter.md` - Marketing and technical copywriting
-- `doc-writer.md` - Documentation creation and technical writing
-- `wireframe-designer.md` - Wireframing and design prototyping
-- `photographer.md` - Photography and visual content creation
-- `illustrator.md` - Illustration and graphic design
-- `logo-designer.md` - Logo and brand identity design
+- `marketing-content.md` - Content strategy and information architecture
+- `creative-copywriter.md` - Marketing and technical copywriting
+- `engineering-writer.md` - Documentation creation and technical writing
+- `creative-wireframe.md` - Wireframing and design prototyping
+- `creative-photographer.md` - Photography and visual content creation
+- `creative-illustrator.md` - Illustration and graphic design
+- `creative-logo.md` - Logo and brand identity design
 
 **SEO & Marketing Agents:**
-- `seo-researcher.md` - SEO research and competitive analysis
-- `seo-engineer.md` - Technical SEO implementation
-- `seo-analyst.md` - SEO performance analysis and optimization
+- `marketing-seo-researcher.md` - SEO research and competitive analysis
+- `marketing-seo-engineer.md` - Technical SEO implementation
+- `marketing-seo-analyst.md` - SEO performance analysis and optimization
 
 **Operations & Release Agents:**
-- `release-manager.md` - Release planning and deployment coordination
-- `cleanup-engineer.md` - Code cleanup and technical debt management
+- `devops-release.md` - Release planning and deployment coordination
+- `engineering-cleanup.md` - Code cleanup and technical debt management
 
 **Specialized Task Agents:**
-- `ai-research.md` - Research specialist for AI/ML innovations and best practices
-- `deep-research.md` - Deep research and comprehensive analysis specialist
-- `doc-expert.md` - Documentation creation and maintenance specialist
-- `readme-maintainer.md` - README file creation and updates
-- `git-commit.md` - Git workflow and commit message optimization
-- `uv-script.md` - Python UV script development and dependency management
-- `bun-script.md` - Bun JavaScript/TypeScript script development
-- `work-completion-summary.md` - Audio summaries and next steps
+- `research-ai.md` - Research specialist for AI/ML innovations and best practices
+- `research-deep.md` - Deep research and comprehensive analysis specialist
+- `engineering-docs.md` - Documentation creation and maintenance specialist
+- `meta-readme.md` - README file creation and updates
+- `meta-commit.md` - Git workflow and commit message optimization
+- `meta-script-uv.md` - Python UV script development and dependency management
+- `meta-script-bun.md` - Bun JavaScript/TypeScript script development
+- `meta-summary.md` - Audio summaries and next steps
 
 Each agent includes:
 - Clear delegation triggers and use cases
@@ -314,54 +314,54 @@ The agent system mirrors a complete software development organization with clear
 - **Tech Lead**: Provides technical leadership and mentoring
 
 ### Development Teams
-- **Core Engineering**: fullstack-eng, ux-eng, api-engineer, infrastructure-engineer, ci-cd-engineer
-- **Quality Assurance**: qa-analyst, qa-engineer-e2e, qa-engineer-scripts, test-engineer
-- **Product & Analysis**: product-manager, business-analyst, data-scientist, team-analytics
-- **Content & Creative**: content-strategist, copywriter, doc-writer, wireframe-designer, photographer, illustrator, logo-designer
-- **SEO & Marketing**: seo-researcher, seo-engineer, seo-analyst
-- **Operations**: release-manager, cleanup-engineer
+- **Core Engineering**: engineering-fullstack, engineering-ux, engineering-api, devops-infrastructure, devops-cicd
+- **Quality Assurance**: qa-analyst, qa-e2e, qa-scripts, engineering-test
+- **Product & Analysis**: product-manager, product-analyst, data-scientist, data-analytics
+- **Content & Creative**: marketing-content, creative-copywriter, engineering-writer, creative-wireframe, creative-photographer, creative-illustrator, creative-logo
+- **SEO & Marketing**: marketing-seo-researcher, marketing-seo-engineer, marketing-seo-analyst
+- **Operations**: devops-release, engineering-cleanup
 
 ### Specialized Support
-- **Research & Analysis**: ai-research, deep-research, doc-expert
-- **Automation & Tools**: uv-script, bun-script, git-commit, meta-agent, command-creator
-- **Communication**: work-completion-summary, readme-maintainer
+- **Research & Analysis**: research-ai, research-deep, engineering-docs
+- **Automation & Tools**: meta-script-uv, meta-script-bun, meta-commit, meta-agent, meta-command
+- **Communication**: meta-summary, meta-readme
 
 ## Usage Patterns
 
 ### Agent Delegation
 ```markdown
 # Automatic agent invocation based on trigger phrases:
-"Use ai-research to find current best practices"
-"MUST BE USED when creating documentation" (doc-writer, readme-maintainer)
-"Specialist for code review and quality assurance" (qa-director, qa-engineer-*)
-"Use fullstack-eng for complete feature implementation"
-"Creative design needed" (creative-director, illustrator, logo-designer)
-"SEO optimization required" (seo-engineer, seo-analyst)
+"Use research-ai to find current best practices"
+"MUST BE USED when creating documentation" (engineering-writer, meta-readme)
+"Specialist for code review and quality assurance" (qa-director, qa-e2e, qa-scripts)
+"Use engineering-fullstack for complete feature implementation"
+"Creative design needed" (creative-director, creative-illustrator, creative-logo)
+"SEO optimization required" (marketing-seo-engineer, marketing-seo-analyst)
 ```
 
 ### Development Workflow Examples
 
 **Feature Development:**
 1. `product-manager` - Define requirements and user stories
-2. `business-analyst` - Analyze business logic and processes  
-3. `ux-eng` - Create UI components and responsive design
-4. `fullstack-eng` - Implement end-to-end functionality
-5. `qa-engineer-e2e` - Create comprehensive test coverage
-6. `doc-writer` - Document the feature for users
+2. `product-analyst` - Analyze business logic and processes  
+3. `engineering-ux` - Create UI components and responsive design
+4. `engineering-fullstack` - Implement end-to-end functionality
+5. `qa-e2e` - Create comprehensive test coverage
+6. `engineering-writer` - Document the feature for users
 
 **Research Project:**
-1. `ai-research` - Gather latest AI/ML developments
-2. `deep-research` - Comprehensive competitive analysis
+1. `research-ai` - Gather latest AI/ML developments
+2. `research-deep` - Comprehensive competitive analysis
 3. `data-scientist` - Analyze findings and metrics
-4. `content-strategist` - Plan content and communication strategy
+4. `marketing-content` - Plan content and communication strategy
 
 **Marketing Campaign:**
 1. `marketing-director` - Define strategy and goals
-2. `copywriter` - Create compelling copy and messaging
+2. `creative-copywriter` - Create compelling copy and messaging
 3. `creative-director` - Oversee visual brand consistency
-4. `seo-researcher` - Research keywords and competition  
-5. `photographer` - Create visual assets
-6. `seo-engineer` - Implement technical SEO
+4. `marketing-seo-researcher` - Research keywords and competition  
+5. `creative-photographer` - Create visual assets
+6. `marketing-seo-engineer` - Implement technical SEO
 
 ### Command Execution
 ```bash
