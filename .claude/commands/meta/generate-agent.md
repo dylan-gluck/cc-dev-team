@@ -1,7 +1,7 @@
 ---
 allowed-tools: Write, Read, Edit, LS, WebFetch, WebSearch
 description: Generate a new specialized sub-agent configuration file from a description
-argument-hint: <agent-purpose> [specific requirements]
+argument-hint: <agent-name> [purpose & capabilities]
 ---
 
 # Generate Agent

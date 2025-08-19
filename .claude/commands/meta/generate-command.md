@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash, Write, Read, Glob, Grep, Edit, LS, WebFetch, WebSearch
 description: Generate a new Claude Code command file from a description
+argument-hint: <command-name> [specific requirements]
 ---
 
 # Generate Command
@@ -85,7 +86,7 @@ model: [optional model preference]
 
 ## Context
 [Include any necessary context gathering, such as:]
-- Current status: !`bash command` (requires Bash tool)
+- Current status: \!`bash command` (requires Bash tool)
 - File contents: @path/to/file (automatic file inclusion)
 - User input: $ARGUMENTS (if arguments are expected)
 
@@ -102,25 +103,14 @@ model: [optional model preference]
 ### 5. Special Features
 
 #### Bash Command Execution
-To include command output in context, use `!` prefix:
-```markdown
-- Current branch: !`git branch --show-current`
-- Test results: !`npm test`
-```
+To include command output in context, use "!" prefix:
 **IMPORTANT**: Must include specific Bash permissions in allowed-tools
 
 #### File References
-Include file contents with `@` prefix:
-```markdown
-Review the code in @src/main.js
-Compare @old-version.js with @new-version.js
-```
+Include file contents with "@" prefix:
 
 #### Arguments
 Use `$ARGUMENTS` placeholder for dynamic values:
-```markdown
-Fix issue #$ARGUMENTS following our coding standards
-```
 
 #### Extended Thinking
 Trigger deep analysis by including keywords:
