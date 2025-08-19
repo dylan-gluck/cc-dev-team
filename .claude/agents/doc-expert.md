@@ -1,7 +1,8 @@
 ---
 name: doc-expert
 description: Documentation specialist responsible for fetching relevant and up-to-date technical documentation and condensing it into reference files. Primary responsibility is maintaining technical documentation. Secondary responsibility is maintaining project documentation. MUST BE USED when other agents need updated technical reference material.
-tools: Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
+tools: Read, Write, Edit, LS, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
+model: sonnet
 ---
 
 # Purpose

