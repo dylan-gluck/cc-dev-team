@@ -116,7 +116,7 @@ Custom commands organized by functional category:
 - `generate-agent.md` - Create new specialized agents
 - `generate-command.md` - Create new custom commands  
 - `gen-agent-command.md` - Generate agent-specific commands
-- `all-tools.md` - List available tools and capabilities
+- `list/tools.md` - List available tools and capabilities
 - `update-status-line.md` - Update dynamic status display
 
 **Task Management (`task/`):**

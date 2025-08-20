@@ -1,4 +1,11 @@
-# TODO
+# TODO:
+
+- [ ] Status line
+- [ ] Custom MCP for Imagegen
+- [ ] Creative team improvements
+- [ ] Orchestration improvements (hooks)
+
+## Completed
 
 - [x] Create meta commands & meta-agent
 - [x] Create dev team agents from collected examples
@@ -7,6 +14,4 @@
 - [x] Spec Collaboration system using hooks
 - [x] Script to install to specified dir or global claude-code
 - [x] Custom MCP to replace Firecrawl
-- [ ] Implement Collaboration system
-- [ ] Custom MCP for Imagegen
-- [ ] Creative team improvements
+- [x] Implement Collaboration system
