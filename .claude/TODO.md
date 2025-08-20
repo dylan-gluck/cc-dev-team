@@ -1,9 +1,23 @@
 # TODO:
 
-- [ ] Status line
-- [ ] Custom MCP for Imagegen
 - [ ] Creative team improvements
-- [ ] Orchestration improvements (hooks)
+  - [ ] MCP for Imagegen
+  - [ ] MCP for Wireframes + Syntax to compose
+  - [ ] Update: Agent Prompts, Commands
+
+- [ ] Orchestration improvements
+  - [ ] Config vs Templates vs Workflows
+  - [ ] Team Heirarchy, Delegation rules
+  - [ ] Standard team roles (ScrumMaster, Director)
+  - [ ] Multi-team orchestration
+  - [ ] Dynamic Status line
+  - [ ] Hooks Integration
+  - [ ] Infinitite Execution
+
+- [ ] Create Workflows
+  - [ ] Team vs Org workflows
+  - [ ] Intake: Idea > Team Directors > Research > Team Leads - Initial Specs > Directors - (Ready for Planning or Assign Refinements)
+  - [ ] PlanEpic: ...
 
 ## Completed
 
