@@ -61,7 +61,7 @@ After both sub-agents complete:
 
 ## Example Processing
 
-**Input:** `research-docs "/agent:doc-fetch <package> [url]" "Fetch and condense technical documentation"`
+**Input:** `research-docs "/research:fetch <package> [url]" "Fetch and condense technical documentation"`
 
 **Should Create:**
 1. **Agent**: `.claude/agents/research-docs.md` 
@@ -69,8 +69,8 @@ After both sub-agents complete:
    - Has WebSearch, WebFetch, Read, Write tools
    - Triggered by "documentation", "fetch docs", "technical specs"
 
-2. **Command**: `.claude/commands/agent/doc-fetch.md`
-   - Syntax: `/agent:doc-fetch <package> [url]`
+2. **Command**: `.claude/commands/research/fetch.md`
+   - Syntax: `/research:fetch <package> [url]`
    - Delegates to research-docs agent via Task tool
    - Passes package and optional URL parameters
 

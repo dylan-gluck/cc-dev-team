@@ -14,14 +14,14 @@ $ARGUMENTS
 
 You are tasked with creating a new slash command based on the user's specifications. Parse the input to extract:
 
-1. **Command syntax** (e.g., "/agent:doc-fetch <package-name>")
+1. **Command syntax** (e.g., "/research:fetch <package-name>")
 2. **Command description** and purpose
 3. **Any specified parameters or arguments**
 
 ### Critical Requirements:
 
 #### Filepath Determination:
-- Extract the command path from the syntax (e.g., "/agent:doc-fetch" → ".claude/commands/agent/doc-fetch.md")
+- Extract the command path from the syntax (e.g., "/research:fetch" → ".claude/commands/research/fetch.md")
 - For commands with colons, split into directory and filename:
   - `/category:action` → `.claude/commands/category/action.md`
   - `/simple-command` → `.claude/commands/simple-command.md`
@@ -41,7 +41,7 @@ You are tasked with creating a new slash command based on the user's specificati
 
 ### Example Input Format:
 ```
-"/agent:doc-fetch <package-name> [url | feature to scrape | --depth=0-3]" "Use the doc-expert agent to Fetch technical documentation for a package or library. Optionally specify a URL to scrape and depth of crawl. Agent writes condensed document(s) in ai_docs/<package-name>/ with key information extracted."
+"/research:fetch <package-name> [url | feature to scrape | --depth=0-3]" "Use the doc-expert agent to Fetch technical documentation for a package or library. Optionally specify a URL to scrape and depth of crawl. Agent writes condensed document(s) in ai_docs/<package-name>/ with key information extracted."
 ```
 
 ### Expected Output:

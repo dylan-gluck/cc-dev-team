@@ -122,9 +122,9 @@ Custom commands organized by functional category:
 **Task Management (`task/`):**
 - `ai-research.md` - Trigger AI research and analysis tasks
 
-**Agent Operations (`agent/`):**
-- `quick-research.md` - Quick research tasks via agents
-- `doc-fetch.md` - Document fetching and analysis
+**Research Operations (`research/`):**
+- `quick.md` - Quick research tasks via agents
+- `fetch.md` - Document fetching and analysis
 
 **Specification (`spec/`):**
 - `create.md` - Create technical specifications

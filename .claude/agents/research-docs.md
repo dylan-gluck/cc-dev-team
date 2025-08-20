@@ -1,5 +1,5 @@
 ---
-name: engineering-docs
+name: research-docs
 description: "Documentation specialist responsible for fetching relevant and up-to-date technical documentation and condensing it into reference files. Primary responsibility is maintaining technical documentation. Secondary responsibility is maintaining project documentation. MUST BE USED when other agents need updated technical reference material."
 tools: Read, Write, Edit, LS, TodoWrite, WebSearch, WebFetch, mcp__freecrawl__*
 model: sonnet
@@ -161,16 +161,16 @@ version: <framework/library_version>
 ## Error Handling
 
 When encountering issues:
-1. **Freecrawl Failures**: 
+1. **Freecrawl Failures**:
    - If `mcp__freecrawl__scrape` fails, try with different options (disable JS, increase timeout)
    - Fall back to `WebFetch` as last resort
    - For crawl failures, reduce depth or use more specific patterns
 2. **Source Unavailable**: Try alternative official mirrors or cached versions
-3. **Rate Limiting**: 
+3. **Rate Limiting**:
    - Use `mcp__freecrawl__search` to find alternative sources
    - Implement delays between requests if needed
    - Note limitation in output
-4. **Parsing Errors**: 
+4. **Parsing Errors**:
    - Try different format options in freecrawl (markdown vs html vs text)
    - Fall back to simpler extraction methods
    - Preserve raw content if structured extraction fails

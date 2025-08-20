@@ -11,14 +11,14 @@ Research the following topic using parallel agents: $ARGUMENTS
 
 Launch both research agents simultaneously:
 
-**BUSINESS-ANALYST Agent:**
+**Product-Analyst Agent:**
 - Market analysis and trends
 - Business implications
 - Competitor landscape
 - User needs and pain points
 - ROI and value proposition
 
-**AI-RESEARCH Agent:**
+**Research-General Agent:**
 - Latest technical developments
 - Framework and tool options
 - Implementation approaches
