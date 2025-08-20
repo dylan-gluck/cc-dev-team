@@ -1,5 +1,15 @@
 {
   "mcpServers": {
+    "freecrawl": {
+      "command": "uvx",
+      "args": ["freecrawl-mcp"],
+      "env": {
+        "FREECRAWL_LOG_LEVEL": "INFO",
+        "FREECRAWL_CACHE_TTL": "3600",
+        "FREECRAWL_MAX_CONCURRENT": "10",
+        "FREECRAWL_RATE_LIMIT": "10"
+      }
+    },
     "playwright": {
       "command": "npx",
       "args": [
@@ -12,27 +22,6 @@
         "docker-mcp"
       ]
     },
-    "freecrawl": {
-      "command": "uvx",
-      "args": ["freecrawl-mcp"],
-      "env": {
-        "FREECRAWL_LOG_LEVEL": "INFO",
-        "FREECRAWL_CACHE_TTL": "3600",
-        "FREECRAWL_MAX_CONCURRENT": "10",
-        "FREECRAWL_RATE_LIMIT": "10"
-      }
-    },
-    "firecrawl": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "firecrawl-mcp"
-      ],
-      "env": {
-        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
-      }
-    },
     "ElevenLabs": {
       "command": "uvx",
       "args": [
@@ -40,6 +29,15 @@
       ],
       "env": {
         "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}"
+      }
+    },
+    "stock-images-mcp": {
+      "command": "uvx",
+      "args": ["git+https://github.com/Zulelee/stock-images-mcp"],
+      "env": {
+        "UNSPLASH_API_KEY": "${UNSPLASH_API_KEY}",
+        "PEXELS_API_KEY": "${PEXELS_API_KEY}",
+        "PIXABAY_API_KEY": "${PIXABAY_API_KEY}"
       }
     }
   }
