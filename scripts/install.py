@@ -9,7 +9,8 @@
 Claude Code Development Team Scaffolding Installer
 
 This script copies the entire development team scaffolding directory structure
-to a specified target path for setting up Claude Code configuration in new projects.
+to a specified target path for setting up Claude Code configuration in new projects,
+or installs it globally to the user's ~/.claude/ directory.
 
 Features:
 - Copy entire directory structure with preserved permissions
@@ -17,12 +18,20 @@ Features:
 - Colored terminal output with progress indicators
 - Dry-run mode for previewing changes
 - Force mode for overwriting existing files
+- Global installation with backup and merge capabilities
 - Comprehensive error handling and validation
 
 Usage:
+    # Local project installation
     uv run scripts/install.py /path/to/project
     uv run scripts/install.py --dry-run /path/to/project
     uv run scripts/install.py --force /path/to/project
+    
+    # Global installation
+    uv run scripts/install.py --global
+    uv run scripts/install.py --global --dry-run
+    uv run scripts/install.py --global --force
+    
     uv run scripts/install.py --help
 """
 
@@ -30,6 +39,7 @@ import argparse
 import os
 import shutil
 import sys
+import time
 from pathlib import Path
 from typing import List, Set, Tuple
 
@@ -159,13 +169,63 @@ def copy_files(
     return copied_files, created_dirs
 
 
+def create_backup(target_dir: Path, dry_run: bool = False) -> Path:
+    """Create a backup of the existing target directory."""
+    if not target_dir.exists():
+        return None
+    
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    backup_dir = target_dir.parent / f"{target_dir.name}_backup_{timestamp}"
+    
+    if not dry_run:
+        shutil.copytree(target_dir, backup_dir)
+        console.print(f"[green]✓ Created backup: {backup_dir}[/green]")
+    else:
+        console.print(f"[yellow]Would create backup: {backup_dir}[/yellow]")
+    
+    return backup_dir
+
+
+def merge_directories(source_dir: Path, target_dir: Path, dry_run: bool = False) -> bool:
+    """Merge source directory into target directory, preserving existing files where possible."""
+    if not target_dir.exists():
+        return False
+    
+    conflicts = []
+    source_claude_dir = source_dir / ".claude"
+    target_claude_dir = target_dir
+    
+    # Check for conflicts in key directories
+    for subdir in ["agents", "commands", "hooks"]:
+        source_subdir = source_claude_dir / subdir
+        target_subdir = target_claude_dir / subdir
+        
+        if source_subdir.exists() and target_subdir.exists():
+            for item in source_subdir.iterdir():
+                target_item = target_subdir / item.name
+                if target_item.exists():
+                    conflicts.append(target_item)
+    
+    if conflicts:
+        console.print(f"[yellow]⚠ Found {len(conflicts)} files that would be merged/overwritten:[/yellow]")
+        for conflict in conflicts[:5]:  # Show first 5 conflicts
+            console.print(f"  [yellow]•[/yellow] {conflict}")
+        if len(conflicts) > 5:
+            console.print(f"  [yellow]... and {len(conflicts) - 5} more[/yellow]")
+        console.print("[blue]These files will be overwritten with new versions[/blue]")
+    
+    return True
+
+
 def display_summary(
     source_dir: Path,
     target_dir: Path,
     files_to_copy: List[Tuple[Path, Path]],
     copied_files: int,
     created_dirs: int,
-    dry_run: bool
+    dry_run: bool,
+    backup_created: Path = None,
+    is_global: bool = False
 ):
     """Display operation summary."""
     table = Table(title="Installation Summary")
@@ -176,6 +236,12 @@ def display_summary(
     table.add_row("Target Directory", str(target_dir))
     table.add_row("Files to Copy", str(len(files_to_copy)))
     table.add_row("Directories Created", str(created_dirs))
+    
+    if is_global:
+        table.add_row("Installation Type", "[blue]Global (~/.claude/)[/blue]")
+    
+    if backup_created:
+        table.add_row("Backup Created", str(backup_created))
 
     if dry_run:
         table.add_row("Mode", "[yellow]DRY RUN - No changes made[/yellow]")
@@ -196,6 +262,9 @@ Examples:
   uv run scripts/install.py /path/to/project
   uv run scripts/install.py --dry-run /path/to/project
   uv run scripts/install.py --force /path/to/project
+  uv run scripts/install.py --global
+  uv run scripts/install.py --global --dry-run
+  uv run scripts/install.py --global --force
   uv run scripts/install.py --help
         """
     )
@@ -203,7 +272,7 @@ Examples:
     parser.add_argument(
         "target_path",
         nargs="?",
-        help="Target directory path for installation"
+        help="Target directory path for installation (ignored when --global is used)"
     )
     parser.add_argument(
         "--dry-run",
@@ -213,14 +282,20 @@ Examples:
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Overwrite existing files (default is to error on conflicts)"
+        help="Overwrite existing files (default is to error on conflicts). With --global, replaces entire ~/.claude/ directory"
+    )
+    parser.add_argument(
+        "--global",
+        action="store_true",
+        dest="global_install",
+        help="Install scaffolding into global Claude directory (~/.claude/). Creates backup of existing directory and merges configurations unless --force is used"
     )
 
     # Parse arguments
     args = parser.parse_args()
 
-    # Show help if no target path provided
-    if not args.target_path:
+    # Show help if no target path provided and not global install
+    if not args.target_path and not args.global_install:
         parser.print_help()
         return 0
 
@@ -239,14 +314,33 @@ Examples:
             return 1
 
         # Process target path
-        target_dir = Path(args.target_path).resolve()
+        if args.global_install:
+            target_dir = Path.home() / ".claude"
+        else:
+            target_dir = Path(args.target_path).resolve()
 
+        install_type = "Global (~/.claude/)" if args.global_install else "Local"
         console.print(Panel.fit(
             f"[bold]Claude Code Development Team Scaffolding Installer[/bold]\n\n"
             f"Source: [cyan]{source_dir}[/cyan]\n"
             f"Target: [cyan]{target_dir}[/cyan]\n"
+            f"Type: [blue]{install_type}[/blue]\n"
             f"Mode: [yellow]{'DRY RUN' if args.dry_run else 'INSTALL'}[/yellow]"
         ))
+
+        # Handle global installation backup and merge logic
+        backup_created = None
+        if args.global_install and target_dir.exists():
+            if args.force:
+                # With --force, replace entire directory after backup
+                backup_created = create_backup(target_dir, args.dry_run)
+                if not args.dry_run:
+                    shutil.rmtree(target_dir)
+                    console.print(f"[yellow]Removed existing {target_dir} (--force enabled)[/yellow]")
+            else:
+                # Without --force, create backup and merge
+                backup_created = create_backup(target_dir, args.dry_run)
+                merge_directories(source_dir, target_dir, args.dry_run)
 
         # Create target directory if it doesn't exist
         if not target_dir.exists():
@@ -262,16 +356,18 @@ Examples:
             console.print("[yellow]⚠ No files found to copy[/yellow]")
             return 0
 
-        # Check for conflicts
-        conflicts = check_conflicts(target_dir, files_to_copy)
-        if conflicts and not args.force:
-            console.print(f"[red]✗ Found {len(conflicts)} existing files that would be overwritten:[/red]")
-            for conflict in conflicts[:10]:  # Show first 10 conflicts
-                console.print(f"  [red]•[/red] {conflict}")
-            if len(conflicts) > 10:
-                console.print(f"  [red]... and {len(conflicts) - 10} more[/red]")
-            console.print("\n[yellow]Use --force to overwrite existing files[/yellow]")
-            return 1
+        # Check for conflicts (skip conflict check for global install without force)
+        conflicts = []
+        if not args.global_install or args.force:
+            conflicts = check_conflicts(target_dir, files_to_copy)
+            if conflicts and not args.force:
+                console.print(f"[red]✗ Found {len(conflicts)} existing files that would be overwritten:[/red]")
+                for conflict in conflicts[:10]:  # Show first 10 conflicts
+                    console.print(f"  [red]•[/red] {conflict}")
+                if len(conflicts) > 10:
+                    console.print(f"  [red]... and {len(conflicts) - 10} more[/red]")
+                console.print("\n[yellow]Use --force to overwrite existing files[/yellow]")
+                return 1
 
         if conflicts and args.force:
             console.print(f"[yellow]⚠ Will overwrite {len(conflicts)} existing files (--force enabled)[/yellow]")
@@ -280,15 +376,22 @@ Examples:
         copied_files, created_dirs = copy_files(source_dir, target_dir, files_to_copy, args.dry_run)
 
         # Display summary
-        display_summary(source_dir, target_dir, files_to_copy, copied_files, created_dirs, args.dry_run)
+        display_summary(source_dir, target_dir, files_to_copy, copied_files, created_dirs, args.dry_run, backup_created, args.global_install)
 
         if not args.dry_run:
             console.print(f"\n[green]✓ Successfully installed Claude Code scaffolding to {target_dir}[/green]")
             console.print("\n[blue]Next steps:[/blue]")
-            console.print("1. Navigate to your project directory")
-            console.print("2. Review and customize .claude/agents/ configurations")
-            console.print("3. Update .env.sample with your project-specific variables")
-            console.print("4. Start using Claude Code with your development team!")
+            if args.global_install:
+                console.print("1. Your global Claude Code configuration is now updated")
+                console.print("2. Review and customize ~/.claude/agents/ configurations if needed")
+                console.print("3. The configuration will apply to all Claude Code sessions")
+                if backup_created:
+                    console.print(f"4. Your previous configuration is backed up at: {backup_created}")
+            else:
+                console.print("1. Navigate to your project directory")
+                console.print("2. Review and customize .claude/agents/ configurations")
+                console.print("3. Update .env.sample with your project-specific variables")
+                console.print("4. Start using Claude Code with your development team!")
 
         return 0
 
