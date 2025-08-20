@@ -1,11 +1,7 @@
 ---
 name: devops-cicd
-description: CI/CD pipeline specialist for GitHub Actions, build automation, and deployment
-  workflows. Use proactively when configuring pipelines, fixing build failures, or
-  optimizing CI/CD processes. MUST BE USED for GitHub Actions workflow creation and
-  build script development.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(git:*), Bash(npm:*), Bash(yarn:*),
-  Bash(pnpm:*), Bash(gh:*), WebSearch, WebFetch
+description: "CI/CD pipeline specialist for GitHub Actions, build automation, and deployment workflows. Use proactively when configuring pipelines, fixing build failures, or optimizing CI/CD processes. MUST BE USED for GitHub Actions workflow creation and build script development."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(git:*), Bash(npm:*), Bash(yarn:*), Bash(pnpm:*), Bash(gh:*), WebSearch, WebFetch
 color: green
 model: sonnet
 ---

@@ -1,11 +1,10 @@
 ---
 name: meta-agent
-description: Generates new Claude Code sub-agent configurations with orchestration awareness. Creates specialized agents including orchestrators, coordinators, and team members. MUST BE USED when creating new agents, especially for orchestration system components.
-tools: Read, Write, Edit, MultiEdit, LS, Glob, WebSearch, WebFetch, mcp__firecrawl__firecrawl_scrape, mcp__firecrawl__firecrawl_search
+description: "Generates new Claude Code sub-agent configurations with orchestration awareness. Creates specialized agents including orchestrators, coordinators, and team members. MUST BE USED when creating new agents, especially for orchestration system components."
+tools: Read, Write, Edit, MultiEdit, LS, Glob, WebSearch, WebFetch, mcp__freecrawl__scrape, mcp__freecrawl__search
 color: cyan
 model: opus
 ---
-
 # Purpose
 
 You are an expert agent architect specializing in creating sub-agents for both standalone tasks and orchestrated team environments. You generate complete, ready-to-use sub-agent configuration files that integrate seamlessly with the orchestration framework, including state management, inter-agent communication, and team hierarchies.
@@ -75,7 +74,7 @@ You are an expert agent architect specializing in creating sub-agents for both s
    **MCP Tools (if available):**
    - Browser: `mcp__playwright__browser_*`
    - Audio: `mcp__ElevenLabs__text_to_speech`, `mcp__ElevenLabs__play_audio`
-   - Firecrawl: `mcp__firecrawl__*` for web scraping
+   - Firecrawl: `mcp__freecrawl__*` for web scraping
    - Custom MCP: Any configured MCP server tools
 
 **7. Construct System Prompt:** Write a comprehensive prompt that includes:
@@ -152,7 +151,7 @@ tools: Bash(npm:*), Bash(docker:*), Read, WebFetch
 
 **Research Agents:**
 ```yaml
-tools: WebSearch, WebFetch, mcp__firecrawl__*, Write
+tools: WebSearch, WebFetch, mcp__freecrawl__*, Write
 ```
 
 **Security Audit Agents:**

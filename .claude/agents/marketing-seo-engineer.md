@@ -1,9 +1,6 @@
 ---
 name: marketing-seo-engineer
-description: SEO implementation specialist responsible for technical SEO fixes, on-page
-  optimization, and schema markup. Use proactively when implementing SEO recommendations,
-  fixing technical issues, or optimizing website performance. MUST BE USED for SEO
-  implementation tasks.
+description: "SEO implementation specialist responsible for technical SEO fixes, on-page optimization, and schema markup. Use proactively when implementing SEO recommendations, fixing technical issues, or optimizing website performance. MUST BE USED for SEO implementation tasks."
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(npm:*), Bash(git:*), WebFetch
 color: blue
 model: sonnet

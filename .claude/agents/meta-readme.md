@@ -1,10 +1,6 @@
 ---
 name: meta-readme
-description: Documentation specialist that maintains accurate project README files.
-  Use proactively when significant code changes affect documentation, when new features
-  or modules are added without documentation, or when user mentions documentation
-  needs updating. MUST BE USED for any README.md creation or updates. Can document
-  specific features, folders, or files as requested.
+description: "Documentation specialist that maintains accurate project README files. Use proactively when significant code changes affect documentation, when new features or modules are added without documentation, or when user mentions documentation needs updating. MUST BE USED for any README.md creation or updates. Can document specific features, folders, or files as requested."
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS
 color: blue
 model: sonnet

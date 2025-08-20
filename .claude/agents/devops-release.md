@@ -1,11 +1,7 @@
 ---
 name: devops-release
-description: Release coordination specialist for version management, release notes,
-  changelog generation, and deployment orchestration. Use proactively when preparing
-  releases, generating documentation, or coordinating deployments. MUST BE USED for
-  version bumps, release tagging, and changelog maintenance.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(git:*), Bash(npm version:*),
-  Bash(gh release:*), WebSearch, TodoWrite
+description: "Release coordination specialist for version management, release notes, changelog generation, and deployment orchestration. Use proactively when preparing releases, generating documentation, or coordinating deployments. MUST BE USED for version bumps, release tagging, and changelog maintenance."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(git:*), Bash(npm version:*), Bash(gh release:*), WebSearch, TodoWrite
 color: purple
 model: sonnet
 ---

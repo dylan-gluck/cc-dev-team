@@ -1,11 +1,7 @@
 ---
 name: qa-scripts
-description: QA Engineer specializing in test script creation and test data management.
-  Use proactively when new test scenarios need automation, test fixtures need creation,
-  or test data generation is required. MUST BE USED for writing automated tests, maintaining
-  test suites, and creating test data.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(npm test:*), Bash(npm run:*),
-  Bash(jest:*), Bash(mocha:*), TodoWrite, mcp__state__*, mcp__message_bus__*
+description: "QA Engineer specializing in test script creation and test data management. Use proactively when new test scenarios need automation, test fixtures need creation, or test data generation is required. MUST BE USED for writing automated tests, maintaining test suites, and creating test data."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(npm test:*), Bash(npm run:*), Bash(jest:*), Bash(mocha:*), TodoWrite, mcp__state__*, mcp__message_bus__*
 color: yellow
 model: sonnet
 ---
@@ -99,7 +95,7 @@ describe('UserService', () => {
     it('should return true for valid email', () => {
       expect(UserService.validateEmail('test@example.com')).toBe(true);
     });
-    
+
     it('should return false for invalid email', () => {
       expect(UserService.validateEmail('invalid')).toBe(false);
     });
@@ -165,29 +161,29 @@ import { setupMocks } from '../mocks';
 describe('Feature Name', () => {
   // Setup
   let testData;
-  
+
   beforeEach(() => {
     testData = generateTestData();
     setupMocks();
   });
-  
+
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
+
   // Test Cases
   describe('Scenario 1', () => {
     it('should handle happy path', async () => {
       // Arrange
       const input = testData.validInput;
-      
+
       // Act
       const result = await performAction(input);
-      
+
       // Assert
       expect(result).toMatchExpectedOutput();
     });
-    
+
     it('should handle error case', async () => {
       // Test implementation
     });

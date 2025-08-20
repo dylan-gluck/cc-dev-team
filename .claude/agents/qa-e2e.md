@@ -1,12 +1,7 @@
 ---
 name: qa-e2e
-description: QA Engineer specializing in end-to-end testing. Use proactively when
-  complete user workflows need testing, integration points need validation, or cross-browser/cross-device
-  testing is required. MUST BE USED for e2e test execution, user journey validation,
-  and integration testing.
-tools: Read, Edit, MultiEdit, Bash(npm test:*), Bash(npm run:*), Bash(pytest:*), Bash(npx
-  playwright:*), Bash(npx cypress:*), Grep, Glob, WebFetch, mcp__firecrawl__firecrawl_scrape,
-  mcp__state__*, mcp__message_bus__*
+description: "QA Engineer specializing in end-to-end testing. Use proactively when complete user workflows need testing, integration points need validation, or cross-browser/cross-device testing is required. MUST BE USED for e2e test execution, user journey validation, and integration testing."
+tools: Read, Edit, MultiEdit, Bash(npm test:*), Bash(npm run:*), Bash(pytest:*), Bash(npx playwright:*), Bash(npx cypress:*), Grep, Glob, WebFetch, mcp__freecrawl__scrape, mcp__state__*, mcp__message_bus__*
 color: purple
 model: sonnet
 ---

@@ -1,11 +1,7 @@
 ---
 name: data-analytics
-description: Team analytics and reporting specialist responsible for monitoring performance
-  metrics, generating reports, and providing data-driven insights. Use proactively
-  when needing performance analysis, KPI tracking, or data visualization. MUST BE
-  USED for sprint analytics, team metrics, and generating executive reports.
-tools: Read, Glob, Grep, WebSearch, Write, Bash(jq:*), Bash(git log:*), Bash(git diff:*),
-  TodoWrite
+description: "Team analytics and reporting specialist responsible for monitoring performance metrics, generating reports, and providing data-driven insights. Use proactively when needing performance analysis, KPI tracking, or data visualization. MUST BE USED for sprint analytics, team metrics, and generating executive reports."
+tools: Read, Glob, Grep, WebSearch, Write, Bash(jq:*), Bash(git log:*), Bash(git diff:*), TodoWrite
 color: purple
 model: sonnet
 ---

@@ -1,9 +1,6 @@
 ---
 name: meta-config
-description: Configuration and orchestration specialist for Claude Code. Expert in
-  hooks, slash commands, team configurations, and the orchestration framework. MUST
-  BE USED when configuring Claude Code settings, setting up orchestration teams, managing
-  hooks, or implementing slash commands.
+description: "Configuration and orchestration specialist for Claude Code. Expert in hooks, slash commands, team configurations, and the orchestration framework. MUST BE USED when configuring Claude Code settings, setting up orchestration teams, managing hooks, or implementing slash commands."
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, TodoWrite, WebSearch, WebFetch
 model: opus
 color: purple
@@ -71,11 +68,11 @@ def analyze_configuration():
     user_settings = "~/.claude/settings.json"
     project_settings = ".claude/settings.json"
     local_settings = ".claude/settings.local.json"
-    
+
     # Identify configuration needs
     hooks_needed = analyze_hook_requirements()
     teams_needed = analyze_team_structure()
-    
+
     # Validate JSON structures
     validate_all_configs()
 ```
@@ -91,11 +88,11 @@ def create_hook(event_type, matcher, purpose):
             "command": design_command(purpose)
         }]
     }
-    
+
     # Add security validation
     if needs_validation(purpose):
         add_validation_layer(hook)
-    
+
     # Implement in appropriate settings file
     update_settings_file(event_type, hook)
 ```
@@ -105,15 +102,15 @@ def create_hook(event_type, matcher, purpose):
 def setup_orchestration():
     # Create configuration structure
     create_directory(".claude/orchestration")
-    
+
     # Generate team configurations
     teams_config = generate_teams_json()
     workflows_config = generate_workflows_json()
     settings_config = generate_settings_json()
-    
+
     # Implement slash commands
     create_orchestrate_command()
-    
+
     # Set up state management
     implement_state_manager()
 ```

@@ -1,11 +1,7 @@
 ---
 name: engineering-cleanup
-description: Code cleanup and organization specialist for removing duplicate code,
-  organizing files, optimizing project structure, and cleaning up development artifacts.
-  Use proactively when refactoring, organizing codebases, or removing technical debt.
-  MUST BE USED for file organization, dead code removal, and test deduplication.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash(find:*), Bash(rm:*), Bash(mv:*),
-  Bash(git clean:*), TodoWrite
+description: "Code cleanup and organization specialist for removing duplicate code, organizing files, optimizing project structure, and cleaning up development artifacts. Use proactively when refactoring, organizing codebases, or removing technical debt. MUST BE USED for file organization, dead code removal, and test deduplication."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash(find:*), Bash(rm:*), Bash(mv:*), Bash(git clean:*), TodoWrite
 color: orange
 model: haiku
 ---

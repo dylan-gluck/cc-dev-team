@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
+allowed-tools: Task, Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__freecrawl__*
 argument-hint: <package-name> [url | feature to scrape | --depth=0-3]
 description: Fetch and condense technical documentation for a package or library
 ---

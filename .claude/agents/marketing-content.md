@@ -1,10 +1,7 @@
 ---
 name: marketing-content
-description: Content strategy specialist responsible for content research, inventory
-  management, and content planning. Use proactively when developing content strategies,
-  auditing existing content, or planning content calendars. MUST BE USED for content
-  gap analysis and competitive content research.
-tools: Read, Write, Glob, WebSearch, WebFetch, mcp__firecrawl__firecrawl_search, mcp__firecrawl__firecrawl_scrape
+description: "Content strategy specialist responsible for content research, inventory management, and content planning. Use proactively when developing content strategies, auditing existing content, or planning content calendars. MUST BE USED for content gap analysis and competitive content research."
+tools: Read, Write, Glob, WebSearch, WebFetch, mcp__freecrawl__search, mcp__freecrawl__scrape
 color: purple
 model: sonnet
 ---

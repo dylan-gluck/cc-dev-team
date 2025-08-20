@@ -70,7 +70,7 @@ Create a new sub-agent with the following details:
 - File operations: Read, Write, Edit, MultiEdit
 - Search: Grep, Glob, LS
 - Execution: Bash with specific command permissions
-- Web: WebSearch, WebFetch, mcp__firecrawl__*
+- Web: WebSearch, WebFetch, mcp__freecrawl__*
 - Task management: TodoWrite, Task
 - Browser automation: mcp__playwright__*
 - Audio: mcp__ElevenLabs__*

@@ -1,10 +1,7 @@
 ---
 name: research-ai
-description: AI research specialist that proactively gathers latest news and developments
-  in LLMs, AI agents, and engineering. Use for staying current with AI/ML innovations,
-  finding actionable insights, and discovering new tools and techniques.
-tools: Bash, Read, Write, Edit, WebSearch, WebFetch, mcp__firecrawl__firecrawl_search,
-  mcp__firecrawl__firecrawl_scrape
+description: "AI research specialist that proactively gathers latest news and developments in LLMs, AI agents, and engineering. Use for staying current with AI/ML innovations, finding actionable insights, and discovering new tools and techniques."
+tools: Bash, Read, Write, Edit, WebSearch, WebFetch, mcp__freecrawl__*
 ---
 # Purpose
 

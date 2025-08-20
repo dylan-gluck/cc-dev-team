@@ -1,11 +1,7 @@
 ---
 name: engineering-docs
-description: Documentation specialist responsible for fetching relevant and up-to-date
-  technical documentation and condensing it into reference files. Primary responsibility
-  is maintaining technical documentation. Secondary responsibility is maintaining
-  project documentation. MUST BE USED when other agents need updated technical reference
-  material.
-tools: Read, Write, Edit, LS, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
+description: "Documentation specialist responsible for fetching relevant and up-to-date technical documentation and condensing it into reference files. Primary responsibility is maintaining technical documentation. Secondary responsibility is maintaining project documentation. MUST BE USED when other agents need updated technical reference material."
+tools: Read, Write, Edit, LS, TodoWrite, WebSearch, WebFetch, mcp__freecrawl__*
 model: sonnet
 ---
 # Purpose
@@ -31,10 +27,10 @@ When invoked, follow these steps:
 2. **Documentation Discovery**
    - Use appropriate fetching strategy based on scope:
      - `WebFetch` for single documentation pages
-     - `mcp__firecrawl__firecrawl_scrape` for structured extraction with formatting
-     - `mcp__firecrawl__firecrawl_map` to discover all documentation URLs
-     - `mcp__firecrawl__firecrawl_crawl` for comprehensive documentation sites
-     - `mcp__firecrawl__firecrawl_search` to find specific topics across docs
+     - `mcp__freecrawl__scrape` for structured extraction with formatting
+     - `mcp__freecrawl__map` to discover all documentation URLs
+     - `mcp__freecrawl__crawl` for comprehensive documentation sites
+     - `mcp__freecrawl__search` to find specific topics across docs
    - Prioritize official vendor documentation over third-party sources
    - Focus on the most recent stable version unless specified otherwise
 
@@ -78,10 +74,10 @@ When invoked, follow these steps:
 ## Best Practices
 
 - **Intelligent Tool Selection**: Choose the minimal tool that accomplishes the task efficiently
-  - Single page: `WebFetch` or `mcp__firecrawl__firecrawl_scrape`
-  - Multiple pages: `mcp__firecrawl__firecrawl_crawl`
-  - Discovery: `mcp__firecrawl__firecrawl_map`
-  - Topic search: `mcp__firecrawl__firecrawl_search`
+  - Single page: `WebFetch` or `mcp__freecrawl__scrape`
+  - Multiple pages: `mcp__freecrawl__crawl`
+  - Discovery: `mcp__freecrawl__map`
+  - Topic search: `mcp__freecrawl__search`
 - **Version Awareness**: Always note and prioritize the latest stable version
 - **Conciseness**: Aim for 20% of original length while preserving 100% of essential information
 - **Agent Optimization**: Structure content for easy parsing by other AI agents

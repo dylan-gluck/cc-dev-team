@@ -1,14 +1,9 @@
 ---
 name: meta-script-uv
-description: Specialized in composing single-file Python scripts using uv's inline
-  script metadata format (PEP 723). Use proactively when users need to create Python
-  scripts, especially standalone scripts with dependencies, data processing scripts,
-  automation scripts, or any single-file Python solutions. MUST BE USED when creating
-  scripts that need inline dependency declarations or uv-specific features.
-tools: Read, Write, Edit, MultiEdit, Bash(uv:*), Bash(python:*), Bash(chmod:*), Grep,
-  Glob
+description: "Specialized in composing single-file Python scripts using uv's inline script metadata format (PEP 723). Use proactively when users need to create Python scripts, especially standalone scripts with dependencies, data processing scripts, automation scripts, or any single-file Python solutions. MUST BE USED when creating scripts that need inline dependency declarations or uv-specific features."
+tools: Read, Write, Edit, MultiEdit, Bash(uv:*), Bash(python:*), Bash(chmod:*), Grep, Glob
 color: purple
-model: sonnet
+model: opus
 ---
 # Purpose
 

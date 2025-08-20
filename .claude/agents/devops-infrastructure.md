@@ -1,11 +1,7 @@
 ---
 name: devops-infrastructure
-description: Infrastructure and containerization specialist for Docker, Kubernetes,
-  Terraform, and cloud resources. Use proactively when creating Dockerfiles, configuring
-  infrastructure as code, or managing cloud deployments. MUST BE USED for container
-  orchestration and infrastructure automation.
-tools: Read, Write, Edit, MultiEdit, Glob, Bash(docker:*), Bash(kubectl:*), Bash(terraform:*),
-  Bash(aws:*), Bash(gcloud:*), Bash(az:*), WebSearch, WebFetch, mcp__docker-mcp__*
+description: "Infrastructure and containerization specialist for Docker, Kubernetes, Terraform, and cloud resources. Use proactively when creating Dockerfiles, configuring infrastructure as code, or managing cloud deployments. MUST BE USED for container orchestration and infrastructure automation."
+tools: Read, Write, Edit, MultiEdit, Glob, Bash(docker:*), Bash(kubectl:*), Bash(terraform:*), Bash(aws:*), Bash(gcloud:*), Bash(az:*), WebSearch, WebFetch, mcp__docker-mcp__*
 color: blue
 model: sonnet
 ---
@@ -100,23 +96,23 @@ CMD ["node", "server.js"]
 ```hcl
 module "ecs_service" {
   source = "./modules/ecs-service"
-  
+
   name                = var.service_name
   cluster_id          = aws_ecs_cluster.main.id
   task_definition_arn = aws_ecs_task_definition.app.arn
   desired_count       = var.desired_count
-  
+
   network_configuration = {
     subnets         = var.private_subnet_ids
     security_groups = [aws_security_group.ecs_service.id]
   }
-  
+
   load_balancer = {
     target_group_arn = aws_lb_target_group.app.arn
     container_name   = "app"
     container_port   = 3000
   }
-  
+
   auto_scaling = {
     min_capacity = 2
     max_capacity = 10

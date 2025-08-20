@@ -1,13 +1,9 @@
 ---
 name: meta-command
-description: Specialized in creating custom Claude Code slash commands. Use proactively
-  when users need to create slash commands, automate frequently-used prompts, build
-  team-specific workflows, or organize command libraries. MUST BE USED when creating
-  any custom slash command for Claude Code or when converting common prompts into
-  reusable commands.
+description: "Specialized in creating custom Claude Code slash commands. Use proactively when users need to create slash commands, automate frequently-used prompts, build team-specific workflows, or organize command libraries. MUST BE USED when creating any custom slash command for Claude Code or when converting common prompts into reusable commands."
 tools: Read, Write, Edit, MultiEdit, Bash(mkdir:*), Bash(ls:*), Glob, Grep
 color: orange
-model: sonnet
+model: opus
 ---
 # Purpose
 
@@ -36,14 +32,14 @@ When invoked, follow these steps:
      - Write clear, actionable description for /help integration
      - Add argument-hint if parameters are needed
      - Choose appropriate model (haiku for speed, sonnet for balance, opus for complex)
-   
+
    - **Structure Command Logic**
      - Create clear command title and introduction
      - Include context gathering with bash commands (! prefix) if needed
      - Add file references (@ prefix) for template/config access
      - Implement $ARGUMENTS placeholder for dynamic input
      - Design step-by-step workflow instructions
-   
+
    - **Organize Command Placement**
      - Select appropriate subdirectory (dev/, git/, docs/, meta/, etc.)
      - Create directory if needed with `mkdir -p`
@@ -91,7 +87,7 @@ model: <[optional] specific model preference>
 
 ## Context
 <Any necessary context gathering>
-- Current status: !`<bash command>` 
+- Current status: !`<bash command>`
 - Configuration: @<file-path>
 - User input: $ARGUMENTS
 

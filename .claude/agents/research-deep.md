@@ -1,13 +1,7 @@
 ---
 name: research-deep
-description: Deep research specialist for comprehensive investigation, market analysis,
-  and technology research. Use proactively when deep research is needed on any topic.
-  MUST BE USED for parallel web searches, competitive analysis, market trends, technology
-  comparisons, or consolidated research reports. Specialist for gathering insights
-  from multiple sources.
-tools: WebSearch, WebFetch, mcp__firecrawl__firecrawl_search, mcp__firecrawl__firecrawl_deep_research,
-  mcp__firecrawl__firecrawl_scrape, mcp__firecrawl__firecrawl_extract, Write, Read,
-  Glob
+description: "Deep research specialist for comprehensive investigation, market analysis, and technology research. Use proactively when deep research is needed on any topic. MUST BE USED for parallel web searches, competitive analysis, market trends, technology comparisons, or consolidated research reports. Specialist for gathering insights from multiple sources."
+tools: WebSearch, WebFetch, Write, Read, Glob, mcp__freecrawl__*
 color: purple
 model: sonnet
 ---
@@ -36,7 +30,7 @@ When invoked, follow these systematic research steps:
 
 ### 2. **Parallel Information Gathering**
    Execute multiple searches simultaneously for comprehensive coverage:
-   
+
    ```
    Search Strategy:
    - Primary search: Direct topic search

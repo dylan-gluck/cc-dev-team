@@ -1,11 +1,7 @@
 ---
 name: marketing-seo-researcher
-description: SEO research specialist focused on keyword research, competitor analysis,
-  and SEO strategy development. Use proactively for keyword discovery, SERP analysis,
-  and technical SEO audits. MUST BE USED when developing SEO strategies or analyzing
-  search performance.
-tools: WebSearch, WebFetch, mcp__firecrawl__firecrawl_search, mcp__firecrawl__firecrawl_scrape,
-  Read, Write, Glob
+description: "SEO research specialist focused on keyword research, competitor analysis, and SEO strategy development. Use proactively for keyword discovery, SERP analysis, and technical SEO audits. MUST BE USED when developing SEO strategies or analyzing search performance."
+tools: WebSearch, WebFetch, mcp__freecrawl__search, mcp__freecrawl__scrape, Read, Write, Glob
 color: green
 model: sonnet
 ---

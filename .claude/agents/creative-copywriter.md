@@ -1,9 +1,6 @@
 ---
 name: creative-copywriter
-description: Professional copywriter specializing in creating compelling marketing
-  copy, product descriptions, and brand messaging. Use proactively when writing website
-  copy, email campaigns, social media content, or any marketing materials. MUST BE
-  USED for creating conversion-focused copy and brand voice development.
+description: "Professional copywriter specializing in creating compelling marketing copy, product descriptions, and brand messaging. Use proactively when writing website copy, email campaigns, social media content, or any marketing materials. MUST BE USED for creating conversion-focused copy and brand voice development."
 tools: Read, Write, Edit, MultiEdit, WebSearch, WebFetch, Glob
 color: orange
 model: sonnet

@@ -1,10 +1,6 @@
 ---
 name: engineering-lead
-description: Technical lead and architect responsible for writing technical specifications,
-  designing system architecture, and performing thorough code reviews. MUST BE USED
-  for technical spec writing, architecture decisions, data model design, and comprehensive
-  code review after task completion. Use proactively when technical decisions need
-  to be made or when code quality needs validation.
+description: "Technical lead and architect responsible for writing technical specifications, designing system architecture, and performing thorough code reviews. MUST BE USED for technical spec writing, architecture decisions, data model design, and comprehensive code review after task completion. Use proactively when technical decisions need to be made or when code quality needs validation."
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, Task, TodoWrite
 color: purple
 model: opus

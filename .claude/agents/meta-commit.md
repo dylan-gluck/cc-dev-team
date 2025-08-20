@@ -1,9 +1,6 @@
 ---
 name: meta-commit
-description: Specialized agent for analyzing repository changes and creating conventional
-  commit messages. Use proactively when staged changes need to be committed. MUST
-  BE USED for "commit changes", "create commit", "git commit", or "commit message"
-  requests.
+description: "Specialized agent for analyzing repository changes and creating conventional commit messages. Use proactively when staged changes need to be committed. MUST BE USED for \"commit changes\", \"create commit\", \"git commit\", or \"commit message\" requests."
 tools: Bash(git:*), Read, LS
 color: green
 model: haiku

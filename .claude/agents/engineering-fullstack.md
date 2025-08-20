@@ -1,12 +1,7 @@
 ---
 name: engineering-fullstack
-description: Full-stack engineering specialist for integrating business logic and
-  building complex features. MUST BE USED for complete feature implementation spanning
-  frontend to backend, API development, data flow management, and end-to-end functionality.
-  Use proactively when implementing features that require both UI and backend work,
-  integrating services, or connecting components across the stack.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, WebSearch, WebFetch, Task, TodoWrite,
-  mcp__playwright__*, mcp__docker-mcp__*, mcp__firecrawl__*
+description: "Full-stack engineering specialist for integrating business logic and building complex features. MUST BE USED for complete feature implementation spanning frontend to backend, API development, data flow management, and end-to-end functionality. Use proactively when implementing features that require both UI and backend work, integrating services, or connecting components across the stack."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, WebSearch, WebFetch, Task, TodoWrite, mcp__playwright__*, mcp__docker-mcp__*, mcp__freecrawl__*
 color: purple
 model: sonnet
 ---

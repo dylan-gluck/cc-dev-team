@@ -1,11 +1,7 @@
 ---
 name: product-analyst
-description: Business analysis specialist for requirements gathering, market research,
-  and implementation review. Use proactively when analyzing business logic, creating
-  specifications, or reviewing implementations against business requirements. MUST
-  BE USED for business process documentation and competitive analysis.
-tools: Read, Write, Glob, Grep, WebSearch, WebFetch, mcp__firecrawl__firecrawl_search,
-  mcp__firecrawl__firecrawl_deep_research, Task, TodoWrite
+description: "Business analysis specialist for requirements gathering, market research, and implementation review. Use proactively when analyzing business logic, creating specifications, or reviewing implementations against business requirements. MUST BE USED for business process documentation and competitive analysis."
+tools: Read, Write, Glob, Grep, WebSearch, WebFetch, mcp__freecrawl__search, mcp__freecrawl__deep_research, Task, TodoWrite
 color: blue
 model: sonnet
 ---
@@ -43,7 +39,7 @@ When invoked, follow these steps:
    - Establish traceability between requirements and business objectives
 
 3. **Market & Competitive Research**
-   - Use mcp__firecrawl__firecrawl_deep_research for comprehensive market analysis
+   - Use mcp__freecrawl__deep_research for comprehensive market analysis
    - Research industry best practices and standards
    - Analyze competitive solutions and features
    - Identify market opportunities and threats

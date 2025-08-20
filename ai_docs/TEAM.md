@@ -4,7 +4,7 @@ This document outlines the general plan and requirements for a claude-code confi
 ## MCP Configuration
 - Global MCP servers are defined in `/Users/dylan/.claude.json`
 - Project MCP servers are defined in `.mcp.json`
-- Agents have access to individual MCP tools in the format `mcp__${server}__${function_name}` eg: `mcp__firecrawl__firecrawl_search`
+- Agents have access to individual MCP tools in the format `mcp__${server}__${function_name}` eg: `mcp__freecrawl__search`
 - Prefer specific MCP servers/functions than allowing raw Bash access
 
 ## Global Tools
@@ -91,10 +91,10 @@ Outline of project-specific agents that should be created.
 - Secondary responsibility is to provide recommendations for business solutions based on insights, review business logic and provide feedback on potential risks and opportunities.
 
 ## engineering-docs
-- Tools: Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__firecrawl__*
+- Tools: Read, Write, Edit, TodoWrite, WebSearch, WebFetch, mcp__freecrawl__*
 - Primary responsibility is to fetch relevant and up-to-date technical documentation and condense into a single reference file that can be stored locally for other agents to consume.
 - Secondary responsibility is to maintain project documentation
-- Fetch latest vendor documentation using `WebSearch, WebFetch`. Scrape, crawl and extract using `firecrawl` mcp tools eg: `mcp__firecrawl__firecrawl_scrape`, `mcp__firecrawl__firecrawl_map`, `mcp__firecrawl__firecrawl_crawl`.
+- Fetch latest vendor documentation using `WebSearch, WebFetch`. Scrape, crawl and extract using `firecrawl` mcp tools eg: `mcp__freecrawl__scrape`, `mcp__freecrawl__map`, `mcp__freecrawl__crawl`.
 - Agent should determine what tools to use based on task assignment. For example crawl vs simple fetch.
 - Condensed usage guide should be stored in project `ai_docs/` folder
 - Once complete agent should return a summary of research & paths to any new docs

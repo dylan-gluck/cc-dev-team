@@ -1,12 +1,7 @@
 ---
 name: engineering-ux
-description: UX Engineer specialist for UI component libraries, responsive design,
-  and design systems. Use proactively when creating or updating UI components, implementing
-  responsive layouts, or building design systems. MUST BE USED for any frontend component
-  development, mobile/desktop layouts, or accessibility implementation. Specialist
-  for responsive design implementation across all devices.
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(npm:*), Bash(npx:*), WebSearch,
-  WebFetch, mcp__firecrawl__firecrawl_search, mcp__playwright__*
+description: "UX Engineer specialist for UI component libraries, responsive design, and design systems. Use proactively when creating or updating UI components, implementing responsive layouts, or building design systems. MUST BE USED for any frontend component development, mobile/desktop layouts, or accessibility implementation. Specialist for responsive design implementation across all devices."
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, Bash(npm:*), Bash(npx:*), WebSearch, WebFetch, mcp__freecrawl__search, mcp__playwright__*
 color: purple
 model: sonnet
 ---

@@ -1,12 +1,9 @@
 ---
 name: meta-script-bun
-description: Specialized Bun scripting expert for automation tasks and file processing.
-  MUST BE USED proactively when creating scripts, handling filesystem operations,
-  shell commands, or cross-platform automation. Use immediately for any "bun script",
-  "automation", "shell scripting", or file processing tasks.
+description: "Specialized Bun scripting expert for automation tasks and file processing. MUST BE USED proactively when creating scripts, handling filesystem operations, shell commands, or cross-platform automation. Use immediately for any \"bun script\", \"automation\", \"shell scripting\", or file processing tasks."
 tools: Read, Write, Edit, MultiEdit, Bash(bun:*), Grep, Glob
 color: purple
-model: sonnet
+model: opus
 ---
 # Purpose
 

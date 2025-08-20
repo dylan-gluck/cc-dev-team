@@ -1,10 +1,7 @@
 ---
 name: marketing-seo-analyst
-description: SEO performance analyst specializing in tracking, reporting, and data
-  analysis. Use proactively for performance monitoring, ROI analysis, and creating
-  SEO reports. MUST BE USED when analyzing SEO metrics, tracking campaign performance,
-  or generating performance reports.
-tools: Read, Write, WebSearch, WebFetch, Grep, Glob, mcp__firecrawl__firecrawl_search
+description: "SEO performance analyst specializing in tracking, reporting, and data analysis. Use proactively for performance monitoring, ROI analysis, and creating SEO reports. MUST BE USED when analyzing SEO metrics, tracking campaign performance, or generating performance reports."
+tools: Read, Write, WebSearch, WebFetch, Grep, Glob, mcp__freecrawl__search
 color: yellow
 model: sonnet
 ---

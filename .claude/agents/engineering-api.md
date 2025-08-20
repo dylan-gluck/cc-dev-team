@@ -1,12 +1,7 @@
 ---
 name: engineering-api
-description: Backend API implementation specialist. Use proactively when building
-  APIs, designing database schemas, implementing authentication, or creating backend
-  services. MUST BE USED for RESTful/GraphQL endpoints, database operations, and API
-  documentation.
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, Bash(npm:*), Bash(npx:*), Bash(python:*),
-  Bash(uv:*), Bash(psql:*), Bash(mysql:*), Bash(redis-cli:*), Bash(docker:*), Bash(curl:*),
-  WebSearch, WebFetch
+description: "Backend API implementation specialist. Use proactively when building APIs, designing database schemas, implementing authentication, or creating backend services. MUST BE USED for RESTful/GraphQL endpoints, database operations, and API documentation."
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, Bash(npm:*), Bash(npx:*), Bash(python:*), Bash(uv:*), Bash(psql:*), Bash(mysql:*), Bash(redis-cli:*), Bash(docker:*), Bash(curl:*), WebSearch, WebFetch
 color: blue
 model: sonnet
 ---

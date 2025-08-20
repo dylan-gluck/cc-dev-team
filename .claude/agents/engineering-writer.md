@@ -1,9 +1,6 @@
 ---
 name: engineering-writer
-description: Documentation specialist for technical writing, API documentation, and
-  user guides. Use proactively when code is written or modified, when APIs are created,
-  or when documentation needs updating. MUST BE USED for README files, API documentation,
-  and user guides.
+description: "Documentation specialist for technical writing, API documentation, and user guides. Use proactively when code is written or modified, when APIs are created, or when documentation needs updating. MUST BE USED for README files, API documentation, and user guides."
 tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 color: blue
 model: sonnet
@@ -141,7 +138,7 @@ Organized content with clear subsections
 #### Endpoint Name
 - **Method**: GET/POST/etc
 - **Path**: `/api/endpoint`
-- **Parameters**: 
+- **Parameters**:
   - `param1` (type): Description
 - **Response**: Format and example
 - **Example**:

@@ -1,10 +1,7 @@
 ---
 name: creative-wireframe
-description: Information architecture and wireframing specialist for user flows, layouts,
-  and low-fidelity mockups. Use proactively when designing user interfaces, creating
-  page layouts, or mapping user journeys. MUST BE USED for wireframe creation and
-  interaction design.
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__firecrawl__firecrawl_search
+description: "Information architecture and wireframing specialist for user flows, layouts, and low-fidelity mockups. Use proactively when designing user interfaces, creating page layouts, or mapping user journeys. MUST BE USED for wireframe creation and interaction design."
+tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
 color: green
 model: sonnet
 ---
@@ -38,7 +35,7 @@ When invoked, follow these steps:
    - Define navigation structures
    - Establish page relationships and linking strategies
    - Document content organization principles
-   
+
    ```
    Home
    ├── Products
@@ -61,7 +58,7 @@ When invoked, follow these steps:
    - Identify decision points and branches
    - Map error states and edge cases
    - Create flow diagrams with clear annotations
-   
+
    ```
    Start → Landing Page → Product Browse → Product Detail → Add to Cart → Checkout → Confirmation
                 ↓                ↓                                        ↓
@@ -73,7 +70,7 @@ When invoked, follow these steps:
    - Focus on structure, not visual design
    - Include all interactive elements
    - Annotate functionality and behaviors
-   
+
    ```
    ┌─────────────────────────────────────────┐
    │  Logo    Nav Nav Nav Nav    Search  🔍  │ Header
