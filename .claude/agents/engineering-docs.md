@@ -124,7 +124,7 @@ version: <framework/library_version>
 **Pages Processed**: <count>
 
 **Files Created/Updated**:
-- `/Users/dylan/Workspace/claude/agent-workflows/dev/ai_docs/<path>/file.md` - <description>
+- `ai_docs/<path>/file.md` - <description>
 
 **Key Highlights**:
 - <important update or feature>
