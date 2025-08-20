@@ -49,9 +49,17 @@ You are tasked with creating a new slash command based on the user's specificati
 - Ensure the command properly delegates to the specified agent if mentioned
 - Include comprehensive argument parsing instructions
 - Follow all command template best practices
+- Argument hint: First argument should AWAYS be wrapped in angle brackets < >, UNLESS it is a slash command /example:command where it should have no wrapping characters. (Argument hint in this file as an example)
 
 ## Context Files:
-@.claude/templates/command.md
-@ai_docs/cc/anthropic_custom_slash_commands.md
+Note: The agent will read these files if needed:
+- .claude/templates/command.md (command template reference)
+- ai_docs/cc/anthropic_custom_slash_commands.md (documentation)
+
+## Important Token Usage:
+- **DO NOT use `!` tokens** in the generated command unless the command MUST execute something during initialization
+- **DO NOT use `@` tokens** in the generated command unless specific files MUST be loaded into context
+- Commands should describe what needs to be done, not force specific executions
+- When delegating to agents, pass requirements and let the agent decide how to execute
 
 Begin by parsing the user's input to identify the command syntax, description, and any specified implementation details.

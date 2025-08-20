@@ -12,8 +12,9 @@ A meta command to generate both a specialized agent and one or more commands tha
 $ARGUMENTS
 
 ## Context Files:
-@.claude/commands/meta/new/agent.md
-@.claude/commands/meta/new/command.md
+Note: Read these files if needed for reference:
+- .claude/commands/meta/new/agent.md
+- .claude/commands/meta/new/command.md
 
 ## Task Implementation
 

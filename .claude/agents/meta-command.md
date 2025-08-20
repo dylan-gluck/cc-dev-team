@@ -35,8 +35,11 @@ When invoked, follow these steps:
 
    - **Structure Command Logic**
      - Create clear command title and introduction
-     - Include context gathering with bash commands (! prefix) if needed
-     - Add file references (@ prefix) for template/config access
+     - **Token Usage Guidelines:**
+       - Use `!` prefix ONLY for commands that MUST execute during initialization (rare)
+       - Use `@` prefix ONLY for files that MUST be loaded into context (use sparingly)
+       - For agent delegation: describe requirements, don't force specific executions
+       - For variable actions: use descriptive text, not executable tokens
      - Implement $ARGUMENTS placeholder for dynamic input
      - Design step-by-step workflow instructions
 
@@ -87,12 +90,13 @@ model: <[optional] specific model preference>
 
 ## Context
 <Any necessary context gathering>
-- Current status: !`<bash command>`
-- Configuration: @<file-path>
 - User input: $ARGUMENTS
+- [Only if MUST execute]: Current status: !`<bash command>`
+- [Only if MUST load]: Configuration: @<file-path>
 
 ## Task
 <Clear, specific instructions for Claude Code>
+<For agent delegation: describe requirements, not forced executions>
 
 ## Expected Output
 <Description of what command produces>

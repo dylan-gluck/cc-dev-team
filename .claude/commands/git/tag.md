@@ -1,6 +1,6 @@
 ---
 allowed-tools: Task, Bash(git:*), Bash(npm version:*), Bash(gh release:*)
-argument-hint: [major|minor|patch|prerelease] [--dry-run] [--no-push]
+argument-hint: <major|minor|patch|prerelease> [--dry-run] [--no-push]
 description: Automatically prepare a release with version bump, changelog, and tagging
 ---
 
@@ -53,19 +53,19 @@ subagent_type: devops-release
 description: Prepare and publish release
 prompt: |
   Execute a complete release preparation workflow.
-  
+
   Options provided:
   - Version type: ${VERSION_TYPE:-auto-detect}
   - Dry run: $DRY_RUN
   - No push: $NO_PUSH
-  
+
   Your responsibilities:
-  
+
   1. **Analyze Recent Changes**
      - Review commits since last tag: git log $(git describe --tags --abbrev=0)..HEAD
      - Categorize changes (features, fixes, breaking changes)
      - Determine version bump if not specified
-  
+
   2. **Version Determination**
      - If VERSION_TYPE provided, use it
      - Otherwise, analyze commits:
@@ -74,14 +74,14 @@ prompt: |
        - Bug fixes only → patch
      - Check current version from package.json/pyproject.toml
      - Calculate new version number
-  
+
   3. **Update Version Files**
      - package.json (npm/node projects)
      - pyproject.toml (Python projects)
      - version.rb (Ruby projects)
      - Cargo.toml (Rust projects)
      - Any VERSION or version.txt files
-  
+
   4. **Generate Changelog**
      - Create/update CHANGELOG.md
      - Group changes by type:
@@ -92,41 +92,41 @@ prompt: |
        - 🔧 Maintenance
      - Include contributor acknowledgments
      - Add comparison link to previous version
-  
+
   5. **Create Release Notes**
      - Summary of major changes
      - Migration guide for breaking changes
      - Acknowledgments section
      - Full changelog link
-  
+
   6. **Git Operations**
      - Stage all version and changelog files
      - Create release commit: "chore(release): v{version}"
      - Create annotated tag: "v{version}"
      - Include release notes in tag message
-  
+
   7. **Publish Release** (unless --dry-run or --no-push)
      - Push commit to main/master
      - Push tag to origin
      - Create GitHub release if gh CLI available
      - Attach any build artifacts if present
-  
+
   8. **Post-Release Tasks**
      - Update development version (if using snapshot/dev versions)
      - Create post-release commit if needed
      - Report success with release URL
-  
+
   If --dry-run is set:
   - Show what would be changed
   - Display new version number
   - Preview changelog entries
   - Do not make any actual changes
-  
+
   If --no-push is set:
   - Create all local changes
   - Create tag locally
   - Do not push to remote
-  
+
   Report any errors encountered and provide recovery instructions if needed.
 ```
 

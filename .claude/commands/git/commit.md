@@ -1,8 +1,7 @@
 ---
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), Bash(git branch:*), Bash(git remote:*), Read
 description: Create a git commit with staged changes and optionally push to remote
-argument-hint: [message] [--push] [--push-force] [--set-upstream] [--no-verify]
-model: sonnet
+argument-hint: <message> [--push] [--push-force] [--set-upstream] [--no-verify]
 ---
 
 # Git Commit
@@ -54,8 +53,8 @@ Reference template: @.claude/templates/commit-message.md
 
 ### 5. Execute Commit
 Build the git commit command:
-- If --no-verify flag is present: !`git commit --no-verify -m "<message>"`
-- Otherwise: !`git commit -m "<message>"`
+- If --no-verify flag is present: `git commit --no-verify -m "<message>"`
+- Otherwise: `git commit -m "<message>"`
 
 Handle any pre-commit hook modifications:
 - If hooks modify files, stage changes and retry once
@@ -65,13 +64,13 @@ Handle any pre-commit hook modifications:
 If any push flag was provided:
 
 1. **Check remote connectivity**: !`git remote -v`
-2. **Get current branch**: !`git branch --show-current`
-3. **Check if branch exists on remote**: !`git ls-remote --heads origin <branch>`
+2. **Get current branch**: Store result of !`git branch --show-current` as the branch name
+3. **Check if branch exists on remote**: Using the branch name from step 2, run !`git ls-remote --heads origin` to check if it exists
 
-4. **Execute appropriate push command**:
-   - If --set-upstream: !`git push --set-upstream origin <branch>`
-   - If --push-force: !`git push --force-with-lease origin <branch>`
-   - If --push only: !`git push origin <branch>`
+4. **Execute appropriate push command** using the branch name from step 2:
+   - If --set-upstream: `git push --set-upstream origin` followed by the current branch name
+   - If --push-force: `git push --force-with-lease origin` followed by the current branch name
+   - If --push only: `git push origin` followed by the current branch name
 
 5. **Handle push results**:
    - Report success with remote URL

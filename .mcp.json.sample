@@ -1,5 +1,12 @@
 {
   "mcpServers": {
+    "artroom-mcp": {
+      "command": "uv",
+      "args": ["run", "mcp/artroom-mcp/main.py"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
+    },
     "freecrawl": {
       "command": "uvx",
       "args": ["freecrawl-mcp"],
