@@ -114,3 +114,4 @@ extras/
 
 # Claude Code data
 .claude/data/
+.ropeproject/
