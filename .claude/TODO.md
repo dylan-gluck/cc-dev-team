@@ -5,8 +5,8 @@
 - [x] Specifications for UV & Bun scripting
 - [x] Documentation
 - [x] Spec Collaboration system using hooks
-
+- [x] Script to install to specified dir or global claude-code
+- [x] Custom MCP to replace Firecrawl
 - [ ] Implement Collaboration system
 - [ ] Custom MCP for Imagegen
-- [ ] Custom MCP to replace Firecrawl
-- [ ] Script to install to specified dir or global claude-code
+- [ ] Creative team improvements

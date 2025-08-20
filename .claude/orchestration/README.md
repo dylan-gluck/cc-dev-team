@@ -17,7 +17,7 @@ Defines your team structure, agent members, and capabilities.
 3. Adjust `capacity` to control how many instances of each agent can run
 4. Update `skills` to define agent capabilities
 
-### `workflows.json` 
+### `workflows.json`
 Templates for sprints, epics, and task workflows.
 
 **Key sections:**
