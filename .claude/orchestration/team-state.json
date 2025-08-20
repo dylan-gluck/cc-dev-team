@@ -1,0 +1,72 @@
+{
+  "version": "1.0",
+  "description": "Runtime state tracking for team assignments and capacity",
+  "last_updated": "2025-01-20T00:00:00Z",
+  "active_teams": [],
+  "assignments": {},
+  "capacity_tracking": {
+    "engineering": {
+      "total_capacity": 9,
+      "used_capacity": 0,
+      "active_tasks": []
+    },
+    "product": {
+      "total_capacity": 2,
+      "used_capacity": 0,
+      "active_tasks": []
+    },
+    "qa": {
+      "total_capacity": 5,
+      "used_capacity": 0,
+      "active_tasks": []
+    },
+    "devops": {
+      "total_capacity": 3,
+      "used_capacity": 0,
+      "active_tasks": []
+    }
+  },
+  "handoffs": {
+    "pending": [],
+    "completed": []
+  },
+  "performance_metrics": {
+    "engineering": {
+      "tasks_completed": 0,
+      "average_completion_time": 0,
+      "success_rate": 100,
+      "last_7_days": {
+        "tasks": 0,
+        "velocity": 0
+      }
+    },
+    "product": {
+      "tasks_completed": 0,
+      "average_completion_time": 0,
+      "success_rate": 100,
+      "last_7_days": {
+        "tasks": 0,
+        "velocity": 0
+      }
+    },
+    "qa": {
+      "tasks_completed": 0,
+      "average_completion_time": 0,
+      "success_rate": 100,
+      "last_7_days": {
+        "tasks": 0,
+        "velocity": 0
+      }
+    },
+    "devops": {
+      "tasks_completed": 0,
+      "average_completion_time": 0,
+      "success_rate": 100,
+      "last_7_days": {
+        "tasks": 0,
+        "velocity": 0
+      }
+    }
+  },
+  "events": []
+}

@@ -98,6 +98,29 @@ cp .claude-scaffolding/CLAUDE.md .
 cp .claude-scaffolding/README.md ./README-scaffolding.md
 ```
 
+### 2. Start Using Orchestration
+
+After installation, begin orchestrating your development team:
+
+```bash
+# 1. Get an overview of the system
+/orchestrate
+
+# 2. Check current state
+/state summary
+
+# 3. Monitor system health
+/monitor status
+
+# 4. Start your first sprint
+/orchestrate sprint start
+
+# 5. Delegate work to teams
+/orchestrate task delegate "Build user authentication system"
+```
+
+The system provides **49 slash commands** across 6 categories for complete orchestration control. See the [Complete Slash Command System](#complete-slash-command-system) section below for full details.
+
 ## Enterprise Orchestration Framework
 
 ### Overview
@@ -146,11 +169,72 @@ All orchestration is **explicitly triggered** via slash commands with preview an
 # Plan an epic with team input
 /orchestrate epic plan authentication-system
 
-# Check status and metrics
-/orchestrate status
+# Monitor status and metrics
+/monitor status
+/state summary
 
-# Stop all orchestration activities
+# Stop all orchestration activities  
 /orchestrate stop
+```
+
+### Complete Slash Command System
+
+The framework provides **49 comprehensive slash commands** across 6 categories:
+
+**🎯 Core Orchestration** (`/orchestrate`) - Main orchestration controls
+```bash
+/orchestrate                    # Main orchestration menu
+/orchestrate sprint start      # Start sprint with preview
+/orchestrate sprint status     # Sprint progress tracking  
+/orchestrate task delegate     # Delegate tasks to teams
+/orchestrate team activate     # Activate team coordination
+/orchestrate epic plan         # Epic planning and breakdown
+```
+
+**📊 State Management** (`/state`) - Direct state operations
+```bash
+/state                         # State overview and menu
+/state get tasks.sprint-1      # Query state with jq paths
+/state set agents.active       # Update state values
+/state summary                 # High-level state dashboard
+/state tasks --status blocked  # Filtered task views
+/state reset                   # Safe state reset with backup
+```
+
+**📈 Real-Time Monitoring** (`/monitor`) - Live observability
+```bash
+/monitor                       # Main monitoring dashboard
+/monitor live 5                # Live monitoring (5s refresh)
+/monitor agents engineering    # Team-specific monitoring
+/monitor metrics performance   # Performance KPIs
+/monitor events --follow       # Real-time event stream
+```
+
+**👥 Team Management** (`/team`) - Team coordination  
+```bash
+/team                          # Team management overview
+/team status                   # All teams status
+/team capacity engineering     # Capacity analysis
+/team assign agent-1 task-5    # Direct agent assignment
+/team handoff product dev      # Cross-team handoffs
+```
+
+**⚙️ Configuration** (`/config`) - Configuration management
+```bash
+/config                        # Configuration overview
+/config validate               # Validate all configurations
+/config teams engineering edit # Edit team configurations
+/config fix --dry-run         # Auto-fix common issues
+/config backup create          # Configuration backups
+```
+
+**🔧 Debug Tools** (`/debug`) - Troubleshooting and diagnostics
+```bash
+/debug                         # System health check
+/debug state orchestrator      # Debug state management
+/debug events --trace          # Event flow analysis
+/debug performance --profile   # Performance bottlenecks
+/debug integration --test      # Component integration tests
 ```
 
 **Preview System**: Before any orchestration begins, users see:
