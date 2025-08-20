@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "artroom-mcp": {
+    "artdept-mcp": {
       "command": "uv",
-      "args": ["run", "mcp/artroom-mcp/main.py"],
+      "args": ["run", "mcp/artdept-mcp/main.py"],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}"
       }

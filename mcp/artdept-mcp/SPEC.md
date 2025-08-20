@@ -1,6 +1,6 @@
-# ArtRoom MCP Server - Technical Specification
+# ArtDept MCP Server - Technical Specification
 
-This document provides a comprehensive technical specification for the ArtRoom MCP Server, including architecture details, implementation specifics, and protocol compliance.
+This document provides a comprehensive technical specification for the ArtDept MCP Server, including architecture details, implementation specifics, and protocol compliance.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ This document provides a comprehensive technical specification for the ArtRoom M
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   MCP Client    │◄──►│  ArtRoom Server  │◄──►│   OpenAI API    │
+│   MCP Client    │◄──►│  ArtDept Server  │◄──►│   OpenAI API    │
 │  (Claude, etc.) │    │                  │    │   (DALL-E 3)    │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                                 │
@@ -33,7 +33,7 @@ This document provides a comprehensive technical specification for the ArtRoom M
 
 ### Core Architecture
 
-The ArtRoom MCP Server is built using:
+The ArtDept MCP Server is built using:
 
 - **Framework**: Python MCP SDK (mcp>=1.0.0)
 - **Image Generation**: OpenAI API with DALL-E 3
@@ -161,7 +161,7 @@ if device == "both":
     devices_to_generate = [("desktop", "1792x1024"), ("mobile", "1024x1792")]
 elif device == "desktop":
     devices_to_generate = [("desktop", "1792x1024")]
-elif device == "mobile":  
+elif device == "mobile":
     devices_to_generate = [("mobile", "1024x1792")]
 ```
 
@@ -179,7 +179,7 @@ elif device == "mobile":
 ```python
 type_context = {
     "brand": "brand design system with logo variations, color palette, typography, and brand elements",
-    "ui": "UI component design system with buttons, forms, cards, navigation, and interface elements", 
+    "ui": "UI component design system with buttons, forms, cards, navigation, and interface elements",
     "ux": "UX design system with user flows, interaction patterns, and experience guidelines"
 }
 ```
@@ -231,7 +231,7 @@ type_context = {
 Each tool uses a structured prompt format:
 
 1. **Requirements Section**: Technical specifications
-2. **Style Section**: Aesthetic guidelines  
+2. **Style Section**: Aesthetic guidelines
 3. **Format Section**: Output format requirements
 4. **User Section**: Injected user prompt
 5. **Quality Section**: Professional standards
@@ -311,7 +311,7 @@ try:
 except OpenAIError as e:
     # OpenAI API specific errors
 except httpx.RequestError as e:
-    # Network/download errors  
+    # Network/download errors
 except Exception as e:
     # General fallback
 ```
@@ -366,7 +366,7 @@ except Exception as e:
 
 ### Planned Improvements
 
-1. **Caching System**: 
+1. **Caching System**:
    - Content-based caching of generated images
    - Prompt similarity detection
    - Cache invalidation strategies
@@ -420,4 +420,4 @@ For production deployment:
 
 ## Conclusion
 
-The ArtRoom MCP Server provides a solid foundation for AI-powered creative asset generation. Its modular architecture, comprehensive error handling, and focus on professional quality output make it suitable for both development and production environments. The prompt engineering approach ensures consistent, high-quality results across all tool types while maintaining flexibility for diverse creative requirements.
+The ArtDept MCP Server provides a solid foundation for AI-powered creative asset generation. Its modular architecture, comprehensive error handling, and focus on professional quality output make it suitable for both development and production environments. The prompt engineering approach ensures consistent, high-quality results across all tool types while maintaining flexibility for diverse creative requirements.

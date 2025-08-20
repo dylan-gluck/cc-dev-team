@@ -1,10 +1,10 @@
-# ArtRoom MCP Server
+# ArtDept MCP Server
 
 A creative design toolkit that provides AI-powered image generation tools through the Model Context Protocol (MCP). Generate professional wireframes, design systems, logos, icons, illustrations, and photorealistic images using natural language descriptions.
 
 ## Overview
 
-ArtRoom MCP Server bridges the gap between natural language descriptions and visual design assets. It leverages OpenAI's DALL-E 3 image generation API to create high-quality design assets based on your creative requirements. Perfect for designers, developers, and creative professionals who need quick visual prototypes and design assets.
+ArtDept MCP Server bridges the gap between natural language descriptions and visual design assets. It leverages OpenAI's DALL-E 3 image generation API to create high-quality design assets based on your creative requirements. Perfect for designers, developers, and creative professionals who need quick visual prototypes and design assets.
 
 ### Key Features
 
@@ -56,8 +56,8 @@ Add the server to your MCP client configuration (e.g., `.mcp.json`):
 ```json
 {
   "mcpServers": {
-    "artroom": {
-      "command": "/path/to/artroom-mcp/main.py",
+    "artdept": {
+      "command": "/path/to/artdept-mcp/main.py",
       "env": {
         "OPENAI_API_KEY": "your-openai-api-key-here"
       }
@@ -104,7 +104,7 @@ Design a flat icon for a settings menu using a gear symbol
 **Mobile wireframe:**
 ```json
 {
-  "tool": "new_wireframe", 
+  "tool": "new_wireframe",
   "arguments": {
     "id": "checkout-mobile",
     "prompt": "Mobile checkout flow with product summary, shipping form, payment options, and confirmation",

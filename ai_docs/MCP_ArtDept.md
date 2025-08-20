@@ -1,4 +1,4 @@
-# MCP Server: ArtRoom
+# MCP Server: ArtDept
 
 The purpose of this MCP is to provide a novel set of "design" tools to agents specialized in creative domains (graphic design, ux, illustration, etc), unlocking collaborative workflows with multi-modal coding agents.
 
@@ -11,7 +11,7 @@ The purpose of this MCP is to provide a novel set of "design" tools to agents sp
 - Illustrations
 
 ## MCP Config:
-- Save new server in `mcp/artroom-mcp/main.py`
+- Save new server in `mcp/artdept-mcp/main.py`
 - Configure new server in `.mcp.json`.
 - Requires `OPENAI_API_KEY` env variable. (already added to .env)
 

@@ -9,7 +9,7 @@
 # ]
 # ///
 """
-ArtRoom MCP Server - Creative Design Tools using OpenAI Image Generation.
+ArtDept MCP Server - Creative Design Tools using OpenAI Image Generation.
 
 This MCP server provides creative design tools for generating wireframes,
 design systems, logos, icons, illustrations, and photos using OpenAI's
@@ -56,7 +56,7 @@ if not os.getenv("OPENAI_API_KEY"):
 client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize MCP server
-server = Server("artroom-mcp")
+server = Server("artdept-mcp")
 
 
 class ImageGenerationResult(BaseModel):
@@ -73,10 +73,10 @@ async def download_and_save_image(url: str, filepath: Path) -> bool:
         async with httpx.AsyncClient() as http_client:
             response = await http_client.get(url)
             response.raise_for_status()
-            
+
             # Create parent directories if they don't exist
             filepath.parent.mkdir(parents=True, exist_ok=True)
-            
+
             # Save the image
             filepath.write_bytes(response.content)
             logger.info(f"Saved image to {filepath}")
@@ -117,7 +117,7 @@ def build_wireframe_prompt(user_prompt: str, device: str, style: str) -> str:
         "mobile": "mobile phone screen (portrait orientation, 1024x1536)",
         "both": "responsive design showing both desktop and mobile layouts"
     }
-    
+
     return f"""Create a professional UI/UX wireframe design:
 
 REQUIREMENTS:
@@ -142,9 +142,9 @@ def build_design_system_prompt(user_prompt: str, design_type: str, style: str, c
         "ui": "UI component design system with buttons, forms, cards, navigation, and interface elements",
         "ux": "UX design system with user flows, interaction patterns, and experience guidelines"
     }
-    
+
     color_spec = f"Color scheme: {colors}" if colors else "Professional color palette"
-    
+
     return f"""Create a comprehensive design system presentation:
 
 TYPE: {type_context.get(design_type, type_context['brand'])}
@@ -170,7 +170,7 @@ Present as a single, well-organized design system board suitable for design hand
 def build_logo_prompt(user_prompt: str, style: str, colors: str) -> str:
     """Build enhanced prompt for logo generation."""
     color_spec = f"using {colors} color scheme" if colors else "with appropriate colors"
-    
+
     return f"""Design a professional logo:
 
 REQUIREMENTS:
@@ -192,7 +192,7 @@ Create a distinctive, professional logo that would work across various media."""
 def build_icon_prompt(user_prompt: str, style: str, colors: str) -> str:
     """Build enhanced prompt for icon generation."""
     color_spec = f"using {colors} colors" if colors else "with clear, simple colors"
-    
+
     return f"""Design a clean, scalable icon:
 
 REQUIREMENTS:
@@ -479,7 +479,7 @@ async def list_tools() -> List[Tool]:
 @server.call_tool()
 async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
     """Handle tool calls for image generation."""
-    
+
     try:
         if name == "new_wireframe":
             return await generate_wireframe(**arguments)
@@ -525,7 +525,7 @@ async def generate_wireframe(
 ) -> List[TextContent]:
     """Generate wireframe images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         devices_to_generate = []
         if device == "both":
@@ -534,10 +534,10 @@ async def generate_wireframe(
             devices_to_generate = [("desktop", "1792x1024")]
         elif device == "mobile":
             devices_to_generate = [("mobile", "1024x1792")]
-        
+
         for device_name, size in devices_to_generate:
             enhanced_prompt = build_wireframe_prompt(prompt, device_name, style)
-            
+
             try:
                 urls = await generate_images(
                     prompt=enhanced_prompt,
@@ -546,26 +546,26 @@ async def generate_wireframe(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for idx, url in enumerate(urls):
                     filename = f"{id}-{device_name}.jpg"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate {device_name} wireframe: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} wireframe(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Wireframe generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -583,14 +583,14 @@ async def generate_design_system(
 ) -> List[TextContent]:
     """Generate design system images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         enhanced_prompt = build_design_system_prompt(prompt, type, style, colors)
-        
+
         # Generate variations
         for i in range(n):
             variation_prompt = f"{enhanced_prompt}\n\nVariation {i+1} of {n}"
-            
+
             try:
                 urls = await generate_images(
                     prompt=variation_prompt,
@@ -599,26 +599,26 @@ async def generate_design_system(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for url in urls:
                     filename = f"{id}-v{i+1}.jpg"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate variation {i+1}: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} design system(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Design system generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -635,14 +635,14 @@ async def generate_logo(
 ) -> List[TextContent]:
     """Generate logo images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         enhanced_prompt = build_logo_prompt(prompt, style, colors)
-        
+
         # Generate variations
         for i in range(n):
             variation_prompt = f"{enhanced_prompt}\n\nUnique variation {i+1} of {n}"
-            
+
             try:
                 urls = await generate_images(
                     prompt=variation_prompt,
@@ -651,26 +651,26 @@ async def generate_logo(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for url in urls:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate variation {i+1}: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} logo(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Logo generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -687,14 +687,14 @@ async def generate_icon(
 ) -> List[TextContent]:
     """Generate icon images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         enhanced_prompt = build_icon_prompt(prompt, style, colors)
-        
+
         # Generate variations
         for i in range(n):
             variation_prompt = f"{enhanced_prompt}\n\nVariation {i+1} of {n}"
-            
+
             try:
                 urls = await generate_images(
                     prompt=variation_prompt,
@@ -703,26 +703,26 @@ async def generate_icon(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for url in urls:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate variation {i+1}: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} icon(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Icon generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -739,14 +739,14 @@ async def generate_illustration(
 ) -> List[TextContent]:
     """Generate illustration images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         enhanced_prompt = build_illustration_prompt(prompt, style)
-        
+
         # Generate variations
         for i in range(n):
             variation_prompt = f"{enhanced_prompt}\n\nCreative variation {i+1} of {n}"
-            
+
             try:
                 urls = await generate_images(
                     prompt=variation_prompt,
@@ -755,26 +755,26 @@ async def generate_illustration(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for url in urls:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate variation {i+1}: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} illustration(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Illustration generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -791,14 +791,14 @@ async def generate_photo(
 ) -> List[TextContent]:
     """Generate photorealistic images."""
     result = ImageGenerationResult(success=False, message="")
-    
+
     try:
         enhanced_prompt = build_photo_prompt(prompt, style)
-        
+
         # Generate variations
         for i in range(n):
             variation_prompt = f"{enhanced_prompt}\n\nUnique shot {i+1} of {n}"
-            
+
             try:
                 urls = await generate_images(
                     prompt=variation_prompt,
@@ -807,26 +807,26 @@ async def generate_photo(
                     model="dall-e-3",
                     quality="standard"
                 )
-                
+
                 for url in urls:
                     filename = f"{id}-v{i+1}.jpg"
                     filepath = Path(save) / filename
-                    
+
                     if await download_and_save_image(url, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
-                        
+
             except Exception as e:
                 result.errors.append(f"Failed to generate variation {i+1}: {str(e)}")
-        
+
         result.success = len(result.paths) > 0
         result.message = f"Generated {len(result.paths)} photo(s) for '{id}'"
-        
+
     except Exception as e:
         result.message = f"Photo generation failed: {str(e)}"
         result.errors.append(str(e))
-    
+
     return [TextContent(
         type="text",
         text=json.dumps(result.model_dump())
@@ -836,9 +836,9 @@ async def generate_photo(
 async def main() -> int:
     """Main execution function."""
     try:
-        logger.info("Starting ArtRoom MCP Server")
+        logger.info("Starting ArtDept MCP Server")
         logger.info("Available tools: new_wireframe, new_designsystem, new_logo, new_icon, new_illustration, new_photo")
-        
+
         # Run the stdio server
         async with stdio_server() as (read_stream, write_stream):
             await server.run(
@@ -846,10 +846,10 @@ async def main() -> int:
                 write_stream,
                 server.create_initialization_options()
             )
-        
-        logger.info("ArtRoom MCP Server stopped")
+
+        logger.info("ArtDept MCP Server stopped")
         return 0
-        
+
     except KeyboardInterrupt:
         logger.info("Server interrupted by user")
         return 0

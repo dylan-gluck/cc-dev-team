@@ -1,8 +1,7 @@
 # TODO:
 
 - [ ] Creative team improvements
-  - [ ] MCP for Imagegen
-  - [ ] MCP for Wireframes + Syntax to compose
+  - [x] MCP for ArtDept (Wireframes, Logos, Assets)
   - [ ] Update: Agent Prompts, Commands
 
 - [ ] Orchestration improvements
