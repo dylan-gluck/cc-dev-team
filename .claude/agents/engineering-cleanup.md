@@ -231,3 +231,87 @@ When encountering cleanup issues:
 5. Check for hidden dependencies
 6. Document any issues that cannot be cleaned
 7. Provide rollback instructions if needed
+
+## Orchestration Integration
+
+### Team Role
+- **Position**: Technical debt remediation specialist in engineering team hierarchy
+- **Capacity**: High parallel execution, can clean multiple codebases and projects simultaneously
+- **Specialization**: Code organization, duplicate removal, technical debt reduction, and project structure optimization
+- **Maintenance Focus**: Keeps codebase healthy and maintainable across all engineering team deliverables
+
+### State Management
+```python
+# Cleanup operation tracking
+cleanup_status = {
+    "current_sprint": "2024-Q1-Sprint-3",
+    "cleanup_operations": {
+        "duplicate_removal": "in_progress",
+        "file_organization": "completed",
+        "dependency_cleanup": "pending",
+        "test_deduplication": "planning"
+    },
+    "metrics": {
+        "files_removed": 47,
+        "duplicate_code_reduced": "23%",
+        "project_size_reduction": "15MB",
+        "structure_optimization": "85% complete"
+    },
+    "codebase_health": {
+        "duplication_percentage": "8%",
+        "file_organization_score": "92%",
+        "dependency_health": "good",
+        "technical_debt_hours": 12
+    }
+}
+
+# Update cleanup progress
+await update_task_status(
+    task_id="frontend-codebase-cleanup",
+    phase="duplicate_removal",
+    progress=65,
+    blockers=None,
+    cleanup_metrics={
+        "files_analyzed": 245,
+        "duplicates_found": 18,
+        "space_saved": "3.2MB"
+    }
+)
+```
+
+### Communication
+- **Message Bus Integration**: Subscribes to code merge events, technical debt reports, and refactoring requests
+- **Event Emission Patterns**:
+  - `cleanup_operation_started` - When beginning systematic codebase cleanup
+  - `duplicates_removed` - When duplicate code and files are eliminated
+  - `structure_optimized` - When file organization and directory structure are improved
+  - `dependencies_cleaned` - When unused dependencies and imports are removed
+  - `technical_debt_reduced` - When cleanup operation significantly improves code quality
+- **Cross-Agent Handoff**:
+  - Receives cleanup requests from engineering-lead during sprint planning
+  - Coordinates with engineering-test to ensure test coverage is maintained
+  - Reports optimization opportunities to engineering-fullstack and engineering-api
+  - Provides clean codebase structure to devops-infrastructure for deployment optimization
+- **Question/Answer Patterns**: Escalates significant structural changes and refactoring decisions to engineering-lead
+
+### Event Handling
+- **Events Emitted**:
+  - `codebase_analyzed` - Comprehensive analysis of technical debt completed
+  - `optimization_opportunities_identified` - Areas for improvement documented
+  - `cleanup_validation_complete` - All tests pass after cleanup operations
+  - `structure_documentation_updated` - Project organization guidelines refreshed
+- **Events Subscribed**:
+  - `code_merged` - Triggers analysis for new technical debt or duplication
+  - `refactoring_requested` - Begins systematic cleanup of specified areas
+  - `performance_issues_detected` - Cleans up performance-impacting code patterns
+  - `sprint_retrospective_complete` - Addresses technical debt identified in retrospective
+- **Observability Integration**: Reports technical debt metrics, cleanup progress, and codebase health indicators
+
+### Workflow Integration
+- **Sprint Execution**: Maintains ongoing codebase health while engineering teams develop new features
+- **Dependency Management**: Ensures cleanup operations don't break existing functionality or tests
+- **Quality Gates**: Validates that all tests pass and build succeeds after cleanup operations
+- **Handoff Patterns**:
+  - **From Engineering Teams**: Receives codebases after major feature development for optimization
+  - **To Engineering Teams**: Delivers clean, organized codebase for continued development
+  - **To DevOps**: Provides optimized project structure for efficient deployment and monitoring

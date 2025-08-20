@@ -1,5 +1,7 @@
 # Agentic Dev Team
-This document outlines the general plan and requirements for a claude-code configuration to support multi-agent coordination using specialized sub-agents with explicit system instructions and tool access.
+This document outlines the general plan and requirements for a claude-code configuration to support orchestration-aware multi-agent coordination using specialized sub-agents with explicit system instructions, tool access, and team integration.
+
+**For comprehensive agent documentation, see [docs/AGENTS.md](../docs/AGENTS.md)**
 
 ## MCP Configuration
 - Global MCP servers are defined in `/Users/dylan/.claude.json`
@@ -24,26 +26,51 @@ This document outlines the general plan and requirements for a claude-code confi
 - Most coding agents will need full read, write edit, search and bash tools.
 
 ## Agents
-Each agent is defined in a markdown file in `.claude/agents/` with a unique name following the `<team>-<agent>` format as the file name. There is a custom slash command to generate new agent definitions in `.claude/commands/meta/generate-agent.md`.
+Each agent is defined in a markdown file in `.claude/agents/` with a unique name following the `<team>-<agent>` format as the file name. All agents now include orchestration integration sections covering:
+
+- **Team Role**: Position within team hierarchy and capacity
+- **State Management**: How the agent updates and reads orchestration state
+- **Communication Protocols**: Inter-agent messaging and coordination
+- **Event Handling**: Events the agent emits and subscribes to
+
+There is a custom slash command to generate new agent definitions in `.claude/commands/meta/generate-agent.md`.
 
 ### Agent Naming Convention
-All agents follow the `<team>-<agent>` naming format:
-- **Engineering Team**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api, etc.
-- **Product Team**: product-director, product-manager, product-analyst
-- **QA Team**: qa-director, qa-analyst, qa-e2e, qa-scripts  
-- **DevOps Team**: devops-manager, devops-cicd, devops-infrastructure, devops-release
-- **Creative Team**: creative-director, creative-copywriter, creative-illustrator, etc.
-- **Research Team**: research-ai, research-deep
-- **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst, etc.
+All agents follow the `<team>-<agent>` naming format with orchestration roles:
+- **Engineering Team**: engineering-director (orchestrator), engineering-fullstack, engineering-ux, engineering-lead, engineering-api, etc.
+- **Product Team**: product-director (orchestrator), product-manager, product-analyst
+- **QA Team**: qa-director (orchestrator), qa-analyst, qa-e2e, qa-scripts  
+- **DevOps Team**: devops-manager (orchestrator), devops-cicd, devops-infrastructure, devops-release
+- **Creative Team**: creative-director (orchestrator), creative-copywriter, creative-illustrator, etc.
+- **Research Team**: research-ai, research-deep, research-general
+- **Marketing Team**: marketing-director (orchestrator), marketing-content, marketing-seo-analyst, etc.
 - **Data Team**: data-scientist, data-analytics
-- **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit, etc.
+- **Meta Team**: meta-agent (orchestrator), meta-summary, meta-readme, meta-commit, etc.
 
-Agents should have specific responsibilities. A parent claude-code instance will fire one or more agents in parallel, providing each with specific context and instructions. The sub-agent will work until complete and provide a summary for the parent agent on stop.
+**Team Orchestrators** coordinate their team members and interface with other teams through the orchestration system.
+
+Agents should have specific responsibilities within the orchestration framework. Team orchestrators coordinate multiple agents in parallel using state management and event communication. All agents update orchestration state with progress and emit events for cross-team coordination. The orchestration system tracks sprint progress, epic status, and team metrics centrally.
+
+## Orchestration System
+The orchestration system provides team coordination, state management, and cross-agent communication:
+
+### Core Components
+- **Team Configuration**: `.claude/orchestration/teams.json` defines team structure and agent capabilities
+- **Workflow Templates**: `.claude/orchestration/workflows.json` defines sprint, epic, and task workflows
+- **Global Settings**: `.claude/orchestration/settings.json` controls automation levels and resource limits
+- **State Management**: Centralized state tracking for sprints, epics, and team progress
+- **Message Bus**: Event-driven communication between agents and teams
+
+### Integration Points
+- **State Updates**: Agents read/write orchestration state for progress tracking
+- **Event Communication**: Agents emit and subscribe to coordination events
+- **Team Hierarchies**: Orchestrators coordinate team members and cross-team dependencies
+- **Resource Management**: Automatic capacity management and parallel execution
 
 ## Hooks
-Hooks are claude-code lifecycle events that can extend the functionality of sub-agents and enable observibility and cross-agent communication. Hooks can run commands or scripts and have a standard JSON api for managing and consuming state. Hook scripts are defined as single-file python scripts that are run using `uv`, they live in `.claude/hooks/`. Commands are mapped to specific hooks in `.claude/settings.json`, multiple commands can be run for the same hook.
+Hooks provide observability and lifecycle integration with the orchestration system. Hook scripts are defined as single-file python scripts that are run using `uv`, they live in `.claude/hooks/`. Commands are mapped to specific hooks in `.claude/settings.json`.
 
-The current agent-scaffolding includes hooks that enable logging and observibility into the sub-agent workflow. The goal is to extend this functionality with cross-agent communication, session management, and reusable task/workflow definitions.
+The current agent-scaffolding includes hooks for logging, metrics collection, and orchestration event handling.
 
 ## Commands
 Slash commands enable the user to trigger specific actions or workflows defined in `.claude/commands/`. Commands are grouped by folder for organization. Commands can be simple like `/git:status` & `/git:commit` or can be extremely detailed with conditional logic, prompt snippets, and specific instructions for tool use.

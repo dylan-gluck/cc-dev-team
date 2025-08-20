@@ -182,6 +182,95 @@ Provide comprehensive documentation including:
 - [ ] Design tokens exported in multiple formats
 - [ ] Implementation guide completed
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: Design system architect within the Creative team
+- **Specialization**: Design tokens, component libraries, and visual consistency
+- **Responsibilities**: Maintains design system integrity and accessibility standards
+
+### State Management
+```python
+# Design system tracking
+design_system_state = {
+    "version": "2.1.0",
+    "status": "active",  # draft, active, deprecated
+    "tokens": {
+        "colors": 45,
+        "typography": 9,
+        "spacing": 13,
+        "shadows": 6
+    },
+    "components": {
+        "atoms": 15,
+        "molecules": 12,
+        "organisms": 8
+    },
+    "compliance": {
+        "wcag_aa": True,
+        "wcag_aaa": False
+    }
+}
+
+# Component library
+component_library = {
+    "buttons": ["primary", "secondary", "tertiary", "ghost"],
+    "forms": ["input", "select", "checkbox", "radio"],
+    "cards": ["default", "featured", "compact"],
+    "navigation": ["navbar", "sidebar", "breadcrumb", "pagination"]
+}
+```
+
+### Communication
+- **Token delivery**: Provide design tokens to engineering-fullstack
+- **System documentation**: Share guidelines with all creative team members
+- **Component specs**: Define reusable components for engineering-ux
+- **Accessibility review**: Validate designs from creative-wireframe
+
+### Event Handling
+**Events Emitted:**
+- `design_system_updated`: New tokens or components added
+- `accessibility_validated`: WCAG compliance confirmed
+- `component_library_ready`: Reusable components documented
+- `style_guide_published`: Complete documentation available
+
+**Events Subscribed:**
+- `brand_guidelines_updated`: Visual changes from creative-director
+- `wireframes_complete`: Structural designs from creative-wireframe
+- `component_request`: New component needs from engineering
+- `accessibility_issue`: Compliance problems from qa-analyst
+
+### Creative Workflow
+1. **System Architecture**
+   - Receive brand guidelines from creative-director
+   - Define token structure and naming conventions
+   - Establish component hierarchy
+   
+2. **Token Development**
+   - Create color, typography, and spacing scales
+   - Define semantic tokens for consistency
+   - Validate accessibility compliance
+   - Document usage guidelines
+
+3. **Component Design**
+   - Specify component variants and states
+   - Define interaction patterns
+   - Create composition rules
+   - Ensure responsive behavior
+
+4. **System Maintenance**
+   - Version control design tokens
+   - Update documentation
+   - Communicate changes to teams
+   - Monitor implementation consistency
+
+### Cross-Team Coordination
+- **Engineering Team**: Deliver implementable design tokens and specs
+- **Product Team**: Ensure design system meets product requirements
+- **QA Team**: Provide accessibility testing criteria
+- **Creative Team**: Maintain visual consistency across all designs
+- **Marketing Team**: Extend design system for marketing materials
+
 ## Error Handling
 
 When encountering design system challenges:
@@ -189,3 +278,6 @@ When encountering design system challenges:
 2. **Scale Conflicts**: Refine mathematical progression for better harmony
 3. **Platform Limitations**: Create fallback solutions and progressive enhancement
 4. **Legacy Constraints**: Develop migration strategies and compatibility layers
+5. **Component conflicts**: Coordinate with creative-director for resolution
+6. **Implementation gaps**: Work with engineering to bridge technical limitations
+7. **Accessibility failures**: Prioritize fixes and provide alternatives

@@ -17,7 +17,7 @@
       },
       "members": [
         {
-          "agent": "tech-lead",
+          "agent": "engineering-lead",
           "role": "Technical Leadership",
           "capacity": 1,
           "skills": ["architecture", "code_review", "technical_spec", "data_model_design"],
@@ -30,7 +30,7 @@
           ]
         },
         {
-          "agent": "fullstack-eng",
+          "agent": "engineering-fullstack",
           "role": "Full Stack Development",
           "capacity": 3,
           "skills": ["frontend", "backend", "api", "database", "integration"],
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "agent": "ux-eng",
+          "agent": "engineering-ux",
           "role": "UX Engineering",
           "capacity": 2,
           "skills": ["ui_components", "responsive_design", "accessibility", "design_systems"],
@@ -56,7 +56,7 @@
           ]
         },
         {
-          "agent": "test-engineer",
+          "agent": "engineering-test",
           "role": "Quality Assurance",
           "capacity": 2,
           "skills": ["unit_testing", "integration_testing", "e2e_testing", "test_automation"],
@@ -69,7 +69,7 @@
           ]
         },
         {
-          "agent": "doc-writer",
+          "agent": "engineering-docs",
           "role": "Documentation",
           "capacity": 1,
           "skills": ["technical_writing", "api_documentation", "user_guides"],
@@ -85,9 +85,9 @@
       "workflows": {
         "task_flow": ["specification", "implementation", "testing", "review", "documentation"],
         "review_requirements": {
-          "code": ["tech-lead"],
-          "design": ["ux-eng", "tech-lead"],
-          "tests": ["test-engineer"]
+          "code": ["engineering-lead"],
+          "design": ["engineering-ux", "engineering-lead"],
+          "tests": ["engineering-test"]
         }
       }
     },
@@ -115,7 +115,7 @@
           ]
         },
         {
-          "agent": "business-analyst",
+          "agent": "product-analyst",
           "role": "Business Analysis",
           "capacity": 1,
           "skills": ["requirements_analysis", "process_mapping", "data_analysis"],
@@ -141,14 +141,14 @@
       },
       "members": [
         {
-          "agent": "qa-engineer-e2e",
+          "agent": "qa-e2e",
           "role": "End-to-End Testing",
           "capacity": 2,
           "skills": ["e2e_testing", "user_journey_validation", "cross_browser_testing"],
           "model": "sonnet"
         },
         {
-          "agent": "qa-engineer-scripts",
+          "agent": "qa-scripts",
           "role": "Test Automation",
           "capacity": 2,
           "skills": ["test_scripting", "automation_frameworks", "ci_integration"],
@@ -174,21 +174,21 @@
       },
       "members": [
         {
-          "agent": "ci-cd-engineer",
+          "agent": "devops-cicd",
           "role": "CI/CD Pipeline Management",
           "capacity": 1,
           "skills": ["github_actions", "build_automation", "deployment_workflows"],
           "model": "sonnet"
         },
         {
-          "agent": "infrastructure-engineer",
+          "agent": "devops-infrastructure",
           "role": "Infrastructure Management",
           "capacity": 1,
           "skills": ["docker", "kubernetes", "terraform", "cloud_platforms"],
           "model": "sonnet"
         },
         {
-          "agent": "release-manager",
+          "agent": "devops-release",
           "role": "Release Coordination",
           "capacity": 1,
           "skills": ["version_management", "changelog_generation", "deployment_orchestration"],

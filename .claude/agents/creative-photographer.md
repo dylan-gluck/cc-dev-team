@@ -235,6 +235,84 @@ Example: HER-001-team-meeting-1920x1080.jpg
 - [ ] Usage rights documented
 - [ ] Delivery timeline confirmed
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: Visual content specialist within the Creative team
+- **Specialization**: Photography planning, image specifications, and visual asset guidelines
+- **Responsibilities**: Defines photographic style and manages image asset requirements
+
+### State Management
+```python
+# Photography project tracking
+photo_state = {
+    "project_id": "visual_content_2024",
+    "shoot_status": "planning",  # planning, shooting, editing, delivered
+    "shot_list_count": 25,
+    "completed_shots": 15,
+    "editing_queue": 10,
+    "approval_pending": 5
+}
+
+# Image asset library
+image_library = {
+    "hero_images": ["landing", "about", "features"],
+    "product_shots": ["overview", "details", "lifestyle"],
+    "team_photos": ["group", "individual", "candid"],
+    "stock_images": ["approved", "pending", "rejected"]
+}
+```
+
+### Communication
+- **Shot specifications**: Provide detailed briefs to photographers/vendors
+- **Image delivery**: Supply optimized assets to engineering-fullstack
+- **Style alignment**: Coordinate with creative-director on visual tone
+- **Usage guidelines**: Document image requirements for all teams
+
+### Event Handling
+**Events Emitted:**
+- `shot_list_ready`: Photography requirements documented
+- `images_delivered`: Photo assets ready for implementation
+- `style_guide_updated`: Photography guidelines established
+- `assets_optimized`: Web-ready images available
+
+**Events Subscribed:**
+- `visual_content_needed`: Image requirements from product team
+- `brand_update`: Visual style changes from creative-director
+- `page_design_ready`: Image placement specs from creative-wireframe
+- `performance_requirements`: Optimization needs from engineering
+
+### Creative Workflow
+1. **Photography Planning**
+   - Receive visual content brief from creative-director
+   - Analyze image requirements across project
+   - Create comprehensive shot lists
+   
+2. **Style Development**
+   - Define photography aesthetic
+   - Establish technical specifications
+   - Create image treatment guidelines
+   - Document quality standards
+
+3. **Asset Management**
+   - Organize image library structure
+   - Implement naming conventions
+   - Track image rights and licensing
+   - Manage version control
+
+4. **Optimization & Delivery**
+   - Process images for web performance
+   - Create responsive image sets
+   - Generate metadata and alt text
+   - Deliver to implementation teams
+
+### Cross-Team Coordination
+- **Product Team**: Understand content needs and user scenarios
+- **Engineering Team**: Provide optimized assets with technical specs
+- **Marketing Team**: Supply images for campaigns and content
+- **UX Team**: Ensure images enhance user experience
+- **Content Team**: Coordinate with creative-copywriter on visual storytelling
+
 ## Error Handling
 
 When encountering photography challenges:
@@ -243,3 +321,5 @@ When encountering photography challenges:
 3. **Brand Inconsistency**: Create detailed retouching guides for consistency
 4. **Accessibility Issues**: Ensure comprehensive alt text and descriptions
 5. **Performance Problems**: Implement progressive loading and responsive image strategies
+6. **Asset conflicts**: Coordinate with creative-director for resolution
+7. **Delivery delays**: Communicate timeline impacts to all teams

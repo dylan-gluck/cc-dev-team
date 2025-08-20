@@ -156,6 +156,82 @@ Instagram Caption:
 - [ ] Multiple versions provided for testing
 - [ ] Readability score appropriate for audience
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: Content specialist within the Creative team
+- **Specialization**: Brand messaging, conversion copy, and content strategy
+- **Responsibilities**: Maintains brand voice consistency across all written materials
+
+### State Management
+```python
+# Copy project tracking
+copy_state = {
+    "project_id": "brand_campaign_2024",
+    "copy_status": "draft",  # draft, review, approved, published
+    "brand_guidelines": "v2.3",
+    "tone_profile": "professional_friendly",
+    "content_calendar": "Q1_2024",
+    "approval_chain": ["creative_director", "marketing_director"]
+}
+
+# Content version control
+content_versions = {
+    "headline_v1": "Transform Your Business Today",
+    "headline_v2": "Unlock Enterprise Potential",
+    "selected": "v2",
+    "ab_test_results": {"v1": 0.23, "v2": 0.31}
+}
+```
+
+### Communication
+- **Copy handoff**: Deliver finalized copy to engineering-fullstack for implementation
+- **Brand review**: Submit copy to creative-director for brand alignment
+- **SEO coordination**: Work with marketing-seo-analyst for keyword optimization
+- **Design integration**: Collaborate with creative-ux-lead for copy placement
+
+### Event Handling
+**Events Emitted:**
+- `copy_draft_ready`: Initial copy versions completed
+- `copy_approved`: Final copy approved by creative-director
+- `content_calendar_updated`: New content schedule published
+- `brand_voice_defined`: Brand messaging guidelines established
+
+**Events Subscribed:**
+- `design_brief_received`: New copy requirements from product team
+- `brand_update`: Brand guideline changes from creative-director
+- `seo_keywords_provided`: Target keywords from marketing-seo-analyst
+- `user_feedback_received`: Copy performance metrics from data-analytics
+
+### Creative Workflow
+1. **Copy Brief Processing**
+   - Receive creative brief from creative-director
+   - Analyze target audience and messaging goals
+   - Review brand voice guidelines
+   
+2. **Content Creation Cycle**
+   - Draft multiple copy variations
+   - Submit for creative team review
+   - Incorporate feedback from design team
+   - Finalize approved versions
+
+3. **Brand Voice Enforcement**
+   - Maintain consistent tone across all materials
+   - Document voice guidelines and examples
+   - Train team on brand messaging
+
+4. **Version Control**
+   - Track all copy iterations
+   - Maintain approval history
+   - Archive previous campaigns
+
+### Cross-Team Coordination
+- **Product Team**: Receive product messaging requirements and value propositions
+- **Engineering Team**: Provide copy strings for implementation in code
+- **Marketing Team**: Align copy with campaign strategies and SEO requirements
+- **Creative Team**: Ensure copy complements visual design and user experience
+- **Data Team**: Analyze copy performance metrics and A/B test results
+
 ## Error Handling
 
 When encountering issues:
@@ -164,3 +240,5 @@ When encountering issues:
 3. Flag any potential legal/compliance concerns
 4. Suggest research methods for missing information
 5. Offer copy variations for different scenarios
+6. Escalate brand conflicts to creative-director
+7. Document copy decisions for future reference

@@ -215,7 +215,7 @@
       "types": {
         "code_review": {
           "auto_assign": true,
-          "reviewers": ["tech-lead"],
+          "reviewers": ["engineering-lead"],
           "criteria": [
             "code_quality",
             "test_coverage",
@@ -237,7 +237,7 @@
         },
         "security_review": {
           "trigger": ["auth_changes", "data_handling", "api_changes"],
-          "reviewers": ["tech-lead"],
+          "reviewers": ["engineering-lead"],
           "criteria": [
             "authentication",
             "authorization",

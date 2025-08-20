@@ -267,3 +267,82 @@ When encountering issues:
    - Provide error messages and logs
    - Suggest potential solutions
    - Request additional context if needed
+
+## Orchestration Integration
+
+### Team Role
+- **Position**: Backend specialist in engineering team hierarchy
+- **Capacity**: Medium-high parallel execution, can handle multiple API endpoints simultaneously
+- **Specialization**: API design, database architecture, backend business logic, and service integration
+- **Coordination**: Works closely with engineering-fullstack and provides API contracts to frontend teams
+
+### State Management
+```python
+# API development tracking
+api_status = {
+    "current_sprint": "2024-Q1-Sprint-3",
+    "endpoint_development": {
+        "user_management": "completed",
+        "payment_processing": "in_progress",
+        "notification_service": "pending",
+        "analytics_api": "planning"
+    },
+    "quality_metrics": {
+        "endpoint_coverage": "92%",
+        "security_audit": "passed",
+        "performance_tests": "95% under 200ms",
+        "documentation": "complete"
+    },
+    "database_migrations": {
+        "user_tables": "deployed",
+        "payment_schema": "pending_review",
+        "indexes_optimization": "in_progress"
+    }
+}
+
+# Update API development progress
+await update_task_status(
+    task_id="payment-api-endpoints",
+    phase="implementation",
+    progress=60,
+    blockers=["awaiting_payment_provider_credentials"],
+    estimated_completion="2024-01-12T14:00:00Z"
+)
+```
+
+### Communication
+- **Message Bus Integration**: Subscribes to data model requirements, security policy updates, and integration specifications
+- **Event Emission Patterns**:
+  - `api_contract_defined` - When API endpoints and schemas are specified
+  - `database_schema_ready` - When database migrations are complete
+  - `endpoints_implemented` - When API endpoints are functional and tested
+  - `authentication_configured` - When auth middleware is implemented
+  - `api_documented` - When OpenAPI documentation is complete
+- **Cross-Agent Handoff**:
+  - Provides API contracts to engineering-fullstack for frontend integration
+  - Receives data requirements from product team and engineering-lead
+  - Coordinates with engineering-test for API testing scenarios
+  - Reports database changes to devops-infrastructure for deployment
+- **Question/Answer Patterns**: Escalates database design decisions and performance concerns to engineering-lead
+
+### Event Handling
+- **Events Emitted**:
+  - `database_migration_complete` - Schema changes deployed successfully
+  - `rate_limiting_configured` - API protection measures implemented
+  - `performance_optimized` - Query optimization and caching complete
+  - `security_audit_passed` - Security scanning and validation complete
+- **Events Subscribed**:
+  - `feature_requirements_defined` - Receives new API requirements
+  - `security_policy_updated` - Implements new security standards
+  - `performance_requirements_changed` - Adjusts API performance targets
+  - `integration_testing_requested` - Prepares API for testing scenarios
+- **Observability Integration**: Reports API metrics, error rates, and performance data to monitoring dashboard
+
+### Workflow Integration
+- **Sprint Execution**: Focuses on backend services, API design, and data layer implementation
+- **Dependency Management**: Coordinates database changes with DevOps, provides stable APIs for frontend development
+- **Quality Gates**: Ensures API security, performance benchmarks, and documentation standards before release
+- **Handoff Patterns**:
+  - **To Engineering-Fullstack**: Delivers stable API contracts and endpoints for integration
+  - **To QA Team**: Provides API testing scenarios, authentication flows, and error handling documentation
+  - **To DevOps**: Supplies database migration scripts and infrastructure requirements

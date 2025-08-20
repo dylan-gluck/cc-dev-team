@@ -1,12 +1,19 @@
 # Claude Code Development Team Scaffolding
 
-A comprehensive framework for building AI-powered development teams using Claude Code. This repository provides a production-ready scaffolding system with specialized agents, intelligent hooks, enhanced workflows, and extensive customization options.
+A comprehensive enterprise orchestration framework for building AI-powered development teams using Claude Code. This repository provides a production-ready scaffolding system with specialized agents, intelligent hooks, multi-team orchestration, and comprehensive state management for large-scale software development projects.
 
 ## Overview
 
 This scaffolding transforms Claude Code into a sophisticated development team coordination platform. Rather than working with a single AI assistant, you get access to a complete team of specialized agents, each with specific expertise and tools, all orchestrated through an intelligent workflow system.
 
 ### Key Features
+
+**🏢 Enterprise Orchestration Framework**
+- Multi-team coordination with hierarchical agent management
+- User-controlled orchestration via slash commands with explicit consent
+- State management separation (configuration vs. runtime)
+- Real-time observability dashboard and metrics tracking
+- Budget management with token and time limits
 
 **🤖 Specialized Agent Team**
 The scaffolding includes 44+ specialized agents organized into teams using the `<team>-<agent>` naming convention:
@@ -19,6 +26,20 @@ The scaffolding includes 44+ specialized agents organized into teams using the `
 - **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst
 - **Data Team**: data-scientist, data-analytics
 - **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit
+
+**🎯 User-Controlled Orchestration**
+- Explicit slash command triggers (`/orchestrate sprint start`, `/orchestrate task delegate`)
+- Preview and confirmation system with resource estimates
+- No automatic agent spawning without user consent
+- Granular control over which operations to orchestrate
+- Configuration-driven teams that users can modify
+
+**🔄 State Management & Communication**
+- JSON-based state management with `jq` operations
+- Inter-agent message bus for coordination
+- Event streaming for system observability
+- Persistent state with automatic backup and cleanup
+- Real-time metrics collection and dashboard
 
 **🔗 Intelligent Hook System**
 - Complete lifecycle automation with 8 hook types
@@ -77,6 +98,149 @@ cp .claude-scaffolding/CLAUDE.md .
 cp .claude-scaffolding/README.md ./README-scaffolding.md
 ```
 
+## Enterprise Orchestration Framework
+
+### Overview
+
+The orchestration framework enables enterprise-scale software development with multiple AI teams working in parallel. Unlike basic agent delegation, this system provides:
+
+- **Team Hierarchy**: Organized teams with specialized orchestrator agents
+- **State Management**: Persistent state tracking across sprints, epics, and tasks
+- **Communication Bus**: Inter-agent messaging and coordination
+- **Observability**: Real-time dashboards and metrics collection
+- **User Control**: Explicit consent model with no surprise agent spawning
+
+### Architecture Components
+
+**State Management System**
+- **Configuration**: User-editable team and workflow definitions (`.claude/orchestration/`)
+- **Runtime State**: System-managed execution state (`.claude/state/`)
+- **Separation**: Clear distinction between what users configure vs. system tracks
+
+**Communication Infrastructure**
+- **Message Bus**: Agent-to-agent communication with priority handling
+- **Event Stream**: System-wide event logging and notifications
+- **State Synchronization**: Real-time state updates across all components
+
+**Orchestration Scripts** (`.claude/scripts/`)
+- `orchestrate.py` - Main orchestration command handler
+- `state_manager.py` - CLI-based state operations using `jq`
+- `message_bus.py` - Inter-agent communication system
+- `event_stream.py` - Event logging and streaming
+- `observability.py` - Metrics collection and dashboard
+
+### User-Controlled Orchestration
+
+All orchestration is **explicitly triggered** via slash commands with preview and confirmation:
+
+```bash
+# Start a sprint (shows preview and requires confirmation)
+/orchestrate sprint start sprint-3
+
+# Delegate a task (analyzes requirements and suggests teams)
+/orchestrate task delegate "Implement OAuth2 authentication"
+
+# Activate a team for coordination
+/orchestrate team activate engineering
+
+# Plan an epic with team input
+/orchestrate epic plan authentication-system
+
+# Check status and metrics
+/orchestrate status
+
+# Stop all orchestration activities
+/orchestrate stop
+```
+
+**Preview System**: Before any orchestration begins, users see:
+- Which agents will be spawned
+- Estimated token usage and time
+- Resource requirements
+- Task breakdown and dependencies
+
+**Confirmation Required**: No agents are spawned without explicit user approval.
+
+### Configuration vs Runtime State
+
+**Configuration Files** (User-editable, version-controlled):
+```
+.claude/orchestration/
+├── teams.json          # Team definitions and hierarchy
+├── workflows.json      # Sprint/epic workflow templates  
+├── settings.json       # Orchestration preferences
+└── agents.json         # Agent capability specifications
+```
+
+**Runtime State** (System-managed, gitignored):
+```
+.claude/state/
+├── orchestration.json  # Active sprints, tasks, agents
+├── metrics.json        # Performance data
+├── events.jsonl        # Event stream log
+└── backups/           # Automatic state backups
+```
+
+### Getting Started with Orchestration
+
+#### 1. Initialize Orchestration Components
+```bash
+# Validate orchestration configuration
+uv run .claude/scripts/validate_orchestration.py
+
+# Initialize state management
+uv run .claude/scripts/state_manager.py get
+
+# Check orchestration status
+uv run .claude/scripts/observability.py status --format=summary
+```
+
+#### 2. Configure Your Teams
+Edit `.claude/orchestration/teams.json` to define your development teams:
+
+```json
+{
+  "teams": {
+    "engineering": {
+      "orchestrator": "engineering-director",
+      "members": [
+        {"agent": "engineering-lead", "capacity": 1},
+        {"agent": "engineering-fullstack", "capacity": 3},
+        {"agent": "engineering-ux", "capacity": 2}
+      ],
+      "settings": {
+        "max_parallel_agents": 5,
+        "require_code_review": true
+      }
+    }
+  }
+}
+```
+
+#### 3. Start Your First Orchestrated Sprint
+```bash
+# Use the orchestration command in Claude Code
+/orchestrate sprint start
+
+# System will show:
+# - Team preview
+# - Resource estimates  
+# - Confirmation prompt
+# - Agent spawning progress
+```
+
+#### 4. Monitor and Observe
+```bash
+# Live monitoring dashboard
+uv run .claude/scripts/observability.py monitor
+
+# Sprint progress
+uv run .claude/scripts/observability.py sprint
+
+# System metrics
+uv run .claude/scripts/observability.py metrics
+```
+
 ## Prerequisites
 
 ### Required
@@ -103,6 +267,21 @@ project-root/
 │   ├── agents/                 # Specialized sub-agents
 │   ├── commands/               # Custom slash commands
 │   ├── hooks/                  # Lifecycle automation scripts
+│   ├── orchestration/          # Team and workflow configuration (NEW)
+│   │   ├── teams.json          # Team definitions and hierarchy
+│   │   ├── workflows.json      # Sprint/epic workflow templates
+│   │   ├── settings.json       # Orchestration preferences
+│   │   └── agents.json         # Agent capability specifications
+│   ├── scripts/                # Orchestration implementation (NEW)
+│   │   ├── orchestrate.py      # Main orchestration handler
+│   │   ├── state_manager.py    # State operations with jq
+│   │   ├── message_bus.py      # Inter-agent communication
+│   │   ├── event_stream.py     # Event logging and streaming
+│   │   └── observability.py    # Metrics and dashboard
+│   ├── state/                  # Runtime state (gitignored) (NEW)
+│   │   ├── orchestration.json  # Active sessions and tasks
+│   │   ├── metrics.json        # Performance data
+│   │   └── events.jsonl        # Event stream log
 │   ├── output-styles/          # Response formatting options
 │   ├── status_lines/           # Dynamic terminal status displays
 │   ├── data/sessions/          # Session state persistence
@@ -111,7 +290,9 @@ project-root/
 ├── ai_docs/                    # AI-curated documentation
 │   ├── cc/                     # Claude Code references
 │   ├── bun/                    # Bun runtime documentation
-│   └── uv/                     # UV Python documentation
+│   ├── uv/                     # UV Python documentation
+│   ├── ORCHESTRATION.md        # Orchestration overview (NEW)
+│   └── ORCHESTRATION_SPEC.md   # Technical specification (NEW)
 ├── logs/                       # Structured event logs
 └── CLAUDE.md                   # Project-specific instructions
 ```
@@ -120,6 +301,9 @@ project-root/
 
 **[`.claude/`](.claude/README.md)** - Core scaffolding infrastructure
 - **[`agents/`](.claude/agents/)** - Team of specialized AI agents
+- **[`orchestration/`](.claude/orchestration/)** - Team and workflow configuration (JSON files)
+- **[`scripts/`](.claude/scripts/)** - Orchestration implementation scripts (Python)
+- **[`state/`](.claude/state/)** - Runtime state management (gitignored)
 - **[`hooks/`](.claude/hooks/README.md)** - Lifecycle automation and workflow enhancement
 - **[`commands/`](.claude/commands/)** - Custom slash commands for rapid task execution
 - **[`output-styles/`](.claude/output-styles/)** - Response formatting configurations
@@ -128,6 +312,8 @@ project-root/
 **[`apps/`](apps/README.md)** - Your actual project applications and services
 
 **[`ai_docs/`](ai_docs/README.md)** - Curated documentation for agent reference
+- **[`ORCHESTRATION.md`](ai_docs/ORCHESTRATION.md)** - Enterprise orchestration overview
+- **[`ORCHESTRATION_SPEC.md`](ai_docs/ORCHESTRATION_SPEC.md)** - Technical implementation specification
 
 **[`logs/`](logs/README.md)** - Comprehensive audit trail and session management
 
@@ -789,9 +975,18 @@ uv run .claude/hooks/session_start.py --debug
 
 ### Comprehensive Documentation
 - **[Main Documentation](ai_docs/README.md)**: Complete technical references
+- **[Orchestration Framework](ai_docs/ORCHESTRATION.md)**: Enterprise orchestration overview
+- **[Orchestration Specification](ai_docs/ORCHESTRATION_SPEC.md)**: Technical implementation details
 - **[Hook System](/.claude/hooks/README.md)**: Detailed hook implementation guide
 - **[Agent Framework](/.claude/agents/)**: Agent development patterns
 - **[Applications](apps/README.md)**: Project development guidelines
+
+### Orchestration Components
+- **[Team Configuration](/.claude/orchestration/teams.json)**: Define your development teams
+- **[Workflow Templates](/.claude/orchestration/workflows.json)**: Sprint and epic workflows
+- **[Orchestration Settings](/.claude/orchestration/settings.json)**: System preferences and limits
+- **[State Management](/.claude/scripts/state_manager.py)**: CLI for state operations
+- **[Observability Dashboard](/.claude/scripts/observability.py)**: Metrics and monitoring
 
 ### External Resources
 - **[Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)**: Official Claude Code docs
@@ -802,6 +997,13 @@ uv run .claude/hooks/session_start.py --debug
 
 ---
 
-**Transform your development workflow with AI-powered team coordination. This scaffolding provides everything you need to build sophisticated applications with the support of specialized AI agents, intelligent automation, and comprehensive development tooling.**
+**Transform your development workflow with enterprise-scale AI orchestration. This scaffolding provides everything you need to coordinate multiple AI teams, manage complex software projects, and scale development operations with specialized agents, intelligent automation, and comprehensive observability.**
 
-*Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) with extensive enhancements for production development workflows.*
+**Key Differentiators:**
+- **Enterprise-ready**: Multi-team orchestration with state management and observability
+- **User-controlled**: Explicit consent model with preview and confirmation
+- **Production-scale**: Resource management, budget controls, and comprehensive monitoring
+- **Configuration-driven**: JSON-based team definitions that users can modify
+- **Transparent**: Full visibility into agent activities and resource usage
+
+*Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) with extensive enhancements for enterprise orchestration and production development workflows.*

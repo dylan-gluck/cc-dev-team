@@ -299,10 +299,46 @@ When encountering issues:
    - Propose refactoring plan
    - Balance pragmatism with quality
 
-## Integration with Orchestration System
+## Orchestration Integration
 
-- **State Management**: Update task and review states in orchestration system
-- **Communication**: Use message bus for cross-team coordination
-- **Handoffs**: Clearly communicate spec completion and review outcomes
-- **Metrics**: Report code quality metrics to observability system
-- **Escalation**: Flag architectural concerns to engineering orchestrator
+### Team Role
+- **Position**: Senior member of Engineering Team under engineering-director orchestration
+- **Capacity**: 1 instance for focused technical leadership and architecture decisions
+- **Authority**: Technical decision-making authority, code review approvals
+- **Coordination**: Interfaces with all engineering team members and provides guidance
+
+### State Management
+```python
+# Update architectural decisions and review status
+def update_technical_state(review_id, spec_id, status):
+    state = {
+        "review_id": review_id,
+        "spec_id": spec_id,
+        "status": status,  # "in_progress", "approved", "changes_required", "blocked"
+        "quality_score": calculate_quality_score(),
+        "coverage_metrics": get_test_coverage(),
+        "architectural_decisions": get_arch_decisions(),
+        "technical_debt": get_debt_metrics()
+    }
+    orchestration_state.update(f"engineering.reviews.{review_id}", state)
+    orchestration_state.update(f"engineering.specs.{spec_id}", state)
+    emit_event("technical_review_completed", state)
+```
+
+### Communication Protocols
+- **Spec Handoffs**: Notify engineering-fullstack and engineering-ux when specs are ready
+- **Review Feedback**: Provide detailed feedback to development team members
+- **Architecture Decisions**: Communicate major decisions to engineering-director
+- **Quality Gates**: Block progression if critical issues are not addressed
+- **Cross-Team**: Coordinate with product-director on requirement clarifications
+
+### Event Handling
+- **Emit**: `spec:completed`, `review:approved`, `review:blocked`, `architecture:decision_made`
+- **Subscribe**: `feature:requirements_ready`, `code:submitted_for_review`, `sprint:planning`
+- **State Updates**: Technical specifications, code review status, architecture decisions, quality metrics
+
+### Quality Gate Integration
+- **Approval Authority**: Can block feature progression if quality standards not met
+- **Escalation Path**: Engineering-director → Product-director for scope/timeline conflicts
+- **Technical Debt**: Tracks and manages technical debt within orchestration state
+- **Standards Enforcement**: Ensures consistent patterns across all team development work

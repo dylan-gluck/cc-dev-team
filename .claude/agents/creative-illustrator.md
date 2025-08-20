@@ -261,6 +261,87 @@ illustrations/
 - [ ] Export templates created
 - [ ] Style guide comprehensive
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: Visual asset specialist within the Creative team
+- **Specialization**: Illustration systems, icon design, and visual storytelling
+- **Responsibilities**: Creates scalable visual assets that enhance brand expression
+
+### State Management
+```python
+# Illustration project tracking
+illustration_state = {
+    "project_id": "brand_visual_system",
+    "asset_status": "in_progress",  # concept, draft, review, approved, production
+    "style_guide_version": "v1.2",
+    "icon_count": 45,
+    "illustration_count": 12,
+    "completion_percentage": 75
+}
+
+# Asset library management
+asset_library = {
+    "icons": {
+        "navigation": ["arrow", "menu", "close"],
+        "actions": ["edit", "save", "delete"],
+        "status": ["success", "warning", "error"]
+    },
+    "illustrations": {
+        "hero": ["landing", "features", "about"],
+        "spot": ["empty_state", "success", "error"]
+    }
+}
+```
+
+### Communication
+- **Asset delivery**: Provide SVG/PNG assets to engineering-fullstack for implementation
+- **Style coordination**: Align with creative-ux-lead on visual language
+- **Brand review**: Submit illustrations to creative-director for approval
+- **Icon specifications**: Document usage guidelines for engineering team
+
+### Event Handling
+**Events Emitted:**
+- `illustration_style_defined`: Visual style guidelines established
+- `icon_system_ready`: Complete icon library available
+- `assets_exported`: Production-ready files delivered
+- `visual_metaphor_created`: New conceptual illustrations completed
+
+**Events Subscribed:**
+- `design_brief_received`: New illustration requirements from creative-director
+- `brand_update`: Visual style changes from creative-director
+- `component_needs_icon`: Icon request from engineering-ux
+- `content_needs_illustration`: Visual support request from creative-copywriter
+
+### Creative Workflow
+1. **Visual Brief Processing**
+   - Receive creative brief from creative-director
+   - Analyze visual requirements and constraints
+   - Research visual references and inspiration
+   
+2. **Asset Creation Cycle**
+   - Develop initial concepts and sketches
+   - Create vector illustrations in defined style
+   - Submit for creative team review
+   - Refine based on feedback
+
+3. **Style Guide Maintenance**
+   - Document illustration construction methods
+   - Define color and style parameters
+   - Create reusable component libraries
+
+4. **Asset Optimization**
+   - Optimize SVG files for web performance
+   - Generate multiple resolution exports
+   - Organize assets in structured library
+
+### Cross-Team Coordination
+- **Product Team**: Understand feature requirements for visual support
+- **Engineering Team**: Deliver optimized assets with implementation specs
+- **Marketing Team**: Create illustrations for campaigns and content
+- **UX Team**: Ensure illustrations enhance user experience
+- **Brand Team**: Maintain visual consistency with brand guidelines
+
 ## Error Handling
 
 When encountering illustration challenges:
@@ -269,3 +350,5 @@ When encountering illustration challenges:
 3. **Performance Problems**: Optimize vectors, reduce points and paths
 4. **Accessibility Concerns**: Increase contrast, simplify shapes
 5. **Cultural Misinterpretation**: Research and validate metaphors globally
+6. **Asset conflicts**: Coordinate with creative-director for resolution
+7. **Technical limitations**: Work with engineering for implementation solutions

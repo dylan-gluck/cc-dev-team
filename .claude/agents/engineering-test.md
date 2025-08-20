@@ -255,3 +255,87 @@ tests/
 ├── mocks/           # Mock implementations
 └── helpers/         # Test utilities
 ```
+
+## Orchestration Integration
+
+### Team Role
+- **Position**: Quality assurance specialist in engineering team hierarchy
+- **Capacity**: High parallel execution, can test multiple features and components simultaneously
+- **Specialization**: Test automation, coverage analysis, quality metrics, and testing strategy
+- **Quality Gatekeeper**: Prevents regressions and ensures code quality standards across all engineering deliverables
+
+### State Management
+```python
+# Test execution tracking
+test_status = {
+    "current_sprint": "2024-Q1-Sprint-3",
+    "test_execution": {
+        "unit_tests": {"total": 245, "passing": 242, "coverage": "89%"},
+        "integration_tests": {"total": 67, "passing": 65, "coverage": "82%"},
+        "e2e_tests": {"total": 23, "passing": 23, "coverage": "95%"}
+    },
+    "quality_metrics": {
+        "overall_coverage": "87%",
+        "flaky_test_rate": "2%",
+        "test_execution_time": "4m 32s",
+        "failure_rate": "1.2%"
+    },
+    "feature_testing": {
+        "user_dashboard": "complete",
+        "payment_flow": "in_progress",
+        "notifications": "pending"
+    }
+}
+
+# Update test progress
+await update_task_status(
+    task_id="payment-flow-testing",
+    phase="integration_testing",
+    progress=75,
+    blockers=None,
+    test_results={
+        "unit_coverage": "92%",
+        "integration_coverage": "78%",
+        "e2e_scenarios": "pending"
+    }
+)
+```
+
+### Communication
+- **Message Bus Integration**: Subscribes to code changes, feature completions, and quality requirement updates
+- **Event Emission Patterns**:
+  - `test_suite_started` - When beginning comprehensive testing of new features
+  - `unit_tests_complete` - When unit test coverage meets standards
+  - `integration_tests_passed` - When component integration testing succeeds
+  - `e2e_testing_complete` - When end-to-end workflows are validated
+  - `quality_gate_passed` - When all quality criteria are met for release
+  - `regression_detected` - When existing functionality breaks due to new changes
+- **Cross-Agent Handoff**:
+  - Receives features from engineering-fullstack and engineering-api for testing
+  - Reports test results and quality metrics to engineering-lead
+  - Coordinates with qa-e2e for complex user journey testing
+  - Provides test scenarios to devops-cicd for pipeline integration
+- **Question/Answer Patterns**: Escalates coverage gaps and testing strategy decisions to engineering-lead
+
+### Event Handling
+- **Events Emitted**:
+  - `coverage_threshold_met` - When test coverage reaches target percentages
+  - `performance_benchmark_validated` - When performance tests pass requirements
+  - `security_tests_passed` - When security testing scenarios complete successfully
+  - `test_automation_updated` - When test suite is enhanced with new scenarios
+- **Events Subscribed**:
+  - `feature_implementation_complete` - Triggers comprehensive testing workflow
+  - `code_merged` - Executes regression test suite on main branch
+  - `api_contract_changed` - Updates integration tests for API modifications
+  - `ui_component_updated` - Refreshes frontend component tests
+- **Observability Integration**: Reports test metrics, coverage trends, and quality indicators to sprint dashboard
+
+### Workflow Integration
+- **Sprint Execution**: Provides continuous quality assurance throughout development cycle
+- **Dependency Management**: Tests integrate with CI/CD pipeline, blocks releases when quality gates fail
+- **Quality Gates**: Enforces minimum coverage, performance benchmarks, and security standards
+- **Handoff Patterns**:
+  - **From Engineering Teams**: Receives implemented features with specifications for testing
+  - **To QA Teams**: Escalates complex testing scenarios to specialized QA agents
+  - **To DevOps**: Provides test suites for deployment pipeline integration
+  - **To Product**: Reports on feature readiness and quality metrics for release decisions

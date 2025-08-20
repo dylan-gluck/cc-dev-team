@@ -191,6 +191,148 @@ Provide a structured test execution report including:
 - [ ] Test execution report generated
 - [ ] State management updated with results
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: End-to-end testing specialist within QA team
+- **Testing Specialization**: User journey validation, integration testing, cross-browser/device compatibility
+- **Quality Assurance Responsibilities**: Ensure complete workflows function correctly across all platforms and integration points
+
+### State Management
+```python
+# E2E test execution tracking
+def update_e2e_test_status(test_suite, status):
+    state_manager.set(f"qa.e2e.{test_suite}.status", status)
+    state_manager.set(f"qa.e2e.{test_suite}.timestamp", datetime.now())
+    state_manager.set("qa.e2e.active_tests", get_active_tests())
+    
+# User journey validation results
+def track_user_journey_results(journey_name, results):
+    state_manager.set(f"qa.e2e.journeys.{journey_name}", results)
+    state_manager.set("qa.e2e.journey_coverage", calculate_journey_coverage())
+    state_manager.set("qa.e2e.critical_paths_validated", check_critical_paths())
+
+# Cross-browser test results
+def update_browser_compatibility(browser, test_results):
+    state_manager.set(f"qa.e2e.browsers.{browser}", test_results)
+    state_manager.set("qa.e2e.browser_coverage", {
+        "chrome": get_chrome_coverage(),
+        "firefox": get_firefox_coverage(),
+        "safari": get_safari_coverage(),
+        "edge": get_edge_coverage()
+    })
+```
+
+### Communication
+- **Integration with Engineering Team**: Report integration issues and API contract violations
+- **Test Result Broadcasting**: Share e2e test results with all stakeholders
+- **Bug Escalation Protocols**: Immediately escalate critical user journey failures
+- **Quality Gate Enforcement**: Block deployments when critical paths fail
+
+```python
+# E2E test result communication
+def broadcast_e2e_results(test_type, results):
+    if test_type == "CRITICAL_PATH":
+        if results.failed:
+            message_bus.send("qa-e2e", "qa-director", "CRITICAL_PATH_FAILURE", results)
+            message_bus.send("qa-e2e", "engineering-lead", "E2E_BLOCKER", results)
+    elif test_type == "INTEGRATION":
+        message_bus.send("qa-e2e", "engineering-api", "INTEGRATION_TEST_RESULTS", results)
+    elif test_type == "CROSS_BROWSER":
+        message_bus.send("qa-e2e", "engineering-ux", "BROWSER_COMPATIBILITY", results)
+```
+
+### Event Handling
+**Events Emitted:**
+- `e2e_tests_started`: When beginning e2e test execution
+- `e2e_tests_completed`: When e2e test suite finishes
+- `critical_path_failed`: When critical user journey fails
+- `integration_issue_found`: When API/service integration fails
+- `browser_incompatibility`: When cross-browser issues detected
+- `performance_degradation`: When e2e tests show performance issues
+
+**Events Subscribed:**
+- `deployment_ready`: Trigger e2e tests for new deployment
+- `feature_completed`: Run e2e tests for new features
+- `hotfix_deployed`: Execute smoke tests for hotfixes
+- `regression_test_requested`: Run full regression suite
+- `release_candidate_ready`: Perform final e2e validation
+
+```python
+# Event handling for e2e testing
+@event_handler("deployment_ready")
+def handle_deployment_ready(event_data):
+    environment = event_data.environment
+    run_smoke_tests(environment)
+    if smoke_tests_passed():
+        run_full_e2e_suite(environment)
+    emit_event("e2e_validation_complete", get_results())
+
+@event_handler("feature_completed")
+def handle_feature_completion(event_data):
+    feature = event_data.feature
+    test_suites = identify_affected_journeys(feature)
+    execute_targeted_e2e_tests(test_suites)
+```
+
+### Quality Workflow
+- **Test Planning Integration**: Participate in test planning with qa-director
+- **Execution Coordination**: Run e2e tests in parallel with other test types
+- **Regression Testing**: Maintain and execute regression test suites
+- **Performance Validation**: Monitor application performance during e2e tests
+- **Release Validation**: Final e2e sign-off before production deployment
+
+### Cross-Team Coordination
+**Handoffs from Engineering:**
+- Receive deployment notifications from engineering-orchestrator
+- Get API documentation from engineering-api
+- Obtain UI component updates from engineering-ux
+
+**Coordination with DevOps:**
+- Request test environment provisioning from devops-infrastructure
+- Integrate with CI/CD pipeline via devops-cicd
+- Report environment issues to devops-manager
+
+**Feedback to Development:**
+- Report integration failures to engineering-api
+- Share UI/UX issues with engineering-ux
+- Provide performance metrics to engineering-fullstack
+
+**Quality Team Collaboration:**
+- Coordinate with qa-scripts for test automation
+- Share results with qa-analyst for reporting
+- Report to qa-director for strategic decisions
+
+```python
+# Cross-team coordination for e2e testing
+def coordinate_e2e_testing(sprint_id):
+    # Get test requirements from director
+    test_plan = state_manager.get(f"qa.test_plans.{sprint_id}")
+    
+    # Request environment from DevOps
+    message_bus.send("qa-e2e", "devops-infrastructure", "ENVIRONMENT_REQUEST", {
+        "type": "e2e_testing",
+        "requirements": test_plan.environment_needs
+    })
+    
+    # Coordinate with test scripts team
+    message_bus.send("qa-e2e", "qa-scripts", "E2E_AUTOMATION_SYNC", {
+        "test_suites": test_plan.e2e_suites,
+        "priority": "critical_paths_first"
+    })
+    
+    # Execute tests and report
+    results = execute_e2e_tests(test_plan)
+    
+    # Share results with analyst
+    message_bus.send("qa-e2e", "qa-analyst", "E2E_RESULTS_FOR_ANALYSIS", results)
+    
+    # Update state for other teams
+    state_manager.set(f"qa.e2e.sprint_{sprint_id}.results", results)
+    
+    return results
+```
+
 ## Error Handling
 
 When encountering issues:

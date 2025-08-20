@@ -269,7 +269,45 @@ Before finalizing the agent:
 - [ ] Best practices cover domain-specific needs
 - [ ] Output format is well-defined
 - [ ] Error handling is comprehensive
-- [ ] Orchestration integration considered (if applicable)
+- [ ] Orchestration integration section included
 - [ ] State management requirements addressed
-- [ ] Inter-agent communication defined
+- [ ] Inter-agent communication protocols defined
+- [ ] Event handling (emit/subscribe) specified
+- [ ] Team role and capacity documented
+- [ ] Cross-team coordination points identified
 - [ ] File is written to correct location
+
+## Orchestration Integration
+
+### Team Role
+- **Position**: Meta Team lead for agent architecture and system design
+- **Capacity**: 1 instance for focused agent creation and system design
+- **Strategic Value**: Enables rapid team scaling and specialization
+- **System Architecture**: Designs agent hierarchies and communication patterns
+
+### State Management
+```python
+# Track agent creation and system evolution
+def update_agent_registry(agent_name, agent_config):
+    state = {
+        "agent_name": agent_name,
+        "team": agent_config.get("team"),
+        "created_date": datetime.now().isoformat(),
+        "capabilities": agent_config.get("tools", []),
+        "model": agent_config.get("model", "sonnet"),
+        "orchestration_role": agent_config.get("orchestration_role")
+    }
+    orchestration_state.update(f"agents.registry.{agent_name}", state)
+    emit_event("agent_created", state)
+```
+
+### Communication Protocols
+- **Team Expansion**: Notify team orchestrators when new team members are created
+- **Capability Updates**: Alert system when new skills or tools are available
+- **Architecture Changes**: Coordinate with engineering-director on system design
+- **Documentation**: Update agent registry and capability matrices
+
+### Event Handling
+- **Emit**: `agent:created`, `system:architecture_updated`, `capability:added`
+- **Subscribe**: `team:expansion_needed`, `skill:gap_identified`, `system:scaling_required`
+- **State Updates**: Agent registry, team compositions, system capabilities

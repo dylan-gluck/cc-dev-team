@@ -302,6 +302,141 @@ When encountering issues:
    - Alert orchestrator of state issues
    - Provide results via message bus
 
+## Orchestration Integration
+
+### Team Role
+- **Position**: Quality metrics and analysis specialist within QA team
+- **Testing Specialization**: Test result analysis, quality reporting, issue tracking, and metrics visualization
+- **Quality Assurance Responsibilities**: Provide data-driven insights for quality decisions, identify trends, and maintain quality dashboards
+
+### State Management
+```python
+# Test result tracking and metrics updates
+def update_test_metrics(test_results):
+    state_manager.set("qa.test_results.latest", test_results)
+    state_manager.set("qa.test_results.timestamp", datetime.now())
+    state_manager.set("qa.metrics.pass_rate", calculate_pass_rate(test_results))
+    state_manager.set("qa.metrics.coverage", calculate_coverage())
+    
+# Bug reporting and status tracking
+def track_bug_metrics(bugs):
+    state_manager.set("qa.bugs.open", count_open_bugs(bugs))
+    state_manager.set("qa.bugs.critical", count_critical_bugs(bugs))
+    state_manager.set("qa.bugs.mttr", calculate_mttr(bugs))
+    state_manager.set("qa.bugs.discovery_rate", calculate_discovery_rate())
+
+# Quality metrics reporting
+def update_quality_dashboard():
+    dashboard = {
+        "overall_quality_score": calculate_quality_score(),
+        "test_coverage": get_coverage_metrics(),
+        "defect_density": calculate_defect_density(),
+        "regression_trends": analyze_regression_trends(),
+        "risk_assessment": assess_quality_risks()
+    }
+    state_manager.set("qa.dashboard", dashboard)
+    state_manager.set("qa.dashboard.updated", datetime.now())
+```
+
+### Communication
+- **Integration with Engineering Team**: Share analysis reports for code quality improvements
+- **Test Result Broadcasting**: Emit quality metrics to all stakeholders via message bus
+- **Bug Escalation Protocols**: Alert engineering-lead for critical issues requiring immediate attention
+- **Quality Gate Enforcement**: Block releases when quality metrics fall below thresholds
+
+```python
+# Broadcast critical quality alerts
+def broadcast_quality_alert(alert_type, data):
+    if alert_type == "CRITICAL_BUG":
+        message_bus.send("qa-analyst", "engineering-lead", "CRITICAL_BUG_FOUND", data)
+        message_bus.send("qa-analyst", "qa-director", "ESCALATION_REQUIRED", data)
+    elif alert_type == "QUALITY_DEGRADATION":
+        message_bus.send("qa-analyst", "all", "QUALITY_ALERT", data)
+    elif alert_type == "COVERAGE_DROP":
+        message_bus.send("qa-analyst", "engineering-orchestrator", "COVERAGE_WARNING", data)
+```
+
+### Event Handling
+**Events Emitted:**
+- `analysis_started`: When beginning test result analysis
+- `analysis_completed`: When analysis report is ready
+- `critical_issue_found`: When critical bugs or quality issues detected
+- `quality_report_ready`: When periodic quality report is generated
+- `coverage_threshold_breach`: When coverage drops below minimum
+- `trend_alert`: When negative quality trends detected
+
+**Events Subscribed:**
+- `test_execution_completed`: Trigger analysis of new test results
+- `bug_reported`: Update bug tracking metrics
+- `sprint_started`: Initialize sprint quality tracking
+- `release_requested`: Generate release quality assessment
+- `code_merged`: Update coverage and quality metrics
+
+```python
+# Event handling examples
+@event_handler("test_execution_completed")
+def handle_test_completion(event_data):
+    analyze_test_results(event_data.results)
+    update_quality_metrics()
+    generate_analysis_report()
+
+@event_handler("release_requested")
+def handle_release_request(event_data):
+    quality_assessment = perform_release_assessment()
+    if not quality_assessment.passed:
+        emit_event("quality_gate_failed", quality_assessment)
+```
+
+### Quality Workflow
+- **Test Planning Support**: Provide historical metrics for test estimation
+- **Execution Monitoring**: Real-time analysis of test execution progress
+- **Regression Analysis**: Identify regression patterns and high-risk areas
+- **Performance Tracking**: Monitor test execution times and resource usage
+- **Release Validation**: Generate go/no-go recommendations based on quality metrics
+
+### Cross-Team Coordination
+**Handoffs from Engineering:**
+- Receive code coverage reports from engineering-fullstack
+- Analyze unit test results from development team
+- Review code quality metrics from static analysis
+
+**Coordination with DevOps:**
+- Integrate with CI/CD pipeline for automated analysis
+- Provide quality gates for deployment decisions
+- Share performance metrics from test environments
+
+**Feedback to Development:**
+- Identify code areas with insufficient testing
+- Highlight components with high defect density
+- Suggest refactoring targets based on bug patterns
+
+**Reporting to Product Team:**
+- Provide release readiness assessments
+- Share user impact analysis for bugs
+- Generate quality trend reports for stakeholder review
+
+```python
+# Cross-team coordination example
+def coordinate_release_quality():
+    # Gather metrics from all teams
+    engineering_metrics = state_manager.get("engineering.metrics")
+    devops_metrics = state_manager.get("devops.deployment.metrics")
+    qa_metrics = state_manager.get("qa.metrics")
+    
+    # Generate comprehensive assessment
+    assessment = generate_release_assessment(
+        engineering_metrics,
+        devops_metrics,
+        qa_metrics
+    )
+    
+    # Share with relevant teams
+    message_bus.send("qa-analyst", "product-director", "RELEASE_ASSESSMENT", assessment)
+    message_bus.send("qa-analyst", "devops-release", "QUALITY_GATE_STATUS", assessment.gate_status)
+    
+    return assessment
+```
+
 ## Integration Points
 
 - **QA Director**: Reports to for strategic decisions

@@ -1,0 +1,9 @@
+{
+  "id": "83507941-ddef-43f4-b18c-b410b79395ea",
+  "timestamp": "2025-08-20T01:31:54.845058",
+  "from": "orchestrator",
+  "to": "engineering-fullstack-1",
+  "type": "SYSTEM_ANNOUNCEMENT",
+  "payload": "System maintenance at 3 PM",
+  "priority": "critical"
+}
