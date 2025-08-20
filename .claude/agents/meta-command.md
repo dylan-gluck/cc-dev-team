@@ -37,6 +37,7 @@ When invoked, follow these steps:
      - Create clear command title and introduction
      - **Token Usage Guidelines:**
        - Use `!` prefix ONLY for commands that MUST execute during initialization (rare)
+       - If needed, for context or observibility patterns, bash can be explicetly run when the slash command is initialized by using the `!` prefix. The parent agent will receive the output of these commands before initializing the subagents.
        - Use `@` prefix ONLY for files that MUST be loaded into context (use sparingly)
        - For agent delegation: describe requirements, don't force specific executions
        - For variable actions: use descriptive text, not executable tokens

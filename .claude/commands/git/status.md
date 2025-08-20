@@ -5,9 +5,9 @@ description: Show comprehensive git repository status using the git-commit agent
 
 # Git Status
 
-Delegate to the git-commit agent to analyze and display the current repository state.
+Delegate to the meta-commit agent to analyze and display the current repository state.
 
-## Task for git-commit Agent
+## Task for meta-commit Agent
 
 Provide a comprehensive analysis of the current git repository state.
 

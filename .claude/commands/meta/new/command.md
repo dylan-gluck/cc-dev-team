@@ -35,7 +35,7 @@ You are tasked with creating a new slash command based on the user's specificati
   - `model`: (optional) Specific model if needed
 
 #### Implementation:
-- If the description mentions using a specific agent, configure the command to use the Task tool and delegate to that agent
+- If the description mentions using a specific agent, configure the command to use the Task tool and delegate to that agent.
 - Include all specified parameters as `$ARGUMENTS` placeholders
 - Provide clear instructions for parsing and handling arguments
 

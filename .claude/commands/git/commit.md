@@ -6,7 +6,7 @@ argument-hint: <message> [--push] [--push-force] [--set-upstream] [--no-verify]
 
 # Git Commit
 
-Create a conventional commit with staged changes and optionally push to remote repository.
+Delegate to the meta-commit agent: create a conventional commit with staged changes and optionally push to remote repository.
 
 ## Arguments
 
@@ -28,10 +28,10 @@ Extract flags and message from $ARGUMENTS:
 
 ### 2. Analyze Repository State
 Run the following commands to understand current state:
-- !`git status` - Check for staged/unstaged changes
-- !`git diff --cached` - Review staged changes in detail
-- !`git log --oneline -5` - Recent commit history for context
-- !`git branch --show-current` - Current branch name
+- `git status` - Check for staged/unstaged changes
+- `git diff --cached` - Review staged changes in detail
+- `git log --oneline -5` - Recent commit history for context
+- `git branch --show-current` - Current branch name
 
 ### 3. Determine Commit Type
 Based on the changes, determine:
@@ -63,9 +63,9 @@ Handle any pre-commit hook modifications:
 ### 6. Push to Remote (if requested)
 If any push flag was provided:
 
-1. **Check remote connectivity**: !`git remote -v`
-2. **Get current branch**: Store result of !`git branch --show-current` as the branch name
-3. **Check if branch exists on remote**: Using the branch name from step 2, run !`git ls-remote --heads origin` to check if it exists
+1. **Check remote connectivity**: `git remote -v`
+2. **Get current branch**: Store result of `git branch --show-current` as the branch name
+3. **Check if branch exists on remote**: Using the branch name from step 2, run `git ls-remote --heads origin` to check if it exists
 
 4. **Execute appropriate push command** using the branch name from step 2:
    - If --set-upstream: `git push --set-upstream origin` followed by the current branch name
