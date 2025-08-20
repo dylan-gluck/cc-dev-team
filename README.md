@@ -64,6 +64,34 @@ The scaffolding includes 44+ specialized agents organized into teams using the `
 
 Based on [claude-code-hooks-mastery](https://github.com/disler/claude-code-hooks-mastery) with extensive enhancements for team coordination and production workflows.
 
+## Project Templates
+
+The scaffolding includes a comprehensive template system for rapid project initialization:
+
+### Available Templates
+
+- **web** - Full-stack web application (SvelteKit + FastAPI + PostgreSQL)
+- **api** - REST API service with OpenAPI documentation
+- **cli** - Command-line tool with Click framework
+- **library** - Reusable package for PyPI/NPM
+- **static** - Static website with Astro and SEO optimization
+- **microservice** - Cloud-native Kubernetes service
+- **automation** - DevOps automation tool
+- **pipeline** - Data ETL/ELT pipeline with Airflow
+
+### Using Templates
+
+```bash
+# Create project with specific template
+/init-project myapp --template web
+/init-project myservice --template api
+
+# Interactive template selection
+/init-project myproject
+```
+
+Templates include pre-configured dependencies, Docker setup, testing frameworks, and automatically spawn appropriate agents for development. See [Template Documentation](.claude/templates/README.md) for details.
+
 ## Quick Start
 
 ### 1. Install Scaffolding to Your Project

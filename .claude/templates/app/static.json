@@ -1,0 +1,133 @@
+{
+  "name": "static",
+  "displayName": "Static Website",
+  "description": "Modern static website with Astro framework, Markdown support, and SEO optimization",
+  "category": "app",
+  "stack": {
+    "primary": "Astro",
+    "secondary": ["Tailwind CSS", "MDX", "Netlify/Vercel"],
+    "infrastructure": "Static Hosting (Netlify/Vercel/GitHub Pages)"
+  },
+  "structure": {
+    "root": "apps/{project}",
+    "directories": [
+      "src",
+      "src/pages",
+      "src/components",
+      "src/layouts",
+      "src/styles",
+      "src/content",
+      "src/content/blog",
+      "src/content/docs",
+      "src/assets",
+      "src/utils",
+      "public",
+      "public/images",
+      "public/fonts",
+      "tests",
+      "scripts"
+    ]
+  },
+  "dependencies": {
+    "system": ["node", "git"],
+    "development": {
+      "core": {
+        "astro": "^4.0.0",
+        "@astrojs/tailwind": "^5.0.0",
+        "@astrojs/mdx": "^2.0.0",
+        "@astrojs/sitemap": "^3.0.0",
+        "@astrojs/rss": "^4.0.0"
+      },
+      "ui": {
+        "tailwindcss": "^3.4.0",
+        "@tailwindcss/typography": "^0.5.0",
+        "@tailwindcss/forms": "^0.5.0"
+      },
+      "seo": {
+        "@astrojs/sitemap": "^3.0.0",
+        "astro-seo": "^0.8.0",
+        "schema-dts": "^1.1.0"
+      },
+      "content": {
+        "@astrojs/mdx": "^2.0.0",
+        "remark-gfm": "^4.0.0",
+        "rehype-pretty-code": "^0.12.0",
+        "reading-time": "^1.5.0"
+      },
+      "images": {
+        "@astrojs/image": "^0.18.0",
+        "sharp": "^0.33.0"
+      },
+      "testing": {
+        "vitest": "^1.1.0",
+        "@vitest/ui": "^1.1.0",
+        "playwright": "^1.40.0"
+      },
+      "dev": {
+        "prettier": "^3.1.0",
+        "prettier-plugin-astro": "^0.12.0",
+        "eslint": "^8.56.0",
+        "eslint-plugin-astro": "^0.31.0",
+        "typescript": "^5.3.0"
+      }
+    },
+    "production": {}
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.ts,.astro",
+    "check": "astro check && tsc --noEmit",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy:vercel": "vercel --prod",
+    "sitemap": "astro build && node scripts/generate-sitemap.js",
+    "lighthouse": "lighthouse http://localhost:4321 --view"
+  },
+  "options": [
+    "blog-enabled",
+    "documentation-site",
+    "portfolio-layout",
+    "landing-page",
+    "dark-mode",
+    "i18n-multi-language",
+    "search-integration",
+    "analytics-integration",
+    "newsletter-signup",
+    "contact-form",
+    "rss-feed",
+    "sitemap-automatic",
+    "seo-optimized",
+    "pwa-support",
+    "cms-integration"
+  ],
+  "notes": [
+    "Astro provides excellent performance out of the box",
+    "Zero JavaScript by default, opt-in interactivity",
+    "Built-in image optimization",
+    "Markdown and MDX support for content",
+    "Automatic sitemap generation",
+    "RSS feed generation for blogs",
+    "SEO-friendly with meta tags and structured data",
+    "Tailwind CSS for rapid styling",
+    "Static site generation for best performance",
+    "Can integrate with any UI framework (React, Vue, Svelte)",
+    "Content collections for type-safe content",
+    "View transitions API support"
+  ],
+  "agents": {
+    "setup": ["engineering-ux", "engineering-fullstack"],
+    "enhance": ["creative-copywriter", "marketing-seo-analyst"],
+    "review": ["engineering-lead", "creative-director"]
+  },
+  "files": {
+    "astro.config.mjs": "import { defineConfig } from 'astro/config';\nimport tailwind from '@astrojs/tailwind';\nimport mdx from '@astrojs/mdx';\nimport sitemap from '@astrojs/sitemap';\n\nexport default defineConfig({\n  site: 'https://{project}.com',\n  integrations: [\n    tailwind(),\n    mdx(),\n    sitemap()\n  ],\n  markdown: {\n    shikiConfig: {\n      theme: 'github-dark',\n      wrap: true\n    }\n  },\n  output: 'static',\n  build: {\n    inlineStylesheets: 'auto'\n  },\n  vite: {\n    optimizeDeps: {\n      exclude: []\n    }\n  }\n});",
+    "tailwind.config.mjs": "/** @type {import('tailwindcss').Config} */\nexport default {\n  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],\n  theme: {\n    extend: {\n      colors: {\n        primary: {\n          50: '#eff6ff',\n          500: '#3b82f6',\n          900: '#1e3a8a'\n        }\n      },\n      typography: (theme) => ({\n        DEFAULT: {\n          css: {\n            'code::before': {\n              content: '\"\"'\n            },\n            'code::after': {\n              content: '\"\"'\n            }\n          }\n        }\n      })\n    }\n  },\n  plugins: [\n    require('@tailwindcss/typography'),\n    require('@tailwindcss/forms')\n  ]\n}",
+    "package.json": "{\n  \"name\": \"{project}\",\n  \"type\": \"module\",\n  \"version\": \"0.1.0\",\n  \"scripts\": {\n    \"dev\": \"astro dev\",\n    \"start\": \"astro dev\",\n    \"build\": \"astro build\",\n    \"preview\": \"astro preview\",\n    \"astro\": \"astro\"\n  },\n  \"dependencies\": {\n    \"astro\": \"^4.0.0\",\n    \"@astrojs/tailwind\": \"^5.0.0\",\n    \"tailwindcss\": \"^3.4.0\"\n  },\n  \"devDependencies\": {\n    \"prettier\": \"^3.1.0\",\n    \"prettier-plugin-astro\": \"^0.12.0\"\n  }\n}",
+    "tsconfig.json": "{\n  \"extends\": \"astro/tsconfigs/strict\",\n  \"compilerOptions\": {\n    \"baseUrl\": \".\",\n    \"paths\": {\n      \"@/*\": [\"src/*\"],\n      \"@components/*\": [\"src/components/*\"],\n      \"@layouts/*\": [\"src/layouts/*\"],\n      \"@utils/*\": [\"src/utils/*\"]\n    }\n  }\n}",
+    ".prettierrc": "{\n  \"printWidth\": 100,\n  \"semi\": true,\n  \"singleQuote\": true,\n  \"tabWidth\": 2,\n  \"trailingComma\": \"es5\",\n  \"useTabs\": false,\n  \"plugins\": [\"prettier-plugin-astro\"],\n  \"overrides\": [\n    {\n      \"files\": \"*.astro\",\n      \"options\": {\n        \"parser\": \"astro\"\n      }\n    }\n  ]\n}"
+  }
+}

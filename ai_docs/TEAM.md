@@ -33,7 +33,7 @@ Each agent is defined in a markdown file in `.claude/agents/` with a unique name
 - **Communication Protocols**: Inter-agent messaging and coordination
 - **Event Handling**: Events the agent emits and subscribes to
 
-There is a custom slash command to generate new agent definitions in `.claude/commands/meta/generate-agent.md`.
+There is a custom slash command to generate new agent definitions in `.claude/commands/meta/new/agent.md`.
 
 ### Agent Naming Convention
 All agents follow the `<team>-<agent>` naming format with orchestration roles:

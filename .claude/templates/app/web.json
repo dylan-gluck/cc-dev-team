@@ -1,0 +1,102 @@
+{
+  "name": "web",
+  "displayName": "Full-Stack Web Application",
+  "description": "Modern web application with SvelteKit frontend, FastAPI backend, and PostgreSQL database",
+  "category": "app",
+  "stack": {
+    "primary": "SvelteKit + FastAPI",
+    "secondary": ["PostgreSQL", "Redis", "Docker", "Tailwind CSS"],
+    "infrastructure": "Docker Compose"
+  },
+  "structure": {
+    "root": "apps/{project}",
+    "directories": [
+      "frontend",
+      "frontend/src",
+      "frontend/src/routes",
+      "frontend/src/lib",
+      "frontend/src/lib/components",
+      "frontend/src/lib/stores",
+      "frontend/static",
+      "backend",
+      "backend/app",
+      "backend/app/api",
+      "backend/app/api/endpoints",
+      "backend/app/core",
+      "backend/app/models",
+      "backend/app/schemas",
+      "backend/app/services",
+      "backend/tests",
+      "database",
+      "database/migrations",
+      "docs",
+      "scripts",
+      ".docker"
+    ]
+  },
+  "dependencies": {
+    "system": ["docker", "git", "node", "python3", "uv"],
+    "development": {
+      "frontend": {
+        "@sveltejs/kit": "^2.0.0",
+        "@sveltejs/adapter-node": "^4.0.0",
+        "svelte": "^4.0.0",
+        "tailwindcss": "^3.4.0",
+        "vite": "^5.0.0",
+        "typescript": "^5.0.0"
+      },
+      "backend": {
+        "fastapi": "^0.109.0",
+        "uvicorn": "^0.27.0",
+        "sqlalchemy": "^2.0.0",
+        "alembic": "^1.13.0",
+        "pydantic": "^2.5.0",
+        "python-jose": "^3.3.0",
+        "passlib": "^1.7.4",
+        "python-multipart": "^0.0.6",
+        "redis": "^5.0.0",
+        "asyncpg": "^0.29.0"
+      }
+    },
+    "production": {}
+  },
+  "scripts": {
+    "dev": "docker-compose up",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm test",
+    "test:backend": "cd backend && pytest",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && docker build -t {project}-backend .",
+    "migrate": "cd backend && alembic upgrade head",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && npm run format",
+    "format:backend": "cd backend && ruff format ."
+  },
+  "options": [
+    "authentication-jwt",
+    "database-postgresql",
+    "caching-redis",
+    "ui-tailwind",
+    "api-openapi",
+    "testing-playwright",
+    "ci-github-actions"
+  ],
+  "notes": [
+    "Frontend runs on port 5173 in development",
+    "Backend API runs on port 8000",
+    "PostgreSQL runs on port 5432",
+    "Redis runs on port 6379",
+    "JWT tokens for authentication",
+    "Automatic API documentation at /docs",
+    "Database migrations via Alembic",
+    "Hot-reload enabled in development"
+  ],
+  "agents": {
+    "setup": ["engineering-fullstack", "engineering-ux"],
+    "enhance": ["engineering-api", "engineering-test"],
+    "review": ["engineering-lead"]
+  }
+}

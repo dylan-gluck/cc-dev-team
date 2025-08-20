@@ -113,9 +113,9 @@ Each agent includes:
 Custom commands organized by functional category:
 
 **Meta Operations (`meta/`):**
-- `generate-agent.md` - Create new specialized agents
-- `generate-command.md` - Create new custom commands  
-- `gen-agent-command.md` - Generate agent-specific commands
+- `new/agent.md` - Create new specialized agents
+- `new/command.md` - Create new custom commands  
+- `new/agent-command.md` - Generate agent-specific commands
 - `list/tools.md` - List available tools and capabilities
 - `update-status-line.md` - Update dynamic status display
 
@@ -366,7 +366,7 @@ The agent system mirrors a complete software development organization with clear
 ### Command Execution
 ```bash
 # Custom commands via Claude Code interface:
-/generate-agent "test-automation specialist"
+/meta:new:agent "test-automation specialist"
 /team-build "parallel feature development"
 /git-commit "implement user authentication"
 ```

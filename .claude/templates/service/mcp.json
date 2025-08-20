@@ -1,0 +1,115 @@
+{
+  "name": "mcp",
+  "displayName": "MCP Service",
+  "description": "Model Context Protocol server with customizable tools, resources, and prompts",
+  "category": "service",
+  "stack": {
+    "primary": "Python with UV",
+    "secondary": ["MCP SDK", "FastMCP", "SSE Transport"],
+    "infrastructure": "Standalone or Docker"
+  },
+  "structure": {
+    "root": "apps/{project}",
+    "directories": [
+      "src/{project}",
+      "src/{project}/tools",
+      "src/{project}/resources", 
+      "src/{project}/prompts",
+      "tests",
+      "docs",
+      "examples"
+    ]
+  },
+  "dependencies": {
+    "system": ["uv", "python>=3.10"],
+    "development": {
+      "python": [
+        "mcp",
+        "pydantic>=2.0",
+        "httpx",
+        "pytest",
+        "pytest-asyncio",
+        "black",
+        "ruff"
+      ]
+    },
+    "production": {
+      "python": [
+        "mcp",
+        "pydantic>=2.0",
+        "httpx"
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "uv run python -m {project}.server",
+    "test": "uv run pytest",
+    "lint": "uv run ruff check . && uv run black --check .",
+    "format": "uv run black . && uv run ruff check --fix .",
+    "build": "uv build",
+    "install": "uv pip install -e ."
+  },
+  "config": {
+    "services": [
+      "Specify external services to integrate (e.g., 'GitHub API', 'Slack', 'OpenAI', 'Database')",
+      "Each service will have its integration documented and example code generated"
+    ],
+    "tools": [
+      "List of tools to expose (e.g., 'search_code: Search through repository code')",
+      "Format: 'tool_name: Tool description and functionality'"
+    ],
+    "resources": [
+      "List of resources to provide (e.g., 'config://settings: Application settings')",
+      "Format: 'resource_uri: Resource description'"
+    ],
+    "prompts": [
+      "List of prompt templates (e.g., 'code_review: Analyze code for improvements')",
+      "Format: 'prompt_name: Prompt purpose and context'"
+    ]
+  },
+  "options": [
+    "Add authentication middleware for secure tool access",
+    "Include rate limiting for API calls",
+    "Setup logging with structured output",
+    "Add OpenTelemetry instrumentation for monitoring",
+    "Create Docker container with compose file",
+    "Include CLI for local testing and debugging",
+    "Add WebSocket transport support",
+    "Generate OpenAPI documentation for HTTP endpoints",
+    "Setup GitHub Actions for CI/CD",
+    "Add comprehensive error handling and retries"
+  ],
+  "notes": [
+    "Follow MCP protocol specifications strictly",
+    "Implement proper error handling with MCP error codes",
+    "Use async/await for all I/O operations",
+    "Include comprehensive docstrings for all tools",
+    "Add input validation using Pydantic models",
+    "Implement graceful shutdown handling",
+    "Use environment variables for configuration",
+    "Add health check endpoint for monitoring",
+    "Include example client code for testing",
+    "Document all tool parameters and return types"
+  ],
+  "agents": {
+    "research": ["research-docs"],
+    "setup": ["engineering-mcp"],
+    "enhance": ["engineering-api", "engineering-test"],
+    "review": ["engineering-lead"],
+    "docs": ["engineering-docs"]
+  },
+  "templates": {
+    "server": "src/{project}/server.py",
+    "tools": "src/{project}/tools/__init__.py",
+    "resources": "src/{project}/resources/__init__.py",
+    "prompts": "src/{project}/prompts/__init__.py",
+    "config": "src/{project}/config.py",
+    "client": "examples/client.py"
+  },
+  "documentation": {
+    "readme": "Project overview with setup instructions",
+    "integrations": "External service integration details",
+    "api": "Tool and resource API documentation",
+    "examples": "Usage examples and client code"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "pipeline",
+  "displayName": "Data Pipeline",
+  "description": "ETL/ELT data pipeline with Apache Airflow, dbt, and data warehouse integration",
+  "category": "data",
+  "stack": {
+    "primary": "Apache Airflow + dbt",
+    "secondary": ["PostgreSQL", "Snowflake", "Apache Spark"],
+    "infrastructure": "Docker + Kubernetes"
+  },
+  "structure": {
+    "root": "apps/{project}",
+    "directories": [
+      "dags",
+      "dbt",
+      "dbt/models",
+      "dbt/models/staging",
+      "dbt/models/intermediate",
+      "dbt/models/marts",
+      "dbt/tests",
+      "dbt/macros",
+      "scripts",
+      "sql",
+      "plugins",
+      "tests",
+      "data",
+      "docs"
+    ]
+  },
+  "dependencies": {
+    "system": ["docker", "python3", "git"],
+    "development": {
+      "python": {
+        "apache-airflow": "^2.8.0",
+        "dbt-core": "^1.7.0",
+        "dbt-postgres": "^1.7.0",
+        "pandas": "^2.1.0",
+        "sqlalchemy": "^2.0.0",
+        "great-expectations": "^0.18.0"
+      }
+    },
+    "production": {}
+  },
+  "scripts": {
+    "dev": "airflow standalone",
+    "test": "pytest && dbt test",
+    "build": "dbt build",
+    "run": "dbt run",
+    "docs": "dbt docs generate && dbt docs serve",
+    "validate": "great_expectations checkpoint run"
+  },
+  "options": [
+    "warehouse-snowflake",
+    "warehouse-bigquery",
+    "warehouse-redshift",
+    "streaming-kafka",
+    "ml-pipeline",
+    "data-quality-checks"
+  ],
+  "notes": [
+    "Orchestration with Airflow",
+    "Transformation with dbt",
+    "Data quality with Great Expectations",
+    "Incremental processing support",
+    "Data lineage tracking",
+    "Monitoring and alerting"
+  ],
+  "agents": {
+    "setup": ["data-scientist", "engineering-fullstack"],
+    "enhance": ["data-analytics", "engineering-test"],
+    "review": ["engineering-lead", "data-scientist"]
+  }
+}
