@@ -19,6 +19,10 @@
   - [ ] Intake: Idea > Team Directors > Research > Team Leads - Initial Specs > Directors - (Ready for Planning or Assign Refinements)
   - [ ] PlanEpic: ...
 
+- [ ] Output Styles as Dashboards!
+  - [ ] Task / Ticket Flow
+  - [ ] Team Observability
+
 ## Completed
 
 - [x] Create meta commands & meta-agent
