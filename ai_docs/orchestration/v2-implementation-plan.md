@@ -1,564 +1,434 @@
-# Orchestration System V2 Implementation Plan
+# V2 Orchestration Implementation Plan
 
 ## Executive Summary
 
-The V2 orchestration system transforms the current file-based, manually-triggered architecture into a **session-aware, program-based orchestration runtime** that leverages Claude Code's native features (output styles, status lines) to create interactive development environments. This evolution reduces complexity from 249 files to approximately 50 core files while maintaining all existing capabilities and adding significant new functionality.
+The V2 orchestration system transforms Claude Code into a sophisticated development team coordinator through a radically simplified architecture based on **JSON state files**, **UV scripts**, and **SudoLang programs**. This approach eliminates all external dependencies while providing powerful multi-session coordination capabilities.
 
-### Key Innovations
-- **Session-Based State Management**: Isolated state per Claude Code instance
-- **Output Styles as Programs**: Transform main agent into specialized runtimes
-- **Intelligent Hook Routing**: Session-aware, conditional orchestration activation
-- **Live Status Lines**: Real-time orchestration metrics and state display
-- **Simplified Architecture**: 80% reduction in file count, 60% reduction in code complexity
+### Key Deliverables
 
-## Architecture Overview
+1. **Three UV Scripts**: Core state management operations with inline dependencies
+2. **Four SudoLang Programs**: Interactive output styles for different workflows
+3. **JSON State Structure**: Clear separation of shared vs session state
+4. **Zero Infrastructure**: No servers, databases, or external services required
 
-### System Layers
+### Timeline: 10 Days Total
+
+- **Days 1-2**: UV scripts implementation
+- **Days 3-5**: SudoLang output styles
+- **Days 6-7**: Hook integration
+- **Days 8-10**: Testing and documentation
+
+## Architecture Summary
 
 ```
-┌─────────────────────────────────────────────────┐
-│           User Interface Layer                   │
-│  (Output Styles, Status Lines, TUI Dashboards)   │
-├─────────────────────────────────────────────────┤
-│           Orchestration Runtime                  │
-│   (Session Manager, State Engine, Event Bus)     │
-├─────────────────────────────────────────────────┤
-│            Agent Hierarchy                       │
-│     (Directors, Specialists, Workers)            │
-├─────────────────────────────────────────────────┤
-│           Hook System                            │
-│    (Lifecycle Events, State Updates)             │
-├─────────────────────────────────────────────────┤
-│         External Services (MCP)                  │
-└─────────────────────────────────────────────────┘
+User Interaction
+       ↓
+SudoLang Programs (Output Styles)
+       ↓
+UV Scripts (State Operations)
+       ↓
+JSON Files (State Persistence)
 ```
 
-### Core Design Principles
+### Core Principles
 
-1. **Session Isolation**: Each Claude Code instance maintains independent state
-2. **Program-Based Interaction**: Output styles define behavior modes
-3. **Event-Driven Updates**: All state changes flow through event system
-4. **Progressive Enhancement**: Orchestration features activate on-demand
-5. **Minimal File I/O**: In-memory state with periodic persistence
+1. **Simplicity First**: JSON + UV scripts = complete solution
+2. **No Dependencies**: Works on any system with Python
+3. **Human-Readable**: All state in inspectable JSON
+4. **Natural Language**: SudoLang programs for UI behavior
+5. **Progressive Enhancement**: Add complexity only when needed
 
-## Core Components
+## Phase 1: UV Scripts (Days 1-2)
 
-### 1. Session Management System
+### Day 1: Core State Manager
 
-**Location**: `.claude/scripts/session_manager.py`
+**File**: `ai_docs/orchestration/scripts/state_manager.py`
 
+**Features to Implement**:
 ```python
-# Session State Schema
+# Core operations
+- get(session_id, path) → JSONPath query
+- set(session_id, path, value) → Atomic update
+- merge(session_id, path, data) → Deep merge
+- delete(session_id, path) → Remove key
+- list-sessions() → Show all sessions
+- cleanup-expired() → Remove old sessions
+```
+
+**State Structure**:
+```json
 {
-    "session_id": "uuid",
-    "created_at": "timestamp",
-    "orchestration_enabled": bool,
-    "mode": "development|leadership|config",
-    "active_teams": ["engineering", "qa"],
-    "current_epic": "epic_id",
-    "current_sprint": "sprint_id",
-    "state": {
-        "agents": {},
-        "tasks": {},
-        "messages": {},
-        "metrics": {}
-    },
-    "runtime_config": {
-        "output_style": "all-team_dashboard",
-        "status_line": "orchestration_metrics"
+  "session": {
+    "id": "uuid",
+    "mode": "development|leadership|sprint|config",
+    "created_at": "ISO-8601",
+    "lifecycle": {
+      "status": "active|paused|completed",
+      "last_activity": "ISO-8601",
+      "expiry": "ISO-8601"
     }
+  },
+  "execution": {
+    "agents": {},
+    "tasks": {},
+    "workflows": {}
+  },
+  "observability": {
+    "metrics": {},
+    "events": []
+  }
 }
 ```
 
-**Key Features**:
-- In-memory state with Redis-like operations
-- File persistence every 30 seconds or on critical changes
-- Session expiry after 24 hours of inactivity
-- Hot-reload capability for configuration changes
+### Day 2: Session & Shared State Scripts
 
-### 2. Output Styles as Programs
+**File**: `ai_docs/orchestration/scripts/session_manager.py`
 
-**Location**: `.claude/output-styles/`
+**Features**:
+```bash
+# Session lifecycle
+uv run session_manager.py create --mode development --project myapp
+uv run session_manager.py heartbeat SESSION_ID
+uv run session_manager.py handoff FROM_SESSION TO_SESSION
+uv run session_manager.py list --active --project myapp
+```
 
-#### Program Types
+**File**: `ai_docs/orchestration/scripts/shared_state.py`
 
-1. **all-team_dashboard**: Full orchestration dashboard
-   - Visual team status display
-   - Task progress tracking
-   - Real-time metric updates
-   - Interactive command palette
+**Features**:
+```bash
+# Shared configuration
+uv run shared_state.py get-config PROJECT_ID
+uv run shared_state.py update-epic PROJECT_ID EPIC_ID --status completed
+uv run shared_state.py list-sprints PROJECT_ID --status active
+uv run shared_state.py list-tools
+```
 
-2. **leadership_chat**: Strategic planning interface
-   - Multi-agent discussion threads
-   - Decision tracking
-   - Performance analysis
-   - Resource allocation
+## Phase 2: SudoLang Programs (Days 3-5)
 
-3. **sprint_execution**: Development workflow runtime
-   - Task assignment automation
-   - Progress visualization
-   - Blocker identification
-   - Velocity tracking
+### Day 3: Dashboard Program
 
-4. **config_manager**: System configuration TUI
-   - Team configuration
-   - Agent management
-   - Workflow customization
-   - Settings adjustment
+**File**: `ai_docs/orchestration/v2-output-style-dashboard.md`
 
-#### Implementation Pattern
+**SudoLang Implementation**:
+```sudolang
+interface DashboardProgram {
+  name = "all-team_dashboard"
+  
+  constraints {
+    Always maintain ASCII art layout structure
+    Show real-time state from UV scripts
+    Process commands with "/" prefix
+    Never lose navigation context
+  }
+  
+  layout = """
+  ╭─ ORCHESTRATION DASHBOARD ───────────────────╮
+  │ Teams: {team_status}  Tasks: {task_summary} │
+  │ Sprint: {sprint_progress}  Velocity: {vel}  │
+  ├──────────────────────────────────────────────┤
+  │ {main_content_area}                         │
+  ├──────────────────────────────────────────────┤
+  │ Activity: {recent_events}                   │
+  ╰──────────────────────────────────────────────╯
+  > {command_prompt}
+  """
+  
+  commands = {
+    "/team <name>": "Show team details",
+    "/sprint": "Sprint board view",
+    "/metrics": "Performance dashboard",
+    "@<agent>": "Navigate to agent"
+  }
+  
+  stateRefresh() {
+    state = `uv run state_manager.py get {SESSION_ID} $`
+    updateDisplay(state)
+  }
+}
+```
 
+### Day 4: Leadership & Sprint Programs
+
+**Leadership Chat** (`v2-output-style-leadership.md`):
+- Multi-agent discussion threads
+- Decision tracking with voting
+- Resource allocation interface
+- Strategic planning tools
+
+**Sprint Execution** (`v2-output-style-sprint.md`):
+- Kanban board visualization
+- Task assignment automation
+- Velocity tracking
+- Blocker management
+
+### Day 5: Config Manager Program
+
+**Config Manager** (`v2-output-style-config.md`):
+- Team configuration UI
+- Agent pool management
+- Settings with validation
+- Rollback capabilities
+
+## Phase 3: Hook Integration (Days 6-7)
+
+### Day 6: State-Triggered Hooks
+
+**Hook Router Script**:
+```bash
+#!/bin/bash
+# .claude/hooks/orchestration/router.sh
+
+EVENT_TYPE=$1
+SESSION_ID=$2
+PAYLOAD=$3
+
+# Get current session state
+STATE=$(uv run state_manager.py get "$SESSION_ID" "$")
+
+# Route based on event and state
+case "$EVENT_TYPE" in
+  "task_completed")
+    update_sprint_progress "$SESSION_ID" "$PAYLOAD"
+    ;;
+  "agent_spawned")
+    register_agent "$SESSION_ID" "$PAYLOAD"
+    ;;
+  "epic_updated")
+    sync_shared_state "$SESSION_ID" "$PAYLOAD"
+    ;;
+esac
+```
+
+### Day 7: Cross-Session Coordination
+
+**Message Passing** (Optional):
+```python
+# Simple file-based messaging
+def send_message(from_session, to_session, message):
+    msg_file = f"~/.claude/messages/{to_session}/inbox/{uuid4()}.json"
+    with open(msg_file, 'w') as f:
+        json.dump({
+            "from": from_session,
+            "to": to_session,
+            "timestamp": datetime.now().isoformat(),
+            "message": message
+        }, f)
+
+def poll_messages(session_id):
+    inbox = f"~/.claude/messages/{session_id}/inbox"
+    messages = []
+    for msg_file in Path(inbox).glob("*.json"):
+        with open(msg_file) as f:
+            messages.append(json.load(f))
+        msg_file.unlink()  # Mark as read
+    return messages
+```
+
+## Phase 4: Testing & Polish (Days 8-10)
+
+### Day 8: Integration Testing
+
+**Test Scenarios**:
+
+1. **Multi-Session Coordination**:
+```bash
+# Session A starts sprint
+SESSION_A=$(uv run session_manager.py create --mode development)
+uv run shared_state.py activate-sprint myapp sprint-001 --session $SESSION_A
+
+# Session B joins sprint
+SESSION_B=$(uv run session_manager.py create --mode development)
+uv run state_manager.py set $SESSION_B "active_work.sprint" "sprint-001"
+
+# Verify both see same sprint
+uv run shared_state.py get-sprint myapp sprint-001
+```
+
+2. **State Recovery**:
+```bash
+# Simulate crash
+kill -9 $CLAUDE_PID
+
+# Recover state
+uv run session_manager.py recover $SESSION_ID
+
+# Verify state integrity
+uv run state_manager.py get $SESSION_ID "$.execution.tasks"
+```
+
+### Day 9: Performance Optimization
+
+**Optimization Areas**:
+
+1. **Query Caching**:
+```python
+class CachedStateManager:
+    def __init__(self):
+        self.cache = {}
+        self.cache_ttl = 5  # seconds
+    
+    def get(self, session_id, path):
+        cache_key = f"{session_id}:{path}"
+        if cache_key in self.cache:
+            entry = self.cache[cache_key]
+            if time.time() - entry['time'] < self.cache_ttl:
+                return entry['value']
+        
+        value = self._fetch_from_disk(session_id, path)
+        self.cache[cache_key] = {'value': value, 'time': time.time()}
+        return value
+```
+
+2. **Batch Operations**:
+```python
+def batch_update(session_id, updates):
+    with FileLock(get_lock_path(session_id)):
+        state = load_state(session_id)
+        for path, value in updates.items():
+            set_nested(state, path, value)
+        save_state(session_id, state)
+```
+
+### Day 10: Documentation & Examples
+
+**Documentation Structure**:
+
+1. **Quick Start Guide**:
 ```markdown
-# Output Style: all-team_dashboard
+# V2 Orchestration Quick Start
 
-You are running in Orchestration Dashboard mode. Display all responses as a structured dashboard:
+## Installation (30 seconds)
+1. Copy UV scripts to `.claude/scripts/`
+2. Copy SudoLang programs to `.claude/output-styles/`
+3. Run: `uv run session_manager.py create --mode development`
 
-## Dashboard Layout
-╔════════════════════════════════════════════════╗
-║  ORCHESTRATION DASHBOARD - Sprint {{sprint_id}} ║
-╠════════════════════════════════════════════════╣
-║ Teams     │ Tasks    │ Messages │ Performance  ║
-╟───────────┼──────────┼──────────┼──────────────╢
-║ {{teams}} │ {{tasks}}│ {{msgs}} │ {{metrics}}  ║
-╚════════════════════════════════════════════════╝
-
-## Interaction Commands
-- `team <name>`: Activate team
-- `task <id>`: View task details
-- `assign <task> <agent>`: Delegate work
-- `status`: Refresh dashboard
-- `help`: Show all commands
-
-## State Integration
-Fetch current state using: !bash ~/.claude/scripts/get_session_state.py
-Update state using: !bash ~/.claude/scripts/update_state.py --key=value
-
-Maintain visual consistency and update dashboard after each interaction.
+## Basic Usage
+- Start dashboard: Type "dashboard mode"
+- View state: `uv run state_manager.py get SESSION_ID $`
+- Update task: `uv run state_manager.py set SESSION_ID "tasks.task-001.status" "done"`
 ```
 
-### 3. Intelligent Hook System
+2. **Example Workflows**:
+- Sprint planning session
+- Multi-agent code review
+- Emergency incident response
+- Team handoff procedures
 
-**Location**: `.claude/hooks/orchestration/`
+## File Structure
 
-#### Hook Router Implementation
-
-```python
-#!/usr/bin/env uv
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["pydantic", "typing-extensions"]
-# ///
-
-import json
-import sys
-from pathlib import Path
-from typing import Any, Dict
-
-def route_hook_event(data: Dict[str, Any]) -> Dict[str, Any]:
-    """Route hook events based on session state"""
-    
-    session_id = data.get("session_id")
-    hook_event = data.get("hook_event_name")
-    
-    # Load session state
-    session_state = load_session_state(session_id)
-    
-    # Check if orchestration is enabled
-    if not session_state.get("orchestration_enabled"):
-        return {}  # Pass through without orchestration
-    
-    # Route based on hook type and state
-    if hook_event == "UserPromptSubmit":
-        return handle_user_prompt(data, session_state)
-    elif hook_event == "SubagentStop":
-        return handle_subagent_complete(data, session_state)
-    elif hook_event == "PreToolUse":
-        return handle_tool_permission(data, session_state)
-    
-    return {}
-```
-
-#### Hook Categories
-
-1. **Session Hooks**
-   - SessionStart: Initialize orchestration state
-   - SessionEnd: Persist state and cleanup
-   - Stop: Checkpoint current progress
-
-2. **Agent Hooks**
-   - SubagentStart: Track agent activation
-   - SubagentStop: Capture results and metrics
-   - AgentCapacity: Monitor resource usage
-
-3. **Tool Hooks**
-   - PreToolUse: Validate permissions
-   - PostToolUse: Capture side effects
-   - ToolError: Handle failures
-
-4. **State Hooks**
-   - StateChange: Emit events
-   - TaskUpdate: Track progress
-   - MessageReceived: Route communications
-
-### 4. Slash Command System
-
-**Location**: `.claude/commands/orchestration/`
-
-#### Command Categories
-
-1. **Workflow Commands**
-   ```
-   /start-sprint --teams="engineering,qa" --epic="user-auth"
-   /delegate-tasks --strategy="parallel" --priority="high"
-   /review-progress --format="dashboard"
-   ```
-
-2. **Team Commands**
-   ```
-   /activate-team engineering
-   /team-standup --async
-   /assign-lead @engineering-lead
-   ```
-
-3. **State Commands**
-   ```
-   /enable-orchestration
-   /set-mode leadership
-   /checkpoint-state
-   ```
-
-#### Command Template
-
-```markdown
----
-name: start-sprint
-description: Initialize a new development sprint
-model: opus
----
-
-# Start Sprint Command
-
-!bash ~/.claude/scripts/orchestration.py enable-session {{SESSION_ID}}
-!bash ~/.claude/scripts/orchestration.py set-mode "sprint_execution"
-!bash ~/.claude/scripts/orchestration.py activate-teams {{teams}}
-
-## Sprint Initialization
-
-You are now starting a new sprint with the following configuration:
-- Teams: {{teams}}
-- Epic: {{epic}}
-- Duration: {{duration}}
-
-Begin by:
-1. Loading the epic requirements
-2. Breaking down into sprint tasks
-3. Assigning tasks to teams
-4. Setting up monitoring
-
-Use the Task tool to delegate initial planning to team directors.
-```
-
-### 5. Status Line Implementation
-
-**Location**: `.claude/scripts/status_line.py`
-
-```python
-#!/usr/bin/env uv
-# /// script
-# requires-python = ">=3.12"
-# dependencies = ["rich", "arrow"]
-# ///
-
-import json
-import sys
-from pathlib import Path
-
-def generate_status_line(data: dict) -> str:
-    """Generate context-aware status line"""
-    
-    session_id = data.get("session_id")
-    session_state = load_session_state(session_id)
-    
-    if not session_state.get("orchestration_enabled"):
-        # Default status line
-        return f"[{data['model']['display_name']}] 📁 {Path.cwd().name}"
-    
-    # Orchestration status line
-    mode = session_state.get("mode", "idle")
-    active_agents = len(session_state.get("state", {}).get("agents", {}))
-    pending_tasks = count_pending_tasks(session_state)
-    
-    icons = {
-        "development": "⚡",
-        "leadership": "👥",
-        "config": "⚙️",
-        "idle": "💤"
-    }
-    
-    return (
-        f"{icons.get(mode, '📊')} {mode.upper()} | "
-        f"👥 {active_agents} agents | "
-        f"📝 {pending_tasks} tasks | "
-        f"🏃 Sprint Day {get_sprint_day(session_state)}"
-    )
-
-if __name__ == "__main__":
-    data = json.load(sys.stdin)
-    print(generate_status_line(data))
-```
-
-## Implementation Phases
-
-### Phase 1: Foundation (Week 1-2)
-**Goal**: Establish core session management and state system
-
-1. **Session Manager Implementation**
-   - [ ] Create session state schema
-   - [ ] Implement state persistence layer
-   - [ ] Build session isolation mechanism
-   - [ ] Add state query API
-
-2. **Hook Router Development**
-   - [ ] Create universal hook handler
-   - [ ] Implement session state loading
-   - [ ] Add conditional routing logic
-   - [ ] Build response formatting
-
-3. **Basic Status Line**
-   - [ ] Create status line script
-   - [ ] Add session state integration
-   - [ ] Implement mode detection
-   - [ ] Test with multiple sessions
-
-### Phase 2: Output Styles (Week 3-4)
-**Goal**: Create interactive program runtimes
-
-1. **Dashboard Program**
-   - [ ] Design TUI layout system
-   - [ ] Implement state visualization
-   - [ ] Add command interpreter
-   - [ ] Create refresh mechanism
-
-2. **Leadership Program**
-   - [ ] Build discussion thread UI
-   - [ ] Add multi-agent coordination
-   - [ ] Implement decision tracking
-   - [ ] Create metrics display
-
-3. **Sprint Execution Program**
-   - [ ] Design task board layout
-   - [ ] Add progress tracking
-   - [ ] Implement auto-assignment
-   - [ ] Build velocity calculator
-
-### Phase 3: Command Integration (Week 5-6)
-**Goal**: Streamline workflow automation
-
-1. **Core Commands**
-   - [ ] Convert existing commands to new format
-   - [ ] Add session state integration
-   - [ ] Implement bash execution patterns
-   - [ ] Create command discovery
-
-2. **Workflow Commands**
-   - [ ] Build sprint management commands
-   - [ ] Add team coordination commands
-   - [ ] Create review commands
-   - [ ] Implement state commands
-
-3. **Debug Commands**
-   - [ ] Add state inspection commands
-   - [ ] Create event replay commands
-   - [ ] Build performance profiling
-   - [ ] Implement rollback commands
-
-### Phase 4: Agent Optimization (Week 7-8)
-**Goal**: Enhance agent coordination
-
-1. **Agent Simplification**
-   - [ ] Consolidate duplicate agents
-   - [ ] Streamline system prompts
-   - [ ] Optimize tool permissions
-   - [ ] Improve delegation rules
-
-2. **Communication Enhancement**
-   - [ ] Upgrade message bus to session-aware
-   - [ ] Add priority routing
-   - [ ] Implement broadcast optimization
-   - [ ] Create agent discovery
-
-3. **Performance Tuning**
-   - [ ] Add capacity management
-   - [ ] Implement load balancing
-   - [ ] Create fallback mechanisms
-   - [ ] Build error recovery
-
-## Migration Strategy
-
-### 1. Parallel Operation
-- Run V2 alongside V1 for 2 weeks
-- Use feature flags to enable V2 per session
-- Maintain backward compatibility
-
-### 2. Data Migration
-```python
-# Migration script
-def migrate_v1_to_v2():
-    v1_state = load_v1_orchestration_state()
-    v2_sessions = {}
-    
-    for project in v1_state.get("projects", {}).values():
-        session = create_v2_session()
-        session["state"]["tasks"] = project.get("tasks", {})
-        session["state"]["agents"] = v1_state.get("agents", {})
-        v2_sessions[session["session_id"]] = session
-    
-    save_v2_sessions(v2_sessions)
-```
-
-### 3. Feature Parity Checklist
-- [ ] All V1 commands work in V2
-- [ ] Agent coordination maintained
-- [ ] State queries produce same results
-- [ ] Performance metrics comparable
-- [ ] Error handling improved
-
-### 4. Deprecation Timeline
-- Week 1-2: V2 development
-- Week 3-4: Internal testing
-- Week 5-6: Beta release
-- Week 7-8: Production release
-- Week 9-10: V1 deprecation
-- Week 11-12: V1 removal
-
-## Technical Specifications
-
-### File Structure (Simplified)
 ```
 .claude/
-├── output-styles/
-│   ├── all-team_dashboard.md
-│   ├── leadership_chat.md
-│   ├── sprint_execution.md
-│   └── config_manager.md
-├── commands/
+├── scripts/                      # UV Scripts (3 files)
+│   ├── state_manager.py         # Core state operations
+│   ├── session_manager.py       # Session lifecycle
+│   └── shared_state.py          # Cross-session config
+├── output-styles/                # SudoLang Programs (4 files)
+│   ├── all-team_dashboard.md    # Main dashboard
+│   ├── leadership_chat.md       # Strategic planning
+│   ├── sprint_execution.md      # Development workflow
+│   └── config_manager.md        # Settings management
+├── hooks/                        # Hook Scripts
 │   └── orchestration/
-│       ├── start-sprint.md
-│       ├── delegate-tasks.md
-│       └── review-progress.md
-├── hooks/
-│   └── orchestration/
-│       ├── router.py
-│       └── handlers.py
-├── scripts/
-│   ├── session_manager.py
-│   ├── status_line.py
-│   ├── state_engine.py
-│   └── event_bus.py
-├── agents/
-│   └── [consolidated to ~30 core agents]
-└── state/
-    └── sessions/
-        └── [session_id].json
+│       ├── router.sh            # Event router
+│       └── handlers/            # Event handlers
+└── state/                        # Runtime State (auto-created)
+    ├── sessions/                 # Session states
+    └── shared/                   # Shared configs
 ```
 
-### Performance Targets
-- Session initialization: < 100ms
-- State query: < 50ms
-- Hook processing: < 200ms
-- Dashboard refresh: < 500ms
-- Agent spawn: < 1s
+## Implementation Checklist
 
-### Resource Limits
-- Max concurrent sessions: 10
-- Max agents per session: 20
-- State file size: < 1MB
-- Event buffer: 1000 events
-- Message queue: 100 messages
+### Core Scripts
+- [ ] `state_manager.py` - JSONPath queries, atomic updates
+- [ ] `session_manager.py` - Session lifecycle management
+- [ ] `shared_state.py` - Project configuration management
+
+### SudoLang Programs
+- [ ] Dashboard - Real-time monitoring interface
+- [ ] Leadership - Strategic planning chat
+- [ ] Sprint - Kanban task board
+- [ ] Config - Settings management UI
+
+### Integration
+- [ ] Hook router - Event-based triggers
+- [ ] State triggers - Automated responses
+- [ ] Message passing - Cross-session coordination
+
+### Testing
+- [ ] Multi-session scenarios
+- [ ] State recovery testing
+- [ ] Performance benchmarks
+- [ ] Error handling validation
+
+### Documentation
+- [ ] Quick start guide
+- [ ] API reference
+- [ ] Example workflows
+- [ ] Troubleshooting guide
+
+## Success Criteria
+
+### Functional Requirements
+- ✅ Zero external dependencies
+- ✅ Multi-session support
+- ✅ State persistence and recovery
+- ✅ Interactive dashboards
+- ✅ Command processing
+
+### Performance Targets
+- State query: < 50ms
+- State update: < 100ms
+- Dashboard refresh: < 500ms
+- Session creation: < 200ms
+- File operations: < 10ms
+
+### Quality Metrics
+- Code coverage: > 80%
+- Documentation: Complete
+- Examples: 5+ workflows
+- Error handling: Comprehensive
 
 ## Risk Mitigation
 
 ### Technical Risks
 
-1. **State Corruption**
-   - Mitigation: Implement write-ahead logging
-   - Backup: Automatic state snapshots every hour
-   - Recovery: State reconstruction from event log
+1. **File Lock Contention**
+   - Mitigation: Timeout handling, retry logic
+   - Fallback: Read-only mode
 
-2. **Performance Degradation**
-   - Mitigation: In-memory caching
-   - Monitoring: Performance metrics in status line
-   - Optimization: Lazy loading of state sections
+2. **State File Corruption**
+   - Mitigation: Atomic writes, backup copies
+   - Recovery: From event log or backup
 
-3. **Session Conflicts**
-   - Mitigation: Strong session isolation
-   - Detection: Conflict detection in hooks
-   - Resolution: Session merge capabilities
+3. **Performance Degradation**
+   - Mitigation: Caching, query optimization
+   - Monitoring: Performance metrics
 
 ### Operational Risks
 
-1. **Migration Failures**
-   - Mitigation: Comprehensive migration testing
-   - Rollback: One-command V1 restoration
-   - Support: Migration troubleshooting guide
+1. **User Adoption**
+   - Mitigation: Simple commands, clear docs
+   - Support: Examples and tutorials
 
-2. **User Adoption**
-   - Mitigation: Extensive documentation
-   - Training: Video tutorials
-   - Support: Discord community channel
-
-## Success Metrics
-
-### Quantitative Metrics
-- **Complexity Reduction**: 80% fewer files (249 → 50)
-- **Performance Improvement**: 3x faster state operations
-- **Automation Increase**: 60% reduction in manual commands
-- **Error Reduction**: 50% fewer state-related errors
-- **Response Time**: 40% faster orchestration operations
-
-### Qualitative Metrics
-- **Developer Experience**: Simplified mental model
-- **Debugging**: Clear event traces
-- **Extensibility**: Easy to add new programs
-- **Maintainability**: Reduced code duplication
-- **Documentation**: Self-documenting architecture
-
-## Implementation Timeline
-
-### Month 1: Foundation
-- Week 1-2: Core session management
-- Week 3-4: Output styles development
-
-### Month 2: Integration
-- Week 5-6: Command system upgrade
-- Week 7-8: Agent optimization
-
-### Month 3: Deployment
-- Week 9-10: Migration and testing
-- Week 11-12: Production rollout
+2. **Migration Complexity**
+   - Mitigation: Compatibility layer
+   - Rollback: Keep v1 as fallback
 
 ## Conclusion
 
-The V2 orchestration system represents a fundamental shift from file-based coordination to session-based, program-driven orchestration. By leveraging Claude Code's native features and simplifying the architecture, we achieve:
+The V2 implementation delivers powerful orchestration capabilities through radical simplification:
 
-1. **Better User Experience**: Interactive dashboards and real-time feedback
-2. **Improved Performance**: In-memory state and optimized operations
-3. **Reduced Complexity**: 80% fewer files with clearer organization
-4. **Enhanced Automation**: Intelligent routing and auto-delegation
-5. **Future-Proof Design**: Extensible architecture for new features
+- **3 UV Scripts** handle all state operations
+- **4 SudoLang Programs** provide interactive interfaces
+- **JSON Files** store all state transparently
+- **Zero Dependencies** ensure universal compatibility
+- **10-Day Timeline** enables rapid deployment
 
-This implementation plan provides a clear path from the current V1 system to a more sophisticated, efficient, and maintainable V2 orchestration platform that will significantly enhance the development workflow capabilities of Claude Code.
-
-## Next Steps
-
-1. Review and approve implementation plan
-2. Set up V2 development branch
-3. Begin Phase 1 implementation
-4. Create migration test suite
-5. Document V2 architecture for team
+This approach proves that sophisticated coordination doesn't require complex infrastructure. The combination of UV scripts and SudoLang programs creates a system that is immediately useful, easily maintainable, and progressively enhanceable.
 
 ---
 
-*Document Version: 1.0*  
+*Document Version: 2.0 (Simplified)*  
 *Last Updated: 2025-01-21*  
 *Status: Ready for Implementation*
