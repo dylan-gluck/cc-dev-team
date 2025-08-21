@@ -1,8 +1,0 @@
-{
-  "session_id": "4a8366be-ba17-4bce-b0ea-cb2bb24c7ddf",
-  "prompts": [
-    "Use @agent-engineering-writer to update the README and SPEC in @mcp/artdept-mcp/*",
-    "Read @ai_docs/CREATIVE_TEAM.md\n\nTask @agent-meta-agent with updating creative team agent definitions in @.claude/agents/creative-* \n\nUse @agent-meta-command to add commands for the creative team. \n\nDeligate a code-review and have relevant docs updated. ",
-    "/git:commit "
-  ]
-}
