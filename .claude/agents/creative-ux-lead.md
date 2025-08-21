@@ -1,7 +1,7 @@
 ---
 name: creative-ux-lead
 description: "Design system architect specializing in colors, typography, spacing, and component libraries. Use proactively when establishing design tokens, creating style guides, or ensuring visual consistency. MUST BE USED for design system management and accessibility standards."
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
+tools: mcp__artdept-mcp__new_designsystem, mcp__stock-images-mcp__search_stock_images, Read, Write, LS, TodoWrite
 color: blue
 model: sonnet
 ---

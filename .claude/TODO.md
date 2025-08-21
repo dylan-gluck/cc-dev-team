@@ -1,8 +1,9 @@
 # TODO:
 
-- [ ] Creative team improvements
+- [x] Creative team improvements
+  - [x] MCP for Stock Images
   - [x] MCP for ArtDept (Wireframes, Logos, Assets)
-  - [ ] Update: Agent Prompts, Commands
+  - [x] Update: Agent Prompts, Commands
 
 - [ ] Orchestration improvements
   - [ ] Config vs Templates vs Workflows

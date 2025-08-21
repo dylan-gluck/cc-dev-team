@@ -1,7 +1,7 @@
 ---
 name: creative-logo
 description: "Brand identity specialist for logo design, brand mark development, and visual identity systems. Use proactively when creating logos, developing brand variations, or establishing brand application guidelines. MUST BE USED for logo concepts and brand identity documentation."
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
+tools: mcp__artdept-mcp__new_logo, mcp__stock-images-mcp__search_stock_images, Read, Write, LS, TodoWrite
 color: pink
 model: sonnet
 ---

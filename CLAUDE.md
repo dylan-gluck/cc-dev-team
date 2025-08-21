@@ -46,6 +46,12 @@ All agents now follow the `<team>-<agent>` naming format:
 - Use multiple parallel research queries for comprehensive coverage
 - Focus on actionable insights and current best practices
 
+**For Creative Tasks:**
+- Use creative-director for comprehensive design projects and brand development
+- Leverage creative team slash commands (/wireframe, /logo, /creative-assets) for rapid prototyping
+- Coordinate visual assets through creative specialists for brand consistency
+- Integrate MCP tools (artdept-mcp, stock-images-mcp) for AI-powered asset generation
+
 **For Agent Creation:**
 - Use meta-agent to create new specialists as needed
 - Ensure new agents have clear delegation descriptions

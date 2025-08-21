@@ -4,7 +4,6 @@
 # dependencies = [
 #     "mcp>=1.0.0",
 #     "openai>=1.0.0",
-#     "httpx>=0.24.0",
 #     "pydantic>=2.0.0",
 # ]
 # ///
@@ -13,7 +12,7 @@ ArtDept MCP Server - Creative Design Tools using OpenAI Image Generation.
 
 This MCP server provides creative design tools for generating wireframes,
 design systems, logos, icons, illustrations, and photos using OpenAI's
-DALL-E image generation API.
+gpt-image-1 model via base64 responses.
 
 Usage:
     ./main.py
@@ -22,9 +21,15 @@ Usage:
 
 Environment Variables:
     OPENAI_API_KEY: Required OpenAI API key for image generation
+
+Note:
+    - Uses gpt-image-1 model with base64 response format
+    - Background transparency might not be supported by gpt-image-1 model
+    - Images are saved directly from base64 data without URL downloads
 """
 
 import asyncio
+import base64
 import json
 import logging
 import os
@@ -32,8 +37,6 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Literal
 from datetime import datetime
-
-import httpx
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
@@ -67,22 +70,19 @@ class ImageGenerationResult(BaseModel):
     errors: List[str] = Field(default_factory=list)
 
 
-async def download_and_save_image(url: str, filepath: Path) -> bool:
-    """Download image from URL and save to filesystem."""
+async def save_base64_image(b64_data: str, filepath: Path) -> bool:
+    """Save base64 encoded image data to filesystem."""
     try:
-        async with httpx.AsyncClient() as http_client:
-            response = await http_client.get(url)
-            response.raise_for_status()
+        # Create parent directories if they don't exist
+        filepath.parent.mkdir(parents=True, exist_ok=True)
 
-            # Create parent directories if they don't exist
-            filepath.parent.mkdir(parents=True, exist_ok=True)
-
-            # Save the image
-            filepath.write_bytes(response.content)
-            logger.info(f"Saved image to {filepath}")
-            return True
+        # Decode base64 data and save the image
+        image_data = base64.b64decode(b64_data)
+        filepath.write_bytes(image_data)
+        logger.info(f"Saved image to {filepath}")
+        return True
     except Exception as e:
-        logger.error(f"Failed to download/save image: {e}")
+        logger.error(f"Failed to save base64 image: {e}")
         return False
 
 
@@ -90,9 +90,9 @@ async def generate_images(
     prompt: str,
     n: int = 1,
     size: str = "1024x1024",
-    model: str = "dall-e-3",
+    model: str = "gpt-image-1",
     quality: str = "standard",
-    response_format: str = "url"
+    response_format: str = "b64_json"
 ) -> List[str]:
     """Generate images using OpenAI API."""
     try:
@@ -104,7 +104,8 @@ async def generate_images(
             quality=quality,
             response_format=response_format
         )
-        return [image.url for image in response.data]
+        # Return base64 data instead of URLs
+        return [image.b64_json for image in response.data]
     except Exception as e:
         logger.error(f"Image generation failed: {e}")
         raise
@@ -176,7 +177,7 @@ def build_logo_prompt(user_prompt: str, style: str, colors: str) -> str:
 REQUIREMENTS:
 - Style: {style if style else 'modern, scalable logo design'}
 - Colors: {color_spec}
-- Format: Clean vector-style design on transparent background
+- Format: Clean vector-style design (note: transparent background may not be supported)
 - Versatility: Works at different sizes
 - Simplicity: Clear and memorable
 - Professional quality
@@ -198,7 +199,7 @@ def build_icon_prompt(user_prompt: str, style: str, colors: str) -> str:
 REQUIREMENTS:
 - Style: {style if style else 'modern, minimalist icon'}
 - Colors: {color_spec}
-- Format: Simple, clear design on transparent background
+- Format: Simple, clear design (note: transparent background may not be supported)
 - Scalability: Readable at small and large sizes
 - Clarity: Instantly recognizable
 - Consistency: Suitable for icon sets
@@ -215,7 +216,7 @@ def build_illustration_prompt(user_prompt: str, style: str) -> str:
     return f"""Create a professional illustration:
 
 STYLE: {style if style else 'modern digital illustration'}
-FORMAT: High-quality illustration on transparent background
+FORMAT: High-quality illustration (note: transparent background may not be supported)
 COMPOSITION: Balanced, visually appealing
 QUALITY: Professional, polished artwork
 
@@ -417,7 +418,7 @@ async def list_tools() -> List[Tool]:
                     },
                     "size": {
                         "type": "string",
-                        "enum": ["1024x1024", "1024x1792", "1792x1024"],
+                        "enum": ["1024x1024", "1536x1024", "1024x1536"],
                         "description": "Image dimensions",
                         "default": "1024x1024"
                     },
@@ -456,7 +457,7 @@ async def list_tools() -> List[Tool]:
                     },
                     "size": {
                         "type": "string",
-                        "enum": ["1024x1024", "1024x1792", "1792x1024"],
+                        "enum": ["1024x1024", "1536x1024", "1024x1536"],
                         "description": "Image dimensions",
                         "default": "1024x1024"
                     },
@@ -529,29 +530,29 @@ async def generate_wireframe(
     try:
         devices_to_generate = []
         if device == "both":
-            devices_to_generate = [("desktop", "1792x1024"), ("mobile", "1024x1792")]
+            devices_to_generate = [("desktop", "1536x1024"), ("mobile", "1024x1536")]
         elif device == "desktop":
-            devices_to_generate = [("desktop", "1792x1024")]
+            devices_to_generate = [("desktop", "1536x1024")]
         elif device == "mobile":
-            devices_to_generate = [("mobile", "1024x1792")]
+            devices_to_generate = [("mobile", "1024x1536")]
 
         for device_name, size in devices_to_generate:
             enhanced_prompt = build_wireframe_prompt(prompt, device_name, style)
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=enhanced_prompt,
                     n=1,
                     size=size,
-                    model="dall-e-3",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for idx, url in enumerate(urls):
+                for idx, b64_data in enumerate(b64_images):
                     filename = f"{id}-{device_name}.jpg"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
@@ -592,19 +593,19 @@ async def generate_design_system(
             variation_prompt = f"{enhanced_prompt}\n\nVariation {i+1} of {n}"
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=variation_prompt,
                     n=1,
-                    size="1792x1024",
-                    model="dall-e-3",
+                    size="1536x1024",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for url in urls:
+                for b64_data in b64_images:
                     filename = f"{id}-v{i+1}.jpg"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
@@ -644,19 +645,19 @@ async def generate_logo(
             variation_prompt = f"{enhanced_prompt}\n\nUnique variation {i+1} of {n}"
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=variation_prompt,
                     n=1,
                     size="1024x1024",
-                    model="dall-e-3",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for url in urls:
+                for b64_data in b64_images:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
@@ -696,19 +697,19 @@ async def generate_icon(
             variation_prompt = f"{enhanced_prompt}\n\nVariation {i+1} of {n}"
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=variation_prompt,
                     n=1,
                     size="1024x1024",
-                    model="dall-e-3",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for url in urls:
+                for b64_data in b64_images:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
@@ -748,19 +749,19 @@ async def generate_illustration(
             variation_prompt = f"{enhanced_prompt}\n\nCreative variation {i+1} of {n}"
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=variation_prompt,
                     n=1,
                     size=size,
-                    model="dall-e-3",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for url in urls:
+                for b64_data in b64_images:
                     filename = f"{id}-v{i+1}.png"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")
@@ -800,19 +801,19 @@ async def generate_photo(
             variation_prompt = f"{enhanced_prompt}\n\nUnique shot {i+1} of {n}"
 
             try:
-                urls = await generate_images(
+                b64_images = await generate_images(
                     prompt=variation_prompt,
                     n=1,
                     size=size,
-                    model="dall-e-3",
+                    model="gpt-image-1",
                     quality="standard"
                 )
 
-                for url in urls:
+                for b64_data in b64_images:
                     filename = f"{id}-v{i+1}.jpg"
                     filepath = Path(save) / filename
 
-                    if await download_and_save_image(url, filepath):
+                    if await save_base64_image(b64_data, filepath):
                         result.paths.append(str(filepath))
                     else:
                         result.errors.append(f"Failed to save {filename}")

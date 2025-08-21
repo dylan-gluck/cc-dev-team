@@ -1,7 +1,7 @@
 ---
 name: creative-photographer
 description: "Photography specialist for visual asset planning, shot list creation, and image specifications. Use proactively when defining photography requirements, creating image guidelines, or planning visual content. MUST BE USED for photography briefs and image asset documentation."
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
+tools: mcp__artdept-mcp__new_photo, mcp__stock-images-mcp__search_stock_images, Read, Write, LS, TodoWrite
 color: yellow
 model: haiku
 ---

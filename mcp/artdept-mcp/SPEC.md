@@ -36,11 +36,12 @@ This document provides a comprehensive technical specification for the ArtDept M
 The ArtDept MCP Server is built using:
 
 - **Framework**: Python MCP SDK (mcp>=1.0.0)
-- **Image Generation**: OpenAI API with DALL-E 3
+- **Image Generation**: OpenAI API with `gpt-image-1` model
+- **Response Format**: Base64-encoded JSON (no URL downloads)
 - **Transport**: STDIO-based communication
 - **Async Runtime**: Python asyncio
 - **Dependency Management**: UV script runner
-- **File I/O**: Pathlib and httpx for downloads
+- **File I/O**: Pathlib for direct base64 decoding and saving
 
 ### Key Design Principles
 
@@ -109,10 +110,10 @@ client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 ### Image Generation Parameters
 
 **Fixed Parameters:**
-- **Model**: `dall-e-3` (latest generation model)
+- **Model**: `gpt-image-1` (latest generation model)
 - **Quality**: `standard` (cost-optimized)
-- **Response Format**: `url` (for download)
-- **N**: 1 (DALL-E 3 limitation)
+- **Response Format**: `b64_json` (base64 encoded)
+- **N**: 1 (single image per request)
 
 **Variable Parameters:**
 - **Prompt**: Tool-specific enhanced prompts
@@ -122,25 +123,57 @@ client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 ### Supported Image Sizes
 
 - `1024x1024` - Square format (logos, icons)
-- `1024x1792` - Portrait format (mobile wireframes)
-- `1792x1024` - Landscape format (desktop wireframes, design systems)
+- `1024x1536` - Portrait format (mobile wireframes)
+- `1536x1024` - Landscape format (desktop wireframes, design systems)
 
 ### Rate Limiting
 
 The server implements basic error handling for rate limits but does not include built-in retry logic. Clients should handle rate limit responses appropriately.
 
-### Image Download Process
+### Implementation Constants
+
+The server uses the following fixed constants:
 
 ```python
-async def download_and_save_image(url: str, filepath: Path) -> bool:
-    """Downloads image from OpenAI CDN and saves to local filesystem."""
+# Model and quality settings
+MODEL = "gpt-image-1"
+QUALITY = "standard" 
+RESPONSE_FORMAT = "b64_json"
+
+# Image sizes by tool
+WIREFRAME_SIZES = {
+    "desktop": "1536x1024",
+    "mobile": "1024x1536"
+}
+DESIGN_SYSTEM_SIZE = "1536x1024"
+LOGO_SIZE = "1024x1024" 
+ICON_SIZE = "1024x1024"
+ILLUSTRATION_SIZES = ["1024x1024", "1536x1024", "1024x1536"]
+PHOTO_SIZES = ["1024x1024", "1536x1024", "1024x1536"]
+
+# File formats by tool
+WIREFRAME_FORMAT = ".jpg"
+DESIGN_SYSTEM_FORMAT = ".jpg"
+LOGO_FORMAT = ".png"
+ICON_FORMAT = ".png" 
+ILLUSTRATION_FORMAT = ".png"
+PHOTO_FORMAT = ".jpg"
+```
+
+### Base64 Image Processing
+
+```python
+async def save_base64_image(b64_data: str, filepath: Path) -> bool:
+    """Save base64 encoded image data to filesystem."""
 ```
 
 Process:
-1. Async HTTP GET to image URL
+1. Decode base64 string to binary data
 2. Create parent directories if needed
 3. Write binary content to file
 4. Log success/failure
+
+This approach eliminates the need for HTTP downloads and provides faster, more reliable image saving.
 
 ## Tool Specifications
 
@@ -158,11 +191,11 @@ Process:
 ```python
 devices_to_generate = []
 if device == "both":
-    devices_to_generate = [("desktop", "1792x1024"), ("mobile", "1024x1792")]
+    devices_to_generate = [("desktop", "1536x1024"), ("mobile", "1024x1536")]
 elif device == "desktop":
-    devices_to_generate = [("desktop", "1792x1024")]
+    devices_to_generate = [("desktop", "1536x1024")]
 elif device == "mobile":
-    devices_to_generate = [("mobile", "1024x1792")]
+    devices_to_generate = [("mobile", "1024x1536")]
 ```
 
 ### 2. new_designsystem
@@ -192,7 +225,8 @@ type_context = {
 - **Prompt Builder**: `build_logo_prompt()`
 - **Scalability Focus**: Prompts emphasize vector-style design
 - **Color Specification**: Flexible color input handling
-- **Format**: PNG for transparency support
+- **Format**: PNG for transparency support (note: transparency may not be supported by gpt-image-1)
+- **Size**: Fixed 1024x1024 square format
 
 ### 4. new_icon
 
@@ -202,7 +236,8 @@ type_context = {
 - **Prompt Builder**: `build_icon_prompt()`
 - **Consistency Emphasis**: "Suitable for icon sets" prompting
 - **Scalability**: Multiple size readability requirements
-- **Format**: PNG for transparency
+- **Format**: PNG for transparency (note: transparency may not be supported by gpt-image-1)
+- **Size**: Fixed 1024x1024 square format
 
 ### 5. new_illustration
 
@@ -211,8 +246,8 @@ type_context = {
 **Implementation Details:**
 - **Prompt Builder**: `build_illustration_prompt()`
 - **Style Flexibility**: Wide range of artistic styles supported
-- **Size Options**: Three aspect ratio choices
-- **Format**: PNG for transparency and quality
+- **Size Options**: Three aspect ratio choices (1024x1024, 1536x1024, 1024x1536)
+- **Format**: PNG for transparency and quality (note: transparency may not be supported by gpt-image-1)
 
 ### 6. new_photo
 
@@ -222,6 +257,7 @@ type_context = {
 - **Prompt Builder**: `build_photo_prompt()`
 - **Realism Focus**: Professional photography emphasis
 - **Lighting/Composition**: Technical photography terms
+- **Size Options**: Three aspect ratio choices (1024x1024, 1536x1024, 1024x1536)
 - **Format**: JPEG for photographic content
 
 ## Prompt Engineering Strategy
@@ -245,7 +281,7 @@ def build_logo_prompt(user_prompt: str, style: str, colors: str) -> str:
 REQUIREMENTS:
 - Style: {style if style else 'modern, scalable logo design'}
 - Colors: {color_spec}
-- Format: Clean vector-style design on transparent background
+- Format: Clean vector-style design (note: transparent background may not be supported)
 - Versatility: Works at different sizes
 - Simplicity: Clear and memorable
 - Professional quality
@@ -347,8 +383,8 @@ except Exception as e:
 
 **Bottlenecks:**
 1. OpenAI API generation time
-2. Image download from CDN
-3. Local file I/O
+2. Base64 decoding and file writing
+3. Sequential image generation for variations
 
 ### Throughput Limitations
 
@@ -358,9 +394,9 @@ except Exception as e:
 
 ### Resource Usage
 
-- **Memory**: Minimal (streaming downloads)
-- **Disk**: Temporary CDN images, permanent local storage
-- **Network**: Bandwidth for image downloads (1-10MB per image)
+- **Memory**: Minimal (base64 strings held temporarily during decoding)
+- **Disk**: Direct local storage, no temporary files
+- **Network**: Bandwidth for API requests only (base64 responses ~1.3x image size)
 
 ## Future Enhancements
 
@@ -394,12 +430,60 @@ except Exception as e:
    - PDF output for design systems
    - Multiple format generation
 
+## Testing Framework
+
+### Test Suite Coverage
+
+The server includes a comprehensive test suite (`test_server.py`) with 15 test cases covering:
+
+**Core Functionality Tests:**
+- `test_generate_wireframe_desktop` - Desktop wireframe generation
+- `test_generate_wireframe_mobile` - Mobile wireframe generation  
+- `test_generate_wireframe_both_devices` - Multi-device wireframe generation
+- `test_generate_design_system` - Design system variations
+- `test_generate_logo` - Logo generation with variations
+- `test_generate_icon` - Icon generation
+- `test_generate_illustration` - Custom size illustration generation
+- `test_generate_photo` - Photo generation with custom size
+
+**Parameter Validation Tests:**
+- `test_parameter_validation_n_constraint` - Validates n parameter limits (1-4)
+
+**Error Handling Tests:**
+- `test_api_error_handling` - OpenAI API failure scenarios
+- `test_file_save_error_handling` - File system error scenarios
+
+**Base64 Processing Tests:**
+- `test_save_base64_image_success` - Base64 decoding and file saving
+- `test_save_base64_image_directory_creation` - Directory creation
+
+**Prompt Engineering Tests:**
+- `test_prompt_builders` - All prompt building functions
+
+**Integration Tests:**
+- `test_tool_call_routing` - MCP tool routing and unknown tool handling
+
+### Test Execution
+
+```bash
+# Run test suite
+uv run test_server.py
+# or
+python test_server.py
+```
+
+### Test Data
+
+Tests use mock base64 image data representing a single-pixel PNG:
+```python
+MOCK_B64_IMAGE = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+```
+
 ### Technical Debt
 
 1. **Error Recovery**: Implement retry logic with exponential backoff
 2. **Configuration**: External configuration file support
 3. **Logging**: Structured logging with correlation IDs
-4. **Testing**: Comprehensive test suite with mocked OpenAI responses
 
 ### Integration Opportunities
 
@@ -420,4 +504,11 @@ For production deployment:
 
 ## Conclusion
 
-The ArtDept MCP Server provides a solid foundation for AI-powered creative asset generation. Its modular architecture, comprehensive error handling, and focus on professional quality output make it suitable for both development and production environments. The prompt engineering approach ensures consistent, high-quality results across all tool types while maintaining flexibility for diverse creative requirements.
+The ArtDept MCP Server provides a solid foundation for AI-powered creative asset generation using OpenAI's `gpt-image-1` model. Its base64-based architecture eliminates HTTP download dependencies, providing faster and more reliable image generation. The modular design, comprehensive error handling, extensive test coverage, and focus on professional quality output make it suitable for both development and production environments. The prompt engineering approach ensures consistent, high-quality results across all tool types while maintaining flexibility for diverse creative requirements.
+
+Key advantages of the current implementation:
+- **Reliability**: Direct base64 processing eliminates download failures
+- **Speed**: No HTTP roundtrips for image retrieval
+- **Testability**: Comprehensive mocked test suite with 15 test cases
+- **Maintainability**: Clear separation of concerns and modular prompt builders
+- **Professional Quality**: Tool-specific optimizations for different creative asset types

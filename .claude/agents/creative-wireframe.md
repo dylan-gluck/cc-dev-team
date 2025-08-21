@@ -1,7 +1,7 @@
 ---
 name: creative-wireframe
 description: "Information architecture and wireframing specialist for user flows, layouts, and low-fidelity mockups. Use proactively when designing user interfaces, creating page layouts, or mapping user journeys. MUST BE USED for wireframe creation and interaction design."
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
+tools: mcp__artdept-mcp__new_wireframe, mcp__stock-images-mcp__search_stock_images, Read, Write, LS, TodoWrite
 color: green
 model: sonnet
 ---

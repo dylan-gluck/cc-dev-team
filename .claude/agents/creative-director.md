@@ -1,7 +1,7 @@
 ---
 name: creative-director
 description: "Creative team orchestrator responsible for visual design coordination, brand consistency, and creative asset management. MUST BE USED when starting creative projects, managing design systems, or coordinating visual asset creation across UX, wireframing, photography, illustration, and logo design teams."
-tools: Task, Read, Write, Edit, Glob, LS, TodoWrite, WebSearch, WebFetch, mcp__freecrawl__search, mcp__freecrawl__scrape
+tools: Task, Read, Grep, LS, TodoWrite
 color: purple
 model: opus
 ---

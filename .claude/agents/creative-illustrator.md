@@ -1,7 +1,7 @@
 ---
 name: creative-illustrator
 description: "Illustration and visual design specialist for custom graphics, icon systems, and visual metaphors. Use proactively when creating illustration styles, designing icon libraries, or developing visual storytelling elements. MUST BE USED for illustration briefs and graphic asset specifications."
-tools: Read, Write, Edit, MultiEdit, Glob, WebSearch, WebFetch, mcp__freecrawl__search
+tools: mcp__artdept-mcp__new_illustration, mcp__artdept-mcp__new_icon, mcp__stock-images-mcp__search_stock_images, Read, Write, LS, TodoWrite
 color: orange
 model: sonnet
 ---

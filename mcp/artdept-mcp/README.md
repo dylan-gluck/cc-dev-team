@@ -4,7 +4,7 @@ A creative design toolkit that provides AI-powered image generation tools throug
 
 ## Overview
 
-ArtDept MCP Server bridges the gap between natural language descriptions and visual design assets. It leverages OpenAI's DALL-E 3 image generation API to create high-quality design assets based on your creative requirements. Perfect for designers, developers, and creative professionals who need quick visual prototypes and design assets.
+ArtDept MCP Server bridges the gap between natural language descriptions and visual design assets. It leverages OpenAI's `gpt-image-1` model to create high-quality design assets based on your creative requirements. The server generates images as base64-encoded data and saves them directly to your local filesystem, ensuring fast and reliable asset creation. Perfect for designers, developers, and creative professionals who need quick visual prototypes and design assets.
 
 ### Key Features
 
@@ -18,8 +18,29 @@ ArtDept MCP Server bridges the gap between natural language descriptions and vis
 ## Prerequisites
 
 - Python 3.11 or higher
-- OpenAI API key with access to DALL-E 3
+- OpenAI API key with access to `gpt-image-1` model
 - MCP-compatible client (such as Claude Desktop)
+
+## Technical Details
+
+### Image Generation Model
+- **Model**: OpenAI's `gpt-image-1` (not DALL-E 3)
+- **Response Format**: Base64-encoded JSON (`b64_json`)
+- **Quality**: Standard (optimized for speed and cost)
+- **Local Storage**: Images saved directly from base64 data without URL downloads
+
+### Image Specifications
+- **Wireframes**: 1536x1024 (desktop), 1024x1536 (mobile) - saved as JPG
+- **Design Systems**: 1536x1024 - saved as JPG  
+- **Logos**: 1024x1024 - saved as PNG
+- **Icons**: 1024x1024 - saved as PNG
+- **Illustrations**: Configurable (1024x1024, 1536x1024, 1024x1536) - saved as PNG
+- **Photos**: Configurable (1024x1024, 1536x1024, 1024x1536) - saved as JPG
+
+### Limitations
+- Background transparency may not be supported by the `gpt-image-1` model
+- Single image per API request (variations achieved through multiple calls)
+- Maximum 4 variations per tool call
 
 ## Installation
 
@@ -185,7 +206,7 @@ Design a flat icon for a settings menu using a gear symbol
     "id": "team-collaboration",
     "prompt": "Team of diverse professionals collaborating around a digital workspace",
     "n": 2,
-    "size": "1792x1024",
+    "size": "1536x1024",
     "style": "modern flat illustration"
   }
 }
@@ -200,7 +221,7 @@ Design a flat icon for a settings menu using a gear symbol
     "id": "office-workspace",
     "prompt": "Modern office workspace with natural lighting and plants",
     "n": 1,
-    "size": "1792x1024",
+    "size": "1536x1024",
     "style": "professional architectural photography"
   }
 }
@@ -220,8 +241,8 @@ Generate UI/UX wireframes for desktop, mobile, or both platforms.
 - `save`: Directory to save images - default: "creative/wires/"
 
 **Output:** JPG files with device-specific dimensions
-- Desktop: 1792x1024
-- Mobile: 1024x1792
+- Desktop: 1536x1024
+- Mobile: 1024x1536
 
 ### new_designsystem
 
@@ -236,7 +257,7 @@ Create comprehensive design systems for brand, UI, or UX purposes.
 - `colors`: Color palette specification
 - `save`: Directory to save images - default: "creative/design-systems/"
 
-**Output:** JPG files at 1792x1024 resolution
+**Output:** JPG files at 1536x1024 resolution
 
 ### new_logo
 
@@ -274,7 +295,7 @@ Generate custom illustrations in various artistic styles.
 - `id` (required): Kebab-case identifier for the illustration
 - `prompt` (required): Natural language description
 - `n` (required): Number of variations to generate (1-4)
-- `size`: Image dimensions ("1024x1024", "1024x1792", "1792x1024") - default: "1024x1024"
+- `size`: Image dimensions ("1024x1024", "1536x1024", "1024x1536") - default: "1024x1024"
 - `style`: Illustration style (e.g., "watercolor", "vector", "sketch")
 - `save`: Directory to save images - default: "creative/illustrations/"
 
@@ -288,7 +309,7 @@ Create photorealistic images for any use case.
 - `id` (required): Kebab-case identifier for the photo
 - `prompt` (required): Natural language description
 - `n` (required): Number of variations to generate (1-4)
-- `size`: Image dimensions ("1024x1024", "1024x1792", "1792x1024") - default: "1024x1024"
+- `size`: Image dimensions ("1024x1024", "1536x1024", "1024x1536") - default: "1024x1024"
 - `style`: Photography style (e.g., "portrait", "landscape", "macro")
 - `save`: Directory to save images - default: "creative/photos/"
 
@@ -298,7 +319,7 @@ Create photorealistic images for any use case.
 
 ### Environment Variables
 
-- `OPENAI_API_KEY` (required): Your OpenAI API key with DALL-E 3 access
+- `OPENAI_API_KEY` (required): Your OpenAI API key with `gpt-image-1` model access
 
 ### Output Directory Structure
 
@@ -347,7 +368,7 @@ Solution: Wait and retry, or upgrade your OpenAI plan for higher limits.
 ```
 Error: Invalid size parameter
 ```
-Solution: Use only supported sizes: "1024x1024", "1024x1792", "1792x1024".
+Solution: Use only supported sizes: "1024x1024", "1536x1024", "1024x1536".
 
 **4. File Save Errors**
 ```
@@ -365,27 +386,47 @@ logging.basicConfig(level=logging.DEBUG)
 
 ### API Limits
 
-- DALL-E 3 generates 1 image per request
+- `gpt-image-1` generates 1 image per request
 - Maximum 4 variations per tool call
 - Standard quality by default (faster, more cost-effective)
+- Base64 response format for direct file saving
 
 ## Cost Considerations
 
-Each image generation request to OpenAI incurs costs:
+Each image generation request to OpenAI incurs costs based on the `gpt-image-1` model pricing. The server uses standard quality by default for cost efficiency.
 
-- DALL-E 3 Standard: ~$0.040 per image
-- DALL-E 3 HD: ~$0.080 per image
+## Testing
 
-The server uses standard quality by default for cost efficiency.
+The server includes a comprehensive test suite located in `test_server.py`:
+
+```bash
+# Run the test suite
+uv run test_server.py
+# or
+python test_server.py
+```
+
+### Test Coverage
+
+The test suite covers:
+- All 6 image generation tools
+- Parameter validation and constraints
+- Error handling (API failures, file save errors)
+- Base64 image saving functionality
+- Prompt builder functions
+- Tool call routing
+- Multi-device wireframe generation
+- Variation generation for multiple image types
 
 ## Support
 
 For issues and feature requests:
 
 1. Check the troubleshooting section above
-2. Review OpenAI API documentation for DALL-E 3
+2. Review OpenAI API documentation for `gpt-image-1` model
 3. Verify MCP client configuration
 4. Check server logs for detailed error information
+5. Run the test suite to verify functionality
 
 ## License
 
