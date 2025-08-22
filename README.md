@@ -126,25 +126,78 @@ cp .claude-scaffolding/CLAUDE.md .
 cp .claude-scaffolding/README.md ./README-scaffolding.md
 ```
 
-### 2. Start Using Orchestration
+### 2. V2 Orchestration Quick Start
 
-After installation, begin orchestrating your development team:
+After installation, initialize the v2 orchestration system:
 
 ```bash
-# 1. Get an overview of the system
-/orchestrate
+# 1. Initialize session and state management
+uv run .claude/scripts/session_manager.py create --mode development --project myapp
 
-# 2. Check current state
-/state summary
+# 2. Check system status
+uv run .claude/scripts/state_manager.py list-sessions
 
-# 3. Monitor system health
-/monitor status
+# 3. Set up shared state
+uv run .claude/scripts/shared_state.py get-config myapp
 
-# 4. Start your first sprint
+# 4. Start orchestrating with Claude Code
 /orchestrate sprint start
 
-# 5. Delegate work to teams
-/orchestrate task delegate "Build user authentication system"
+# 5. Use output styles for different workflows
+/output-style sprint_execution  # Kanban board view
+/output-style leadership_chat   # Executive dashboard
+/output-style all-team_dashboard # Multi-team overview
+```
+
+#### V2 UV Script Examples
+
+The v2 system provides powerful UV scripts for orchestration:
+
+```bash
+# Session Management
+uv run .claude/scripts/session_manager.py create --mode sprint --project myapp
+uv run .claude/scripts/session_manager.py list --active --project myapp
+uv run .claude/scripts/session_manager.py heartbeat SESSION_ID
+
+# State Operations 
+uv run .claude/scripts/state_manager.py get SESSION_ID "sprint.tasks"
+uv run .claude/scripts/state_manager.py set SESSION_ID "task.status" "in_progress"
+uv run .claude/scripts/state_manager.py merge SESSION_ID "sprint" --data '{"velocity": 25}'
+
+# Shared Configuration
+uv run .claude/scripts/shared_state.py list-epics myapp --status in_progress
+uv run .claude/scripts/shared_state.py create-sprint myapp sprint-1 "Feature Sprint"
+uv run .claude/scripts/shared_state.py register-tool --name "qa-automation" --type agent
+```
+
+#### Output Styles for Different Workflows
+
+V2 provides specialized output styles optimized for different scenarios:
+
+- **sprint_execution.md** - Kanban board with velocity tracking and automation
+- **leadership_chat.md** - Executive dashboard with KPIs and strategic overview  
+- **all-team_dashboard.md** - Multi-team coordination with resource allocation
+- **config_manager.md** - System configuration and settings management
+
+Use them with: `/output-style <style_name>`
+
+#### Troubleshooting V2 Setup
+
+```bash
+# Check UV installation
+uv --version
+
+# Verify state directories
+ls -la ~/.claude/state/
+
+# Test state manager
+echo '{}' | uv run .claude/scripts/state_manager.py get test-session "session"
+
+# Check session files
+uv run .claude/scripts/session_manager.py list --json-output
+
+# Validate shared state
+uv run .claude/scripts/shared_state.py list-tools
 ```
 
 The system provides **49 slash commands** across 6 categories for complete orchestration control. See the [Complete Slash Command System](#complete-slash-command-system) section below for full details.
@@ -293,64 +346,109 @@ The framework provides **49 comprehensive slash commands** across 6 categories:
 └── backups/           # Automatic state backups
 ```
 
-### Getting Started with Orchestration
+### Getting Started with V2 Orchestration
 
-#### 1. Initialize Orchestration Components
+#### 1. Initialize V2 Components
 ```bash
-# Validate orchestration configuration
-uv run .claude/scripts/validate_orchestration.py
+# Create your first development session
+SESSION_ID=$(uv run .claude/scripts/session_manager.py create --mode development --project myapp)
 
-# Initialize state management
-uv run .claude/scripts/state_manager.py get
+# Verify session creation
+uv run .claude/scripts/session_manager.py info $SESSION_ID
 
-# Check orchestration status
-uv run .claude/scripts/observability.py status --format=summary
+# Check state management
+uv run .claude/scripts/state_manager.py list-sessions
+
+# Set up project configuration
+uv run .claude/scripts/shared_state.py set-config myapp --data '{
+  "settings": {"velocity_target": 20, "team_capacity": 5},
+  "team": {"leads": ["engineering-lead"], "members": ["engineering-fullstack"]}
+}'
 ```
 
-#### 2. Configure Your Teams
-Edit `.claude/orchestration/teams.json` to define your development teams:
+#### 2. Configure Your Teams and Epics
+```bash
+# Create an epic for your work
+uv run .claude/scripts/shared_state.py update-epic myapp user-system \
+  --title "User Management System" \
+  --description "Complete user authentication and profile management" \
+  --priority 1
 
-```json
-{
-  "teams": {
-    "engineering": {
-      "orchestrator": "engineering-director",
-      "members": [
-        {"agent": "engineering-lead", "capacity": 1},
-        {"agent": "engineering-fullstack", "capacity": 3},
-        {"agent": "engineering-ux", "capacity": 2}
-      ],
-      "settings": {
-        "max_parallel_agents": 5,
-        "require_code_review": true
-      }
-    }
-  }
-}
+# Create a sprint for the epic  
+uv run .claude/scripts/shared_state.py create-sprint myapp sprint-1 \
+  "User System Sprint" --epic-id user-system \
+  --data '{
+    "start_date": "2024-01-15",
+    "end_date": "2024-01-29",
+    "goals": ["Authentication", "User profiles", "Security"]
+  }'
+
+# List your project's epics and sprints
+uv run .claude/scripts/shared_state.py list-epics myapp --status in_progress
+uv run .claude/scripts/shared_state.py list-sprints myapp --status active
 ```
 
-#### 3. Start Your First Orchestrated Sprint
+#### 3. Use Output Styles for Different Workflows
 ```bash
-# Use the orchestration command in Claude Code
-/orchestrate sprint start
+# Switch to sprint execution view for development work
+/output-style sprint_execution
 
-# System will show:
-# - Team preview
-# - Resource estimates  
-# - Confirmation prompt
-# - Agent spawning progress
+# Use sprint board commands
+/move TASK-123 in_progress
+/assign TASK-123 @engineering-fullstack
+/autoassign
+/metrics
+
+# Switch to leadership view for planning
+/output-style leadership_chat
+
+# Use leadership commands
+/kpis
+/risks
+/team-performance
+
+# Switch to multi-team coordination
+/output-style all-team_dashboard
+
+# Use team coordination commands
+/teams
+/capacity
+/handoffs
 ```
 
-#### 4. Monitor and Observe
+#### 4. Monitor and Manage State
 ```bash
-# Live monitoring dashboard
-uv run .claude/scripts/observability.py monitor
+# Monitor active sessions
+uv run .claude/scripts/session_manager.py list --active --project myapp
 
-# Sprint progress
-uv run .claude/scripts/observability.py sprint
+# Query state with JSONPath
+uv run .claude/scripts/state_manager.py get $SESSION_ID "$.sprint.tasks[?(@.status=='in_progress')]"
 
-# System metrics
-uv run .claude/scripts/observability.py metrics
+# Update task states
+uv run .claude/scripts/state_manager.py merge $SESSION_ID "sprint.tasks.TASK-123" \
+  --data '{"status": "done", "completed_at": "2024-01-15T14:30:00Z"}'
+
+# Send heartbeats to keep sessions alive
+uv run .claude/scripts/session_manager.py heartbeat $SESSION_ID
+```
+
+#### 5. Advanced Orchestration Features
+```bash
+# Hand off work between sessions
+NEW_SESSION=$(uv run .claude/scripts/session_manager.py create --mode sprint --project myapp)
+uv run .claude/scripts/session_manager.py handoff $SESSION_ID $NEW_SESSION \
+  --data '{"work_completed": "User auth", "next_steps": "Profile management"}'
+
+# Register custom tools
+uv run .claude/scripts/shared_state.py register-tool \
+  --name "custom-agent" --type agent \
+  --description "Specialized agent for project needs"
+
+# Use slash commands in Claude Code
+/orchestrate sprint start    # Start orchestrated sprint
+/state summary              # View system state  
+/monitor live 5             # Live monitoring
+/team capacity engineering  # Check team capacity
 ```
 
 ## Prerequisites
@@ -1086,6 +1184,13 @@ uv run .claude/hooks/session_start.py --debug
 ## Documentation & Resources
 
 ### Comprehensive Documentation
+
+#### V2 Orchestration Documentation
+- **[User Guide](ai_docs/orchestration/USER_GUIDE.md)**: Complete step-by-step guide for V2 orchestration
+- **[API Reference](ai_docs/orchestration/API_REFERENCE.md)**: Technical reference for UV scripts and SudoLang interfaces
+- **[Migration Guide](ai_docs/orchestration/MIGRATION_GUIDE.md)**: V1 to V2 migration with rollback procedures
+
+#### Core Framework Documentation  
 - **[Main Documentation](ai_docs/README.md)**: Complete technical references
 - **[Orchestration Framework](ai_docs/ORCHESTRATION.md)**: Enterprise orchestration overview
 - **[Orchestration Specification](ai_docs/ORCHESTRATION_SPEC.md)**: Technical implementation details

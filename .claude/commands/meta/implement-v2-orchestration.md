@@ -1,8 +1,6 @@
 ---
 allowed-tools: Task, TodoWrite, Read, LS, Glob
 description: Orchestrates complete v2 orchestration system upgrade across all teams
-argument-hint: [optional-target-mode]
-model: opus
 ---
 
 # V2 Orchestration System Implementation
@@ -29,7 +27,7 @@ Initialize progress tracking for implementation phases:
 
 ## Phase 2: Core Implementation
 - [ ] Implement state_manager.py UV script
-- [ ] Implement session_manager.py UV script  
+- [ ] Implement session_manager.py UV script
 - [ ] Implement shared_state.py UV script
 - [ ] Update agents to v2 specifications
 - [ ] Create supporting slash commands
@@ -46,7 +44,7 @@ Initialize progress tracking for implementation phases:
 
 ## Phase 5: Final Review
 - [ ] Technical architecture review
-- [ ] Business value assessment  
+- [ ] Business value assessment
 - [ ] Quality assurance review
 - [ ] Performance metrics analysis
 </TodoWrite>
@@ -56,7 +54,7 @@ Initialize progress tracking for implementation phases:
 ### 1.1 Research Current State
 
 <Task>
-You are research-project. Your task is to analyze the current v1 orchestration implementation and identify all components that need updating or removal for v2.
+@agent-research-project. Your task is to analyze the current v1 orchestration implementation and identify all components that need updating or removal for v2.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -82,7 +80,7 @@ After completion, update the todo item "Index current v1 implementation state" a
 ### 1.2 Clean Up V1 Components
 
 <Task>
-You are engineering-cleanup. Your task is to remove all v1 orchestration components that are incompatible with v2.
+@agent-engineering-cleanup. Your task is to remove all v1 orchestration components that are incompatible with v2.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -110,14 +108,14 @@ After completion, update the todo items "Identify incompatible files for removal
 ### 2.1 UV Scripts Implementation
 
 <Task>
-You are meta-script-uv. Your task is to implement the three core UV scripts for state management.
+@agent-meta-script-uv. Your task is to implement the three core UV scripts for state management.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
 
 Read the specifications from:
 - ai_docs/orchestration/v2-implementation-plan.md (lines 45-105 for state_manager.py spec)
-- ai_docs/orchestration/v2-implementation-plan.md (lines 86-105 for session_manager.py spec)  
+- ai_docs/orchestration/v2-implementation-plan.md (lines 86-105 for session_manager.py spec)
 - ai_docs/orchestration/v2-unified-architecture.md (lines 146-192 for API examples)
 
 Create these three UV scripts in .claude/scripts/:
@@ -153,7 +151,7 @@ After creating all three scripts, update the todo items for UV script implementa
 ### 2.2 Agent Updates
 
 <Task>
-You are meta-agent. Your task is to update and consolidate agents according to v2 specifications.
+@agent-meta-agent. Your task is to update and consolidate agents according to v2 specifications.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -191,7 +189,7 @@ After updating agents, update the todo item "Update agents to v2 specifications"
 ### 2.3 Slash Commands Creation
 
 <Task>
-You are meta-command. Your task is to create supporting slash commands for v2 orchestration.
+@agent-meta-command. Your task is to create supporting slash commands for v2 orchestration.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -236,7 +234,7 @@ After creating commands, update the todo item "Create supporting slash commands"
 ### 3.1 Hook Configuration
 
 <Task>
-You are meta-config. Your task is to update the hook system for v2 orchestration.
+@agent-meta-config. Your task is to update the hook system for v2 orchestration.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -273,7 +271,7 @@ After updating hooks, update the todo item "Update hooks in settings.json" as co
 ### 3.2 Output Styles Implementation
 
 <Task>
-You are engineering-lead. Your task is to implement SudoLang output styles for v2 orchestration.
+@agent-engineering-lead. Your task is to implement SudoLang output styles for v2 orchestration.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -322,7 +320,7 @@ After creating output styles, update the todo items "Implement SudoLang output s
 ### 4.1 Test Suite Creation
 
 <Task>
-You are qa-scripts. Your task is to create a comprehensive test suite for v2 orchestration.
+@agent-qa-scripts. Your task is to create a comprehensive test suite for v2 orchestration.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -367,7 +365,7 @@ After creating tests, update the todo item "Create comprehensive test suite" as 
 ### 4.2 Documentation Update
 
 <Task>
-You are engineering-writer. Your task is to update all documentation for v2 orchestration.
+@agent-engineering-writer. Your task is to update all documentation for v2 orchestration.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -412,7 +410,7 @@ After updating documentation, update the todo item "Update all documentation" as
 ### 5.1 Technical Review
 
 <Task>
-You are engineering-lead. Conduct a comprehensive technical review of the v2 implementation.
+@agent-engineering-lead. Conduct a comprehensive technical review of the v2 implementation.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -445,7 +443,7 @@ After review, update the todo item "Technical architecture review" as complete.
 ### 5.2 Business Value Assessment
 
 <Task>
-You are product-analyst. Assess the business value and impact of the v2 orchestration system.
+@agent-product-analyst. Assess the business value and impact of the v2 orchestration system.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -477,7 +475,7 @@ After assessment, update the todo item "Business value assessment" as complete.
 ### 5.3 Quality Assurance Review
 
 <Task>
-You are qa-analyst. Perform final quality assurance review of the v2 implementation.
+@agent-qa-analyst. Perform final quality assurance review of the v2 implementation.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/
@@ -511,7 +509,7 @@ After review, update the todo item "Quality assurance review" as complete.
 ### 5.4 Performance Analysis
 
 <Task>
-You are data-analytics. Analyze performance metrics of the v2 orchestration system.
+@agent-data-analytics. Analyze performance metrics of the v2 orchestration system.
 
 Start by:
 cd /Users/dylan/Workspace/claude/agent-workflows/cc-dev-team/

@@ -47,6 +47,16 @@
             "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/post_tool_use.py"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/orchestration_handler.py",
+            "timeout": 3
+          }
+        ]
       }
     ],
     "Notification": [
@@ -110,6 +120,16 @@
           {
             "type": "command",
             "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/session_start.py"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/orchestration_session_init.py",
+            "timeout": 5
           }
         ]
       }
