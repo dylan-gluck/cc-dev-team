@@ -27,6 +27,27 @@
   },
   "enableAllProjectMcpServers": true,
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/session_start.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/user_prompt_submit.py --log-only --store-last-prompt"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "",
@@ -49,13 +70,13 @@
         ]
       }
     ],
-    "Notification": [
+    "SubagentStop": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/notification.py --notify"
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/subagent_stop.py --notify"
           }
         ]
       }
@@ -71,23 +92,13 @@
         ]
       }
     ],
-    "SubagentStop": [
+    "Notification": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/subagent_stop.py --notify"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/user_prompt_submit.py --log-only --store-last-prompt"
+            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/notification.py --notify"
           }
         ]
       }
@@ -99,17 +110,6 @@
           {
             "type": "command",
             "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/pre_compact.py"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/session_start.py"
           }
         ]
       }

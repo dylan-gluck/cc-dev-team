@@ -1,0 +1,7 @@
+{
+  "session_id": "e009f973-3871-493b-813f-71d61a86d163",
+  "prompts": [
+    "Update the engineering-svelte agent with access to all of the tools in shadcn-svelte mcp and instructions for utilizing the shadcn-svelte mcp server when building pages or components",
+    "Use @agent-research-web to scrape the latest nextjs docs and identify key sections to scrape and add to the local project `docs/` folder. All new nextjs docs should go in `docs/nextjs/`"
+  ]
+}

@@ -118,7 +118,6 @@ def load_development_context(source):
         ".claude/CONTEXT.md",
         ".claude/TODO.md",
         "TODO.md",
-        ".github/ISSUE_TEMPLATE.md"
     ]
 
     for file_path in context_files:
