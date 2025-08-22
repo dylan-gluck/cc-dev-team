@@ -17,6 +17,15 @@
         "FREECRAWL_RATE_LIMIT": "10"
       }
     },
+    "stock-images-mcp": {
+      "command": "uvx",
+      "args": ["git+https://github.com/Zulelee/stock-images-mcp"],
+      "env": {
+        "UNSPLASH_API_KEY": "${UNSPLASH_API_KEY}",
+        "PEXELS_API_KEY": "${PEXELS_API_KEY}",
+        "PIXABAY_API_KEY": "${PIXABAY_API_KEY}"
+      }
+    },
     "playwright": {
       "command": "npx",
       "args": [
@@ -36,15 +45,6 @@
       ],
       "env": {
         "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}"
-      }
-    },
-    "stock-images-mcp": {
-      "command": "uvx",
-      "args": ["git+https://github.com/Zulelee/stock-images-mcp"],
-      "env": {
-        "UNSPLASH_API_KEY": "${UNSPLASH_API_KEY}",
-        "PEXELS_API_KEY": "${PEXELS_API_KEY}",
-        "PIXABAY_API_KEY": "${PIXABAY_API_KEY}"
       }
     }
   }

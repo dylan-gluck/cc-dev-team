@@ -1,0 +1,8 @@
+{
+  "session_id": "7e3e1597-e6b0-48ac-8002-d744cf60af6e",
+  "prompts": [
+    "/meta:new:agent --project engineering-director \"Orchestrator agent for the Engineering Team. Primarily responsible for analyzing complex assignments and breaking down into smaller tasks for specialized subagents. Always starts by thinking of a multi-step implementation strategy beginning with context gathering and ending with a thourough review.\"",
+    "/git:status ",
+    "/git:status "
+  ]
+}

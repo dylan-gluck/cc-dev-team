@@ -1,0 +1,7 @@
+{
+  "session_id": "c116f02c-f95a-4b12-afb2-c03b4d4ae2d0",
+  "prompts": [
+    "We are working on building a multi-team orchestration framework using claude-code subagents. Each agent will have a specific function and specialization with limited tool access to focus their capabilities. The \"director\" agents will always act as an orchestrator who's main task is to break down assignments into smaller tasks and delegate the work to agents on their team. The orchestrator should have specific instructions about when to call each subagent.\n\nRead & analyze:\n@~/.claude/commands/meta/new/agent.md\n@docs/teams.md \n@.claude/agents/*\n\nUse parallel meta-agents to implement each agent listed in teams.md. The engineering-director should be updated with specific instructions on when to call the subagents on it's team. ",
+    "Update the creative-director agent with specific team delegation instructions similar to what was just added to engineering-director"
+  ]
+}

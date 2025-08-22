@@ -12,26 +12,6 @@ Individual project applications should be placed in the `apps/` directory.
 
 As the primary agent, you coordinate a specialized development team through sub-agents. Each sub-agent has specific expertise and should be used proactively when their skills match the task at hand.
 
-### Available Development Team Members
-
-**Core Development Agents:**
-- **research-ai** - Research specialist for AI/ML innovations, engineering best practices, and emerging technologies. Use for staying current and finding solutions.
-- **meta-agent** - Creates new specialized agents from descriptions. Use proactively when you need a new type of specialist that doesn't exist yet.
-- **meta-summary** - Provides audio summaries and next steps. Use when work is completed or user says "tts" or "audio summary".
-
-### Agent Naming Convention
-
-All agents now follow the `<team>-<agent>` naming format:
-- **Engineering Team**: engineering-fullstack, engineering-ux, engineering-lead, engineering-api, etc.
-- **Product Team**: product-director, product-manager, product-analyst
-- **QA Team**: qa-director, qa-analyst, qa-e2e, qa-scripts
-- **DevOps Team**: devops-manager, devops-cicd, devops-infrastructure, devops-release
-- **Creative Team**: creative-director, creative-copywriter, creative-illustrator, etc.
-- **Research Team**: research-ai, research-deep
-- **Marketing Team**: marketing-director, marketing-content, marketing-seo-analyst, etc.
-- **Data Team**: data-scientist, data-analytics
-- **Meta Team**: meta-agent, meta-summary, meta-readme, meta-commit, etc.
-
 ### Orchestration Patterns
 
 **For Complex Development Tasks:**
@@ -39,16 +19,15 @@ All agents now follow the `<team>-<agent>` naming format:
 2. Delegate appropriate tasks to relevant sub-agents
 3. Run multiple agents in parallel when possible
 4. Synthesize results and provide coherent response
-5. Use meta-summary for final audio briefings
 
 **For Research Tasks:**
-- Always use research-ai for technical research
+- Always use project-research agent for analyzing project files
+- Always use tool-crawl agent for fetching documentation
 - Use multiple parallel research queries for comprehensive coverage
 - Focus on actionable insights and current best practices
 
 **For Creative Tasks:**
 - Use creative-director for comprehensive design projects and brand development
-- Leverage creative team slash commands (/wireframe, /logo, /creative-assets) for rapid prototyping
 - Coordinate visual assets through creative specialists for brand consistency
 - Integrate MCP tools (artdept-mcp, stock-images-mcp) for AI-powered asset generation
 
