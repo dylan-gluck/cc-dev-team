@@ -17,6 +17,20 @@
         "FREECRAWL_RATE_LIMIT": "10"
       }
     },
+    "shadcn-next": {
+      "command": "npx",
+      "args": ["@jpisnice/shadcn-ui-mcp-server"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "shadcn-svelte": {
+      "command": "npx",
+      "args": ["@jpisnice/shadcn-ui-mcp-server", "--framework", "svelte"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
     "stock-images-mcp": {
       "command": "uvx",
       "args": ["git+https://github.com/Zulelee/stock-images-mcp"],
